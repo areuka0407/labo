@@ -4,60 +4,6 @@ window.onload = function () {
     var wrap = `<div id='wrap'></div>`;
     $("body").append(wrap);
     let session;
-    let loginA=`<li class="login_b"><a href="#" id="login_btn">로그인</a></li>`;
-     $(".nav ul").prepend(loginA);
-    let loginA2=`<div class="login_b font-card" id="font-card">
-                    <p class="main-font">
-                        PICK <br>
-                        TOGETHER
-                    </p>
-                    <p class="serv-font">
-                        최고의 색감에 대해 논하다
-                    </p>
-                </div>
-                    
-                    <div class="login_b">
-                        <div class="login-card" onclick="location.assign('/join/agree')">
-                            회원가입하여 <br>
-                            콘텐츠를 즐겨보세요!
-                            <img src="images/logincard.png" alt="login" width="170" height="170">
-                        </div>
-                        
-                        <div class="hidden">
-                            <div class="login">
-                                <img src="images/logo-black.png" alt="logo" class="login-logo">
-                                <p id="error_login"></p>
-                                <p class="login-text">아이디</p>
-                                <input type="text" class="loginId" name="loginId" placeholder="아이디를 입력해주세요">
-                                <p class="pass-text">비밀번호</p>
-                                <input type="password" class="loginPw" name="loginPw" placeholder="비밀번호를 입력해주세요">
-                                
-                                <input type="submit" id="submit" value="로그인">
-                                
-                                <a href="/join/agree" class="FAccount1">회원가입</a>
-                                <span class="line">/</span>
-                                <a href="#" class="FAccount2"><img src="images/question-circle.png" alt="question-circle" width="16"
-                                                                   height="16">계정에 로그인 할 수 없습니까?</a>
-                                
-                                <div class="google">
-                                    <img src="images/google.jpg" alt="google_img" width="50" height="50">
-                                    <p>Sign up with Google</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-    $("#load").append(loginA2);
-
-    let loginDOM = `<a href="#" class="login_a" id="play_button">
-                        <img src="images/playbutton.png" alt="play" id="play" width="250" height="250">
-                    </a>
-                    <span class="login_a user-account">
-                        <a href="#" id="login_user_name"></a>님 반갑습니다
-                    </span>
-                    <li class="login_a"><a href="home.php" id="logout">로그아웃</a></li>`;
-    $(".nav ul").prepend(loginDOM);
-    $(".login_a").css("display","none");
-    $(".login_b").css("display","none");
     s();
     $("#wrap").hide();
     $(".login").css("top", "-50%");
@@ -132,10 +78,68 @@ window.onload = function () {
             method:"POST",
             success:function(result){
                 session=$.parseJSON(result);
+                let loginA=`<li class="login_b"><a href="#" id="login_btn">로그인</a></li>`;
+                 $(".nav ul").prepend(loginA);
+                let loginA2=`<div class="login_b font-card" id="font-card">
+                                <p class="main-font">
+                                    PICK <br>
+                                    TOGETHER
+                                </p>
+                                <p class="serv-font">
+                                    최고의 색감에 대해 논하다
+                                </p>
+                            </div>
+                                
+                                <div class="login_b">
+                                    <div class="login-card" onclick="location.assign('/join/agree')">
+                                        회원가입하여 <br>
+                                        콘텐츠를 즐겨보세요!
+                                        <img src="images/logincard.png" alt="login" width="170" height="170">
+                                    </div>
+                                    
+                                    <div class="hidden">
+                                        <div class="login">
+                                            <img src="images/logo-black.png" alt="logo" class="login-logo">
+                                            <p id="error_login"></p>
+                                            <p class="login-text">아이디</p>
+                                            <input type="text" class="loginId" name="loginId" placeholder="아이디를 입력해주세요">
+                                            <p class="pass-text">비밀번호</p>
+                                            <input type="password" class="loginPw" name="loginPw" placeholder="비밀번호를 입력해주세요">
+                                            
+                                            <input type="submit" id="submit" value="로그인">
+                                            
+                                            <a href="/join/agree" class="FAccount1">회원가입</a>
+                                            <span class="line">/</span>
+                                            <a href="#" class="FAccount2"><img src="images/question-circle.png" alt="question-circle" width="16"
+                                                                               height="16">계정에 로그인 할 수 없습니까?</a>
+                                            
+                                            <div class="google">
+                                                <img src="images/google.jpg" alt="google_img" width="50" height="50">
+                                                <p>Sign up with Google</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                $("#load").append(loginA2);
+
+                let loginDOM = `<a href="#" class="login_a" id="play_button">
+                                    <img src="images/playbutton.png" alt="play" id="play" width="250" height="250">
+                                </a>
+                                <span class="login_a user-account">
+                                    <a href="#" id="login_user_name"></a>님 반갑습니다
+                                </span>
+                                <li class="login_a"><a href="home.php" id="logout">로그아웃</a></li>`;
+                $(".nav ul").prepend(loginDOM);
                 if(!session){
-                    $(".login_a").fadeOut(function(){$(".login_b").fadeIn(function(){$("#login_user_name").text("");});});   
+                    $(".login_a").fadeOut(function(){$(".login_b").fadeIn(function(){
+                        $("#login_user_name").text("");
+                        $(".login_a").remove();
+                    });});   
                 }else{
-                    $(".login_b").fadeOut(function(){$(".login_a").fadeIn();});
+                    $(".login_b").fadeOut(function(){
+                        $(".login_a").fadeIn();
+                        $(".login_b").remove()
+                    });
                     $("#login_user_name").text(session);
                 }
             }
@@ -146,17 +150,17 @@ window.onload = function () {
         $("#font-card").fadeOut();
         $("#play_button").fadeIn();
     });
-    $("#good").css("z-index",100);
-    $("#good").on("click",function(){
-        $.ajax({
-            //나중에 해야됨
-            url:"/users/good/5",
-            method:"GET",
-            success:function(result){
-                console.log(result);
-                if(result == "good insert") $("#good").css("color","red");
-                else $("#good").css("color","black");
-            }
-        });
-    });
+    // $("#good").css("z-index",100);
+    // $("#good").on("click",function(){
+    //     $.ajax({
+    //         //나중에 해야됨
+    //         url:"/users/good/5",
+    //         method:"GET",
+    //         success:function(result){
+    //             console.log(result);
+    //             if(result == "good insert") $("#good").css("color","red");
+    //             else $("#good").css("color","black");
+    //         }
+    //     });
+    // });
 }
