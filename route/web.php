@@ -29,7 +29,7 @@ Route::set("POST","/users/logout","UserController@logoutPage","User");
 Route::set("POST","/users/color","ColorController@ApiController","User");
 Route::set("DELETE","/users/color/{id}","ColorController@ApiController","User");
 Route::set("PUT","/users/color/{id}","ColorController@ApiController","User");
-Route::set("GET","/users/good/{id}","UserController@goodPage","User");
+Route::set("GET","/users/good/{id}","ColorController@ApiController","User");
 /**
  * Admin
  */

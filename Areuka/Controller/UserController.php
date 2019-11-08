@@ -67,37 +67,4 @@ class UserController extends Controller
         if(isset($_SESSION['user'])) session_destroy();
         echo json_encode($result);
     }
-    public function goodPage(){
-        $request = isset($_GET['request']) ? $_GET['request'] : "";
-        $path = explode("/",$request);
-        $id = isset($path[2]) ? $path[2] : 0;
-        $user = $_SESSION['user']->user_id;
-        $good = DB::fetch("SELECT good FROM users WHERE user_id = ?",[$user]);
-        echo json_encode($good);
-        if($user && $id){
-        //     if($goods){
-        //         $check_result=false;
-        //         $check = explode(",",$goods);
-        //         $check_num = count($check);
-        //         $id_good=(int)DB::query("SELECT good FROM color WHERE id = ?",$id);
-        //         for ($i=0; $i < $check_num; $i++) { 
-        //             if($id == $check[$i]){
-        //                 $check_result=true;
-        //                 break;
-        //             }else if(!$update_data) $update_data = $update_data.$check[$i];
-        //             else $update_data = $update_data.",".$check[$i];
-        //         }
-        //         DB::query("UPDATE users SET good = ?",[$update_data]);
-        //         $result = "good update";
-        //         if($check_result) DB::query("INSERT INTO color(good) VALUES (?)",[$id_good+1]);
-        //         else DB::query("INSERT INTO color(good) VALUES (?)",[$id_good-1]);
-        //     }
-        //     else{
-        //         DB::query("INSERT INTO users(good) VALUES (?)",[$id]);
-        //         $result = "good insert";
-        //         DB::query("INSERT INTO color(good) VALUES (?)",[1]);
-        //     }
-        }
-        // echo json_encode($result);
-    }
 }

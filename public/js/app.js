@@ -149,6 +149,7 @@ window.onload = function () {
     $("#good").css("z-index",100);
     $("#good").on("click",function(){
         $.ajax({
+            //나중에 해야됨
             url:"/users/good/5",
             method:"GET",
             success:function(result){

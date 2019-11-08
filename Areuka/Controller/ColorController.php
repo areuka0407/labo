@@ -71,6 +71,40 @@ class ColorController extends Controller
 					}
 				}
 			}
+		}else if($work == "good"){
+			if($method == "GET"){
+				$user = $_SESSION['user']->user_id;
+		        $good=DB::fetch("SELECT good FROM users WHERE user_id = ?",[$user]);
+		        $good=$good->good;
+		        if($user && $id){
+		            if($good){
+		                $check_result=false;
+		                $check = explode(",",$good);
+		                $check_num = count($check);
+		                $id_good=DB::fetch("SELECT good FROM color WHERE id = ?",[$id]);
+		                $update_data="";
+		                $id_good=(int)$id_good->good;
+		                for ($i=0; $i < $check_num; $i++) { 
+		                    if($id == $check[$i]){
+		                           $check_result=true;
+		                            break;
+		                    }else if(!$i == $check_num) $update_data = $update_data.$check[$i];
+		                    else $update_data = $update_data.",".$check[$i];
+		                }
+		                echo json_encode($check_result);
+		                DB::query("UPDATE users SET good = ? WHERE user_id = ?",[$update_data,$user]);
+		                $result = "good update";
+		                if($check_result == true) DB::query("UPDATE color SET good = ? WHERE id= ?",[$id_good-1,$id]);
+		                else DB::query("UPDATE color SET good = ? WHERE id = ?",[$id_good+1,$id]);
+		            }
+		            else{
+		                DB::query("UPDATE users SET good = ? WHERE user_id = ?",[$id,$user]);
+		                $result = "good insert";
+		                DB::query("UPDATE color SET good = ? WHERE id = ?",[$id_good+1,$id]);
+		            }
+		        }
+		        // echo json_encode($result);
+			}
 		}
 	}
 }

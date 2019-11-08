@@ -8,7 +8,6 @@
 <video autoplay muted loop id="videobg">
     <source src="images/background_vid.mp4" type="video/mp4">
 </video>
-<button id="good">good</button>
 <!-- <div id="click_start"></div> -->
 <div id="labo_home">
     <div id="load">
