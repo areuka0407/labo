@@ -150,6 +150,7 @@ window.onload = function () {
         $("#font-card").fadeOut();
         $("#play_button").fadeIn();
     });
+    
     // $("#good").css("z-index",100);
     // $("#good").on("click",function(){
     //     $.ajax({
