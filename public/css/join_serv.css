@@ -1,0 +1,174 @@
+/*join_serv.css*/
+
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Raleway|Righteous&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+html, body {
+    background: url("../images/gradient-image.png") no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+#left-arrow {
+    height: 80px;
+    margin-top: -40px;
+    top: 50%;
+    left: 10px;
+    position: absolute;
+}
+
+#right-arrow {
+    height: 80px;
+    margin-top: -40px;
+    top: 50%;
+    right: 10px;
+    position: absolute;
+}
+
+.container {
+    width: 600px;
+    padding: 60px;
+    min-height: 100%;
+    margin: 0 auto;
+}
+
+form {
+    text-align: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 50px;
+}
+
+label {
+    width: 79%;
+    margin: 0 auto;
+    margin-bottom: 3px;
+    color: rgba(255, 255, 255, 0.9);
+    align-self: flex-start;
+}
+
+input {
+    width: 80%;
+    font-size: 15px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.y-m-d {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.y-m-d > input {
+    width: 30%;
+    float: left;
+    align-self: flex-start;
+}
+
+#year {
+    margin-right: 5%;
+}
+
+#month {
+    width: 30%;
+    float: left;
+    margin-right: 5%;
+    font-size: 15px;
+    padding: 10px;
+}
+
+#gender {
+    width: 80%;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.choice {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+footer {
+    bottom: 20px;
+    font-size: 13px;
+    color: white;
+    position: absolute;
+}
+
+/*******/
+/*join3*/
+/*******/
+
+.wrapper {
+    padding: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -250px;
+    width: 800px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper > img {
+    margin-bottom: 30px;
+}
+
+.p-main {
+    font-size: 40px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.p-serv {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.wrap-button {
+    margin-top: 40px;
+    display: flex;
+}
+
+.wrap-button > a {
+    width: 220px;
+    height: 70px;
+    color: black;
+    font-size: 18px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap-button > a:nth-child(1) {
+    margin-right: 20px;
+}
+
+.green {
+    background-color: #21ffb7 !important;
+}
