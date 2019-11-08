@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "NanumBarunGothic";
+    font-weight: normal;
+    font-style: normal;
+    src:    url(../fonts/NanumBarunGothic.woff2) format('woff2'),
+            url(../fonts/NanumBarunGothic.woff) format('woff'),
+            url(../fonts/NanumBarunGothic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "NanumBarunGothic";
+    font-weight: bold;
+    font-style: normal;
+    src:    url(../fonts/NanumBarunGothicBold.woff2) format('woff2'),
+            url(../fonts/NanumBarunGothicBold.woff) format('woff'),
+            url(../fonts/NanumBarunGothicBolds.ttf) format('truetype');
+}

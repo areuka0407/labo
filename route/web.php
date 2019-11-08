@@ -14,6 +14,7 @@ Route::set("GET", "/", "CommonController@homePage", "All");
 Route::set("POST","/users/session","SessionController@session_userPage","All");
 Route::set("GET","/users/color","ColorController@ApiController","All");
 Route::set("GET","/users/color/{id}","ColorController@ApiController","All");
+Route::set("GET","/colorpicker","UserController@ColorPickerPage","All");
 /**
  * Guest
  */

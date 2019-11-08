@@ -61,10 +61,8 @@ class UserController extends Controller
         }
         echo json_encode($result);
     }
-    public function logoutPage(){
-        // unset($_SESSION['user']);
-        $result=true;
-        if(isset($_SESSION['user'])) session_destroy();
-        echo json_encode($result);
+
+    public function ColorPickerPage(){
+        return $this->view(".colorpicker");
     }
 }
