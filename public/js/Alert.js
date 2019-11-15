@@ -4,7 +4,7 @@ class Alert {
 
     static create(message){
         let elem = document.createElement("div");
-        elem.classList.add("alert-error")
+        elem.classList.add("alert-message")
         elem.innerText = message;
         
         let style = {

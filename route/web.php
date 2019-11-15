@@ -22,6 +22,12 @@ include "permission.php";
   Route::set("GET","/api/colors","ColorController@ApiController","All");
   Route::set("GET","/api/colors/{id}","ColorController@ApiController","All");
   Route::set("GET","/api/tags/{id}","ColorController@getTags","All");
+
+  /* Colors */
+  Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
+  Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
+  Route::set("GET", "/colors/storage/{user_id}", "ColorController@storagePage", "All"); // 보관 페이지
+
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
   Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
@@ -49,7 +55,7 @@ include "permission.php";
   Route::set("POST","/api/colors","ColorController@ApiController","User");
   Route::set("DELETE","/api/colors/{id}","ColorController@ApiController","User");
   Route::set("PUT","/api/colors/{id}","ColorController@ApiController","User");
-  Route::set("GET","/api/colors/{id}/good","ColorController@ApiController","User");
+  Route::set("GET","/api/good/{id}","ColorController@addgood","User");
 /**
  * Admin
  */

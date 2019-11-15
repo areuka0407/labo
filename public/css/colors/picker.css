@@ -44,11 +44,8 @@ Contents
     align-items: center;
 }
 
-<<<<<<< HEAD
 
 .option label { cursor: pointer; }
-=======
->>>>>>> ca0db0a2495da16a9224901f967209fbdefce8f6
 .option input[type='radio'] { display: none; }
 .option input[type='radio']:checked ~ label:not(.radio) { color: rgb(37, 209, 74); font-weight: bold; }
 .option input[type='radio']:checked ~ .radio { border-color: rgb(52, 240, 92); }
@@ -171,6 +168,7 @@ Container
     left: 0;
     top: 60px;
     pointer-events: none;
+    height: calc(100% - 60px);
 }
 
 .container .box {
@@ -180,12 +178,16 @@ Container
 }
 
 .container > ul {
+    height: 100%;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; 
 }
 
 .container > ul > li {
+    height: calc((100% - 15px) / 5 - 10px);
     display: flex;
-    margin-top: 3px;
     transform: translateX(-40%);
     transition: 0.2s transform;
     box-shadow: 2px 0 10px 1px rgba(0, 0, 0, 0.3);
@@ -200,7 +202,7 @@ Container
 
 .container > ul > li > ul {
     width: 130px;
-    height: 150px;
+    height: 100%;
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -208,8 +210,8 @@ Container
     padding: 10px 0;
 }
 
-.container > ul > li:nth-of-type(3) > ul {
-    height: 200px;
+.container > ul > li:nth-of-type(3) {
+    height: calc((100% - 55px) / 5 + 40px);
 }
 
 .container > ul > li > ul > li:not(.brightness) {

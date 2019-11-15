@@ -45,16 +45,16 @@
             <div class="color-box FF8087"></div>
             <ul class="code-box">
                 <li class="HEX">
-                    #<input type="text" value="FF8087" maxlength="6" class="hex" spellcheck="false">
+                    #<input type="text" value="FF8087" maxlength="6" class="hex" spellcheck="false" readonly>
                 </li>
                 <li class="R">
-                    R :<input type="text" value="255" maxlength="3" class="rgba">
+                    R :<input type="text" value="255" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="G">
-                    G :<input type="text" value="128" maxlength="3" class="rgba">
+                    G :<input type="text" value="128" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="B">
-                    B :<input type="text" value="135" maxlength="3" class="rgba">
+                    B :<input type="text" value="135" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="brightness">
                     <canvas></canvas>
@@ -67,16 +67,16 @@
             <div class="color-box E874B4"></div>
             <ul class="code-box">
                 <li class="HEX">
-                    #<input type="text" value="E874B4" maxlength="6" class="hex" spellcheck="false">
+                    #<input type="text" value="E874B4" maxlength="6" class="hex" spellcheck="false" readonly>
                 </li>
                 <li class="R">
-                    R :<input type="text" value="232" maxlength="3" class="rgba">
+                    R :<input type="text" value="232" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="G">
-                    G :<input type="text" value="116" maxlength="3" class="rgba">
+                    G :<input type="text" value="116" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="B">
-                    B :<input type="text" value="190" maxlength="3" class="rgba">
+                    B :<input type="text" value="190" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="brightness">
                     <canvas></canvas>
@@ -89,16 +89,16 @@
             <div class="color-box E874B4"></div>
             <ul class="code-box">
                 <li class="HEX">
-                    #<input type="text" value="E874B4" maxlength="6" class="hex" spellcheck="false">
+                    #<input type="text" value="E874B4" maxlength="6" class="hex" spellcheck="false" readonly>
                 </li>
                 <li class="R">
-                    R :<input type="text" value="232" maxlength="3" class="rgba">
+                    R :<input type="text" value="232" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="G">
-                    G :<input type="text" value="116" maxlength="3" class="rgba">
+                    G :<input type="text" value="116" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="B">
-                    B :<input type="text" value="190" maxlength="3" class="rgba">
+                    B :<input type="text" value="190" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="brightness">
                     <canvas></canvas>
@@ -111,16 +111,16 @@
             <div class="color-box FB8CFF"></div>
             <ul class="code-box">
                 <li class="HEX">
-                    #<input type="text" value="FB8CFF" maxlength="6" class="hex" spellcheck="false">
+                    #<input type="text" value="FB8CFF" maxlength="6" class="hex" spellcheck="false" readonly>
                 </li>
                 <li class="R">
-                    R :<input type="text" value="251" maxlength="3" class="rgba">
+                    R :<input type="text" value="251" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="G">
-                    G :<input type="text" value="140" maxlength="3" class="rgba">
+                    G :<input type="text" value="140" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="B">
-                    B :<input type="text" value="255" maxlength="3" class="rgba">
+                    B :<input type="text" value="255" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="brightness">
                     <canvas></canvas>
@@ -132,16 +132,16 @@
             <div class="color-box C474E8"></div>
             <ul class="code-box">
                 <li class="HEX">
-                    #<input type="text" value="C474E8" maxlength="6" class="hex" spellcheck="false">
+                    #<input type="text" value="C474E8" maxlength="6" class="hex" spellcheck="false" readonly>
                 </li>
                 <li class="R">
-                    R :<input type="text" value="196" maxlength="3" class="rgba">
+                    R :<input type="text" value="196" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="G">
-                    G :<input type="text" value="116" maxlength="3" class="rgba">
+                    G :<input type="text" value="116" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="B">
-                    B :<input type="text" value="232" maxlength="3" class="rgba">
+                    B :<input type="text" value="232" maxlength="3" class="rgba" readonly>
                 </li>
                 <li class="brightness">
                     <canvas></canvas>

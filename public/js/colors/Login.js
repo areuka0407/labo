@@ -27,7 +27,9 @@ class Login {
                                                 </div>
                                             </div>
                                         </div>`);
-            this.eventTrigger();
+
+            
+        this.eventTrigger();
     }
 
     init(){
@@ -35,8 +37,6 @@ class Login {
         if(nowPage === "picker") document.querySelector("#nav-picker").classList.add("active");
         else if(nowPage === "search") document.querySelector("#nav-search").classList.add("active");
         else if(nowPage === "storage") document.querySelector("#nav-storage").classList.add("active");
-
-
         
         new Promise( res => {
             let xhr = new XMLHttpRequest();
@@ -72,6 +72,14 @@ class Login {
     }
 
     eventTrigger(){
+        // Nav의 유저명을 클릭하면 해당 유저의 보관함으로 이동함
+        this.elemUName.addEventListener("click", e => {
+            e.preventDefault();
+            if(this.userdata === null) return false;
+            location.assign("/colors/storage/"+this.userdata.user_id);
+        });
+
+        
         // Nav의 로그인 버튼을 누르면 로그인 탭이 열림
         this.elemLoginBtn.addEventListener("click", () => { 
             this.elemLoginArea.querySelector(".loginId").value = null;
@@ -120,6 +128,18 @@ class Login {
             xhr.open("POST", "/users/logout");
             xhr.send();
             xhr.onload = () => this.init();
+        });
+
+
+        // 보관함을 누를 때 로그인이 되어 있지 않다면, 에러메세지 출력
+        document.querySelector("#nav-storage").addEventListener("click", e => {
+            e.preventDefault();
+            if(this.userdata === null){
+                Alert.on("로그인 후 이용할 수 있어요….", Alert.error);
+                return false;
+            }
+            else location.assign("/colors/storage/"+this.userdata.user_id);
+            
         });
     }
 }

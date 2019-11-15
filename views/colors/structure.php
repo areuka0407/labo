@@ -4,8 +4,6 @@
     <!--@head-->
     <!--#common-->
     <link rel="stylesheet" href="/css/colors/general.css">
-    <script src="/js/Style.js" type="text/javascript"></script>
-    <script src="/js/Alert.js" type="text/javascript"></script>
     <script src="/js/colors/Login.js" type="text/javascript"></script>
 </head>
 <body>
@@ -17,7 +15,7 @@
         <ul class="nav middle">
             <li><a id="nav-picker" href="/colors/picker">조합기</a></li>
             <li><a id="nav-search" href="/colors/search">검색창</a></li>
-            <li><a id="nav-storage" href="#">보관함</a></li>
+            <li><a id="nav-storage" href="/colors/storage">보관함</a></li>
         </ul>
         <ul class="nav right">
             <li><a href="#" data-tooltip-text="이용안내">이용안내</a></li>

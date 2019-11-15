@@ -306,11 +306,17 @@ article .item .colors {
 
 article .item .colors .line {
     width: 100%;
-    height: calc(100% / 5);
+    height: calc(100% / 5 - 5px);
     padding: 0 10px;
     display: flex;
     align-items: center;
+    color: #343231;
 } 
+
+article .item .colors .line:nth-child(3) {
+    height: calc(100% / 5 + 20px);
+    font-weight: bold;
+}
 
 article .item .tags {
     height: calc(100% / 3 - 40px);

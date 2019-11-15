@@ -84,33 +84,33 @@ window.onload = function () {
     // login
     $(".login").on("keydown",function (e){if(e.key == "Enter") $("#submit").click();})
     $("#submit").on("click",function (){
-        if($(".loginId").val()!==""&&$(".loginPw").val()!==""&&!session){
-            $.ajax({
-                url:"/users/login",
-                type:"POST",
-                data:{"ID":$(".loginId").val(),"PW":$(".loginPw").val()},
-                datatype:"json",
-                success:function(result){
-                    result=$.parseJSON(result);
-                    if(result){
-                        $("#error_login").text("");
-                        $("#wrap").fadeOut(function(){
-                            $(".login").fadeOut(function(){
-                                $("#loginId").text("");
-                                $("#loginPw").text("");
-                                if(!session)s();
-                            });
+        if($(".loginId").val().trim() == "" || $(".loginPw").val().trim() == "") return Alert.on("로그인 정보를 입력해 주세요!", Alert.error);
+        if(session) return Alert.on("이미 로그인 중입니다!", Alert.error);
+        $.ajax({
+            url:"/users/login",
+            type:"POST",
+            data:{"ID":$(".loginId").val(),"PW":$(".loginPw").val()},
+            datatype:"json",
+            success:function(result){
+                result=$.parseJSON(result);
+                if(result){
+                    $("#error_login").text("");
+                    $("#wrap").fadeOut(function(){
+                        $(".login").fadeOut(function(){
+                            $("#loginId").text("");
+                            $("#loginPw").text("");
+                            if(!session)s();
                         });
-                    }else $("#error_login").text("아이디 또는 비밀번호가 일치하지 않습니다.");
-                        
-                }
-                // error:function(request,status,error){
-                //     console.log(request);
-                //     console.log(status);
-                //     console.log(error);
-                // }
-            });
-        }
+                    });
+                }else Alert.on("아이디 또는 비밀번호가 일치하지 않습니다…", Alert.error);
+                    
+            }
+            // error:function(request,status,error){
+            //     console.log(request);
+            //     console.log(status);
+            //     console.log(error);
+            // }
+        });
     });
      
     $("#logout").on("click",function(e){
@@ -160,5 +160,6 @@ window.onload = function () {
     //         }
     //     });
     // });
+    // 
     $("#login_nav").css({"position":"absolute","right":"500px"});
 }

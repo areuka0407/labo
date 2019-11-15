@@ -52,6 +52,7 @@ hr {
 
 .text-accent {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .hidden {
@@ -229,6 +230,7 @@ hr {
     justify-content: center;
     align-items: center;
     color: white;
+    cursor: pointer;
 }
 
 .middle li a.active {
