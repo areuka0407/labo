@@ -13,7 +13,7 @@ class SessionController extends Controller
 {
 	public function session_userPage(){
         $result=false;
-        if(isset($_SESSION['user'])) $result=$_SESSION['user']->user_name;
+        if(isset($_SESSION['user'])) $result=$_SESSION['user'];
         echo json_encode($result);
     }
 }

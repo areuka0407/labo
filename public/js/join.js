@@ -36,18 +36,27 @@ window.onload = function(){
                     });
                 }else{
                     if(now_join_page==="success"){
+                        let data = {"ID":$("#join-loginId").val(),"nickname":$("#nickname").val(),"password":$("#join-loginPw").val(),"y_m_d":$("#year").val()+"-"+$("#month").val()+"-"+$("#day").val(),"gender":$("#gender").val(),"login_check":""};
                         $.ajax({
                             url:"/users/join",
                             type:"POST",
-                            data:{"ID":$("#join-loginId").val(),"nickname":$("#nickname").val(),"password":$("#join-loginPw").val(),"y_m_d":$("#year").val()+"-"+$("#month").val()+"-"+$("#day").val(),"gender":$("#gender").val(),"login_check":""},
+                            data: data,
                             dataType:"JSON",
-                            success:function(data){
-                                console.log(1,data);
+                            success:function(){
                                 $("#info").fadeOut(600,function(){
                                    $("#agree").load("/join/success #success",function(){
                                         //성공시의 텍스트 이름 변경
                                         $("#success #name").text(name);
                                         $("#success").fadeIn(600);
+
+                                        // 로그인 버튼을 누르면 로그인 되어 메인 페이지로 넘어가기
+                                        $("#login-btn").on("click", function(e){
+                                            e.preventDefault();
+                                            $.post("/users/login", {ID: data['ID'], PW: data['password']}, function(res){
+                                                location.assign("/") ;
+                                            });
+                                            return false;
+                                        });
                                    });
                                 });
                             },

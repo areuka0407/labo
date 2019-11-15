@@ -76,10 +76,6 @@ a {
     display: none;
 }
 
-.logo {
-    padding-bottom: 60px;
-}
-
 .logo > span {
     font-size: 50px;
     font-family: 'Raleway', sans-serif;
@@ -116,6 +112,8 @@ label {
     cursor: pointer;
     opacity: 1;
 }
+
+.join_form label { padding-left: 0; }
 
 label:hover {
     opacity: 0.8;

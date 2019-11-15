@@ -13,16 +13,18 @@ class Controller
 {
     private static $viewPath = ROOT.DS."views";
 
-    protected function view($page, $data = [], $structure = "structure.php"){
+    protected function view($page, $data = [], $structure = "structure"){
         extract($data);
         $page = preg_replace("/(\/|\.)/",  DS, $page); // 점 연산자(.) 사용할 수 있도록 Replace
+        $structure = preg_replace("/(\/|\.)/",  DS, $structure); // 점 연산자(.) 사용할 수 있도록 Replace
 
-        $structure = self::$viewPath . DS . $structure; // 전체적인 구조 ( 이하 '구조' )
+        $structure = self::$viewPath . DS . $structure . ".php"; // 전체적인 구조 ( 이하 '구조' )
         $viewPage = self::$viewPath . DS . $page . ".php"; // 보여줄 페이지 ( 이하 '뷰' )
 
         $s_file = file_get_contents($structure); // 구조 파일
         $v_file = file_get_contents($viewPage); // 뷰 파일
         $common = file_get_contents(ROOT.DS."views".DS."common.php"); // 기본 <head> 파일
+
 
         preg_match_all("/<!--@([a-zA-Z0-9]+)-->/", $s_file, $matches); // Match 시킬 정규식
         $replaces = [];

@@ -56,13 +56,11 @@ class UserController extends Controller
         if($user){
             $_SESSION['user']=$user;
             $result=true;
-        }else{
-            $result="아이디 또는 비밀번호가 일치하지 않습니다.";
         }
         echo json_encode($result);
     }
 
-    public function ColorPickerPage(){
-        return $this->view(".colorpicker");
+    public function logoutPage(){
+        if(isset($_SESSION['user'])) session_destroy();
     }
 }

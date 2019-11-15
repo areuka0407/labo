@@ -9,7 +9,7 @@
 	    <p class="p-serv"><strong id="name"><?=$name?></strong>님의 회원가입을 축하합니다.</p>
 	    <div class="wrap-button">
 	        <a href="/">메인으로</a>
-	        <a href="/users/login" class="green">로그인</a>
+	        <a href="/" id="login-btn" class="green">로그인</a>
 	    </div>
 	</div>
 </div>

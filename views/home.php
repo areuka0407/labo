@@ -12,7 +12,7 @@
 <div id="labo_home">
     <div id="load">
         <div class="nav">
-            <img src="images/Nlogo.png" alt="logo" class="logo">
+            <img src="images/Tlogo.png" alt="logo" class="logo">
             <ul>
                 <li><a href="#">이용안내</a></li>
                 <li><a href="#">고객센터</a></li>

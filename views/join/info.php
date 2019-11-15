@@ -8,7 +8,7 @@
 
     <div class="container_2">
         <form class="join_form">
-            <img src="/images/logo.png" alt="logo" width="225.33‬" height="70.28" class="logo">
+            <img src="/images/Clogo.png" alt="logo" height="100" class="logo">
 
             <!--프로필사진-->
 

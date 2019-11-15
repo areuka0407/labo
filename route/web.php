@@ -10,27 +10,46 @@ include "permission.php";
 /**
  * All
  */
-Route::set("GET", "/", "CommonController@homePage", "All");
-Route::set("POST","/users/session","SessionController@session_userPage","All");
-Route::set("GET","/users/color","ColorController@ApiController","All");
-Route::set("GET","/users/color/{id}","ColorController@ApiController","All");
-Route::set("GET","/colorpicker","UserController@ColorPickerPage","All");
+  /* General */
+  Route::set("GET", "/", "CommonController@homePage", "All");
+  Route::set("POST","/users/session","SessionController@session_userPage","All");
+
+  /* Colors */
+  Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
+  Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
+
+  /* API */
+  Route::set("GET","/api/colors","ColorController@ApiController","All");
+  Route::set("GET","/api/colors/{id}","ColorController@ApiController","All");
+  Route::set("GET","/api/tags/{id}","ColorController@getTags","All");
+  /* Colors */
+  Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
+  Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
 /**
  * Guest
  */
-Route::set("GET", "/join/agree", "UserController@agreePage", "Guest");
-Route::set("GET", "/join/info", "UserController@infoPage", "Guest");
-Route::set("GET", "/join/success", "UserController@successPage", "Guest");
-Route::set("POST","/users/join","UserController@joinPage","Guest");
-Route::set("POST","/users/login","UserController@loginPage","Guest");
+
+  /* Join */
+  Route::set("GET", "/join/agree", "UserController@agreePage", "Guest");
+  Route::set("GET", "/join/info", "UserController@infoPage", "Guest");
+  Route::set("GET", "/join/success", "UserController@successPage", "Guest");
+  Route::set("POST","/users/join","UserController@joinPage","Guest");
+
+  /* Login */
+  Route::set("POST","/users/login","UserController@loginPage","Guest");
+
 /**
  * User
  */
-Route::set("POST","/users/logout","UserController@logoutPage","User");
-Route::set("POST","/users/color","ColorController@ApiController","User");
-Route::set("DELETE","/users/color/{id}","ColorController@ApiController","User");
-Route::set("PUT","/users/color/{id}","ColorController@ApiController","User");
-Route::set("GET","/users/good/{id}","ColorController@ApiController","User");
+
+  /* Logout */
+  Route::set("POST","/users/logout","UserController@logoutPage","User");
+
+  /* API */
+  Route::set("POST","/api/colors","ColorController@ApiController","User");
+  Route::set("DELETE","/api/colors/{id}","ColorController@ApiController","User");
+  Route::set("PUT","/api/colors/{id}","ColorController@ApiController","User");
+  Route::set("GET","/api/colors/{id}/good","ColorController@ApiController","User");
 /**
  * Admin
  */

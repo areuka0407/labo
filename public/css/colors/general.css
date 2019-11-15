@@ -1,0 +1,282 @@
+@charset "UTF-8";
+
+/*fonts.css start*/
+@font-face {
+    font-family: "NanumBarunGothic";
+    font-weight: normal;
+    font-style: normal;
+    src:    url(/fonts/NanumBarunGothic.woff2) format('woff2'),
+            url(/fonts/NanumBarunGothic.woff) format('woff'),
+            url(/fonts/NanumBarunGothic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "NanumBarunGothic";
+    font-weight: bold;
+    font-style: normal;
+    src:    url(/fonts/NanumBarunGothicBold.woff2) format('woff2'),
+            url(/fonts/NanumBarunGothicBold.woff) format('woff'),
+            url(/fonts/NanumBarunGothicBolds.ttf) format('truetype');
+}
+/*fonts.css end*/
+
+/*color.css start*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-display: fallback;
+    font-family: "NanumBarunGothic", sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+hr {
+    width: calc(100% - 20px);
+    height: 2px;
+    margin: 10px;
+    background-color: #efefef;
+    border: 0;
+}
+
+
+.text-accent {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+.wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Login */
+
+.login-wrap {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.login {
+    width: 400px;
+    height: 500px;
+    margin-top: -250px;
+    margin-left: -200px;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    position: absolute;
+    box-shadow: 3px 2px 6px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-logo {
+    margin-top: 15px;
+    font-family: 'Raleway', sans-serif;
+    height: 90px;
+}
+
+#error_login{
+    height: 25px;
+    color: red;
+}
+
+.login-text {
+    margin-left: 40px;
+    align-self: flex-start;
+}
+
+.loginId {
+    width: 80%;
+    margin-top: 5px;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.pass-text {
+    margin-top: 10px;
+    margin-left: 40px;
+    align-self: flex-start;
+}
+
+.loginPw {
+    width: 80%;
+    margin-top: 5px;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.submit {
+    width: 80%;
+    height: 50px;
+    margin-top: 30px;
+    font-size: 25px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #8A2387, #E94057, #F27121);
+}
+
+.FAccount1 {
+    color: #00AFFF;
+    top: 380px;
+    left: 50px;
+    position: absolute;
+    font-size: 15px;
+}
+
+.login-wrap .line {
+    color: #00AFFF;
+    top: 380px;
+    left: 120px;
+    position: absolute;
+    font-size: 15px;
+}
+
+.FAccount2 {
+    color: #00AFFF;
+    top: 380px;
+    right: 50px;
+    position: absolute;
+    font-size: 15px;
+
+}
+
+.FAccount2 > img {
+    position: absolute;
+    top: 3px;
+    left: -20px;
+}
+
+.google {
+    width: 80%;
+    height: 50px;
+    margin-top: 50px;
+    background-color: #4285F4;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.google > img {
+    border: 2px #4285F4 solid;
+    border-radius: 5px;
+    position: absolute;
+}
+
+.google > p {
+    width: 100%;
+    height: 100%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+/* Header */
+
+.header {
+    width: 100%;
+    height: 60px;
+    background-color: black;
+    padding: 15px 30px 15px 30px;
+    position: relative;
+}
+
+.nav {
+    display: flex;
+    height: 100%;
+}
+
+.nav li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    color: #fff;
+}
+
+.nav li a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.middle li a.active {
+    color: #fff;
+}
+.middle li a:not(.active) {
+    color: rgb(156, 156, 156);
+}
+
+[data-tooltip-text]:hover {
+    position: relative;
+}
+
+[data-tooltip-text]:after {
+    transition: bottom .3s ease-in-out, opacity .3s ease-in-out;
+    background-color: #555555;
+    box-shadow: 0 0 3px 1px rgba(50, 50, 50, 0.4);
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding: 7px 7px;
+    position: absolute;
+    width: auto;
+    min-width: 50px;
+    max-width: 300px;
+    word-wrap: break-word;
+    z-index: 9999;
+    opacity: 0;
+    left: -9999px;
+    top: 90%;
+    content: attr(data-tooltip-text);
+}
+
+[data-tooltip-text]:hover:after {
+    top: 130%;
+    left: 20px;
+    opacity: 1;
+    text-align: center;
+}
+
+.nav.middle {
+    top: 0;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.nav.right {
+    float: right;
+}

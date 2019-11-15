@@ -35,6 +35,45 @@ class Tags {
 
             }
         });
+
+
+        document.querySelector("#submit").addEventListener("click", () => {
+            new Promise(res => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/users/session");
+                xhr.send();
+                
+                xhr.onload = () => res(xhr.responseText);
+                xhr.onerror = () => Alert.on("서버가 응답하지 않습니다. 잠시 후 다시 시도해 주세요.", Alert.error);
+            }).then( data => new Promise(res => {
+                data = JSON.parse(data);
+                if(!data) return Alert.on("로그인 후 이용할 수 있습니다.", Alert.error);
+    
+                let form = new FormData();
+                document.querySelectorAll(".box").forEach((x, i) => {
+                    let r = x.querySelector(".R > input").value;
+                    let g = x.querySelector(".G > input").value;
+                    let b = x.querySelector(".B > input").value;
+                    let hex = x.querySelector(".HEX > input").value;
+    
+                    form.append("rgb" + (i+1), `rgb(${r},${g},${b})`);
+                    form.append("hex" + (i+1), hex); 
+                });
+    
+                form.append("user_id", data.id);
+                form.append("tag", document.querySelector("#tag-box .output").value);
+    
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/api/colors");
+                xhr.send(form);
+                xhr.onload = res(xhr.responseText);
+            })).then(data => {
+                Alert.on("성공적으로 저장되었습니다.");
+                this.tagList = [];
+                this.elemOutput.value = "";
+                this.elemBox.querySelectorAll(".tag").forEach(x => x.remove());
+            });
+        }); 
     }
 
 

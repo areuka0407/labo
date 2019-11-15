@@ -6,17 +6,48 @@ use Areuka\Engine\DB;
 
 class ColorController extends Controller
 {
+	// 색 조합 페이지
+	public function colorPickerPage(){
+		$data = ['now_page' => 'picker'];
+		return $this->view("colors.picker", $data, "colors.structure");
+	}
+
+	// 색 검색 페이지
+	public function searchPage(){
+		$data = ['now_page' => 'search'];
+		return $this->view("colors.search", $data, "colors.structure");
+	}
+
+	public function getTags(){
+		$request = isset($_GET['request']) ? $_GET['request'] : "";
+		$path = explode("/",$request);
+		$id = isset($path[2]) ? $path[2] : 0;
+		$tags=array();
+		$tags=DB::fetchAll("SELECT DISTINCT tag FROM color");
+		$tags_length=count($tags);
+		$result = array();
+		for($i=0;$i<$tags_length;$i++){
+			$num=explode(" ",$tags[$i]->tag);
+			$num_l=count($num);
+			for($j=0; $j < $num_l; $j++) {
+				if(substr($num[$j],0,strlen($id)) == $id)	array_push($result,$num[$j]); 	
+			}
+		}
+		echo json_encode($result);
+	}
 
 	public function ApiController(){
+		header("Content-type", "application/json");
+
 		$method = $_SERVER["REQUEST_METHOD"];
 		$request = isset($_GET['request']) ? $_GET['request'] : "";
 		$path = explode("/",$request);
 		$work = isset($path[1]) ? $path[1] : "";
 		$id = isset($path[2]) ? $path[2] : 0;
-		if($work == "color"){
+		if($work == "colors"){
 			if($method=="GET"){
 				$colors=array();
-				$colors=($id == 0) ? DB::fetchAll("SELECT * FROM color") : $colors=DB::fetchAll("SELECT * FROM color WHERE id = ?",[$id]);
+				$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name FROM color c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM color WHERE id = ?",[$id]);
 				echo json_encode($colors);
 			}
 			if($method == "POST"){
@@ -75,6 +106,7 @@ class ColorController extends Controller
 			if($method == "GET"){
 				$user = $_SESSION['user']->user_id;
 		        $good=DB::fetch("SELECT good FROM users WHERE user_id = ?",[$user]);
+		        echo json_encode($good);
 		        $good=$good->good;
 		        if($user && $id){
 		            if($good){

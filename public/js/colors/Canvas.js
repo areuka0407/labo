@@ -22,7 +22,7 @@ class Canvas {
         return new Promise(res => {
             let backgroundImage = new Image();
             backgroundImage.setAttribute("crossOrigin", "use-credentialS");
-            backgroundImage.src = "./images/colorPickerBGI.png";
+            backgroundImage.src = "/images/colorPickerBGI.png";
             backgroundImage.onload = () => {
                 this.ctx.drawImage(backgroundImage, 0, 0, ColorPicker.width, ColorPicker.height);
                 res();

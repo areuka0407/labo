@@ -4,7 +4,7 @@ window.onload = function () {
     var wrap = `<div id='wrap'></div>`;
     $("body").append(wrap);
     let session;
-    let loginA=`<li class="login_b"><a href="#" id="login_btn">로그인</a></li>`;
+    let loginA=`<li class="login_b" id="login_nav"><a href="#" id="login_btn">로그인</a></li>`;
      $(".nav ul").prepend(loginA);
     let loginA2=`<div class="login_b font-card" id="font-card">
                     <p class="main-font">
@@ -25,7 +25,7 @@ window.onload = function () {
                         
                         <div class="hidden">
                             <div class="login">
-                                <img src="images/logo-black.png" alt="logo" class="login-logo">
+                                <img src="images/Blogo.png" alt="logo" class="login-logo">
                                 <p id="error_login"></p>
                                 <p class="login-text">아이디</p>
                                 <input type="text" class="loginId" name="loginId" placeholder="아이디를 입력해주세요">
@@ -48,7 +48,7 @@ window.onload = function () {
                     </div>`;
     $("#load").append(loginA2);
 
-    let loginDOM = `<a href="/colorpicker" class="login_a" id="play_button">
+    let loginDOM = `<a href="/colors/picker" class="login_a" id="play_button">
                         <img src="images/playbutton.png" alt="play" id="play" width="250" height="250">
                     </a>
                     <span class="login_a user-account">
@@ -82,6 +82,7 @@ window.onload = function () {
         }
     });
     // login
+    $(".login").on("keydown",function (e){if(e.key == "Enter") $("#submit").click();})
     $("#submit").on("click",function (){
         if($(".loginId").val()!==""&&$(".loginPw").val()!==""&&!session){
             $.ajax({
@@ -100,7 +101,7 @@ window.onload = function () {
                                 if(!session)s();
                             });
                         });
-                    }else $("#error_login").text($.parseJSON(result));
+                    }else $("#error_login").text("아이디 또는 비밀번호가 일치하지 않습니다.");
                         
                 }
                 // error:function(request,status,error){
@@ -136,7 +137,7 @@ window.onload = function () {
                     $(".login_a").fadeOut(function(){$(".login_b").fadeIn(function(){$("#login_user_name").text("");});});   
                 }else{
                     $(".login_b").fadeOut(function(){$(".login_a").fadeIn();});
-                    $("#login_user_name").text(session);
+                    $("#login_user_name").text(session.user_name);
                 }
             }
         });
@@ -159,4 +160,5 @@ window.onload = function () {
     //         }
     //     });
     // });
+    $("#login_nav").css({"position":"absolute","right":"500px"});
 }
