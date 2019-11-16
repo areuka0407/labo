@@ -12,6 +12,15 @@ class Keysearch {
         this.elem.style.top = this.offsetY + "px";
         target.parentElement.append(this.elem);
 
-        target.addEventListener("click")
+        this.timer = null;
+        target.addEventListener("keydown", e => {
+            if(this.timer) clearTimeout(this.timer);
+            this.timer = setTimeout(() => this.loadKeyword(), 500);
+        });
+    }
+
+    loadKeyword(){
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "/api/tags" + );
     }
 }

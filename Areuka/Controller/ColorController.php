@@ -30,10 +30,7 @@ class ColorController extends Controller
 		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
 	
-	public function getTags(){
-		$request = isset($_GET['request']) ? $_GET['request'] : "";
-		$path = explode("/",$request);
-		$id = isset($path[2]) ? $path[2] : 0;
+	public function getTags($id){
 		$result=Color::getTag($id);
 		echo json_encode($result);
 	}
