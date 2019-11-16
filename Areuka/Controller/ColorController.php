@@ -30,19 +30,11 @@ class ColorController extends Controller
 		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
 	
-	// 태그 가져오기
-	public function getTags($id){
-		$tags=array();
-		$tags=DB::fetchAll("SELECT DISTINCT tag FROM colors");
-		$tags_length=count($tags);
-		$result = array();
-		for($i=0;$i<$tags_length;$i++){
-			$num=explode(" ",$tags[$i]->tag);
-			$num_l=count($num);
-			for($j=0; $j < $num_l; $j++) {
-				if(substr($num[$j],0,strlen($id)) == $id)	array_push($result,$num[$j]); 	
-			}
-		}
+	public function getTags(){
+		$request = isset($_GET['request']) ? $_GET['request'] : "";
+		$path = explode("/",$request);
+		$id = isset($path[2]) ? $path[2] : 0;
+		$result=Color::getTag($id);
 		echo json_encode($result);
 	}
 
@@ -73,7 +65,7 @@ class ColorController extends Controller
 				$hex4=isset($_POST['hex4']) ? $_POST['hex4'] : '';
 				$hex5=isset($_POST['hex5']) ? $_POST['hex5'] : '';
 				$tag=isset($_POST['tag']) ? $_POST['tag'] : '';
-				Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+				$result=Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
 				echo json_encode($result);
 			}
 			if($method == "PUT"){
@@ -92,7 +84,7 @@ class ColorController extends Controller
 					$hex4=isset($inputData['hex4']) ? $inputData['hex4'] : '';
 					$hex5=isset($inputData['hex5']) ? $inputData['hex5'] : '';
 					$tag =isset($inputData['tag'])  ? $inputData['tag'] : '';
-					Color::putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+					$result=Color::putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
 					
 					echo json_encode($result);
 				}
@@ -108,7 +100,7 @@ class ColorController extends Controller
 	public function addgood($id){
 		$id=(int)$id;
 		$user = $_SESSION['user']->user_id;
-		Color::goodColor($id,$user);
+		$result=Color::goodColor($id,$user);
 	    echo json_encode($result);
 	}
 
@@ -116,7 +108,7 @@ class ColorController extends Controller
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$colors_id = isset($POST['colors_id']) ? $POST['colors_id'] : 0;
 			$group_id = isset($POST['group_id']) ? $POST['group_id'] : 0;
-			Color::CIA($colors_id,$group_id);
+			$result=Color::CIA($colors_id,$group_id);
 			echo json_encode($result);
 		}
 	}
@@ -125,7 +117,8 @@ class ColorController extends Controller
 		$id = $_SESSION['user']->id;
 		if($id && $_SERVER["REQUEST_METHOD"] == "POST"){
 			$groupname=isset($POST['groupname']) ? $POST['groupname'] : "";
-			Color::AddCgroup($id,$groupname);
+			$result=Color::AddCgroup($id,$groupname);
+			echo json_encode($result);
 		}
 	}
 }

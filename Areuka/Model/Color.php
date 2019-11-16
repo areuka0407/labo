@@ -106,6 +106,10 @@ class Color {
 
 	// colorgroup 추가하는 class(POST)
 	static function AddCgroup($id,$name){
-		DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,?)",[$id,$name]);
+		if($id&&$name){
+			DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,?)",[$id,$name]);
+			$result="colorgroup add";
+		}else $result="colorgroup not add";
+		return $result;
 	}
 }
