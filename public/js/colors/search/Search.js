@@ -185,7 +185,7 @@ class Search {
         data.elem.querySelector(".good").addEventListener("click", e => {
             if(!this.userdata) return false;
             let target = e.target;
-            while(target.classList.contains("good")) target = target.parentElement;
+            while(!target.classList.contains("good")) target = target.parentElement;
             const elemCnt = target.querySelector(".count");
             const elemSvg = target.querySelector("svg");
             
@@ -193,7 +193,6 @@ class Search {
             xhr.open("GET", "/api/good/" + data.id);
             xhr.send();
             xhr.onload = () => {
-                
                 let result = JSON.parse(xhr.responseText);
                 if(result == "add"){
                     elemSvg.style.fill = "red";
