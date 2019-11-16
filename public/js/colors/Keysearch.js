@@ -1,7 +1,8 @@
 class Keysearch {
     constructor(target){
         if(typeof target === "string") target = document.querySelector(target);
-
+        
+        this.target = target;
         this.offsetX = target.offsetX;
         this.offsetY = target.offsetY;
 
@@ -9,6 +10,8 @@ class Keysearch {
         this.elem.classList.add("keysearch");
         this.elem.style.left = this.offsetX + "px";
         this.elem.style.top = this.offsetY + "px";
-        elem.parentElement.append(this.elem);
+        target.parentElement.append(this.elem);
+
+        target.addEventListener("click")
     }
 }
