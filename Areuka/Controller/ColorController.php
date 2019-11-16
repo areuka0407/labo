@@ -118,4 +118,14 @@ class ColorController extends Controller
 			echo json_encode($result);
 		}
 	}
+
+	public function userCgroup($user_id){
+		$result=Color::getuserCgroup($user_id);
+		echo json_encode($result);
+	}
+
+	public function groupcolor($group_id){
+		$result=Color::gcolor($group_id);
+		echo json_encode($result);
+	}
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- 생성 시간: 19-11-16 03:50
+-- 생성 시간: 19-11-16 09:07
 -- 서버 버전: 10.1.30-MariaDB
 -- PHP 버전: 7.2.2
 
@@ -31,8 +31,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `colorgroups` (
   `id` int(11) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `idx` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 테이블의 덤프 데이터 `colorgroups`
+--
+
+INSERT INTO `colorgroups` (`id`, `owner_id`, `name`, `idx`) VALUES
+(1, 26, '기본', 0),
+(2, 27, '기본', 0),
+(3, 28, '기본', 0),
+(4, 29, '기본', 0);
 
 -- --------------------------------------------------------
 
@@ -64,7 +75,7 @@ CREATE TABLE `colors` (
 --
 
 INSERT INTO `colors` (`id`, `user_id`, `group_id`, `rgb1`, `rgb2`, `rgb3`, `rgb4`, `rgb5`, `hex1`, `hex2`, `hex3`, `hex4`, `hex5`, `tag`, `good`, `day`) VALUES
-(5, 3, NULL, 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'AE03EE', 'AE03EE', 'AE03EE', 'AE03EE', 'AE03EE', 'a', 0, '2019-11-07 16:59:49'),
+(5, 3, NULL, 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'rgb(123,123,123)', 'AE03EE', 'AE03EE', 'AE03EE', 'AE03EE', 'AE03EE', 'a', 1, '2019-11-07 16:59:49'),
 (6, 3, NULL, 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(123,123,123)', '123,132,255', '111111', '211111', '121111', '333213', 'ADADAD', 'I don\'t know', 1, '2019-11-07 17:00:38'),
 (7, 3, NULL, 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(123,123,123)', '111111', '211111', '121111', '112111', 'eeeeee', 'I don\'t know', 1, '2019-11-07 17:01:51'),
 (8, 3, NULL, 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(222,222,222)', 'rgb(123,123,123)', '111111', '211111', '121111', '112111', 'aaaaaa', 'aa ek ak eo', 1, '2019-11-07 17:01:51'),
@@ -94,10 +105,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `password`, `y_m_d`, `gender`, `admin`, `id`, `good`, `image`) VALUES
-('user', 'user', '831c237928e6212bedaa4451a514ace3174562f6761f6a157a2fe5082b36e2fb', '0000-00-00', 'female', 0, 3, '7,8,6', NULL),
-('dfgdg', 'dsfewef', 'fd48a6c0c05754515a2d71d95428d562b270cc72ce7702420015d7008e942da2', '0000-00-00', '', 0, 13, '', NULL),
-('tester', 'tester', '831c237928e6212bedaa4451a514ace3174562f6761f6a157a2fe5082b36e2fb', '0000-00-00', '', 0, 14, '9', NULL),
-('qwe123', 'QWE123', '4d4f26369171994f3a46776ee2d88494fb9955800a5bb6261c016c4bb9f30b56', '2000-05-05', 'male', 0, 15, '', NULL);
+('user', 'nam', '831c237928e6212bedaa4451a514ace3174562f6761f6a157a2fe5082b36e2fb', '0000-00-00', 'female', 0, 3, '7,8', NULL),
+('tester', 'tester', '831c237928e6212bedaa4451a514ace3174562f6761f6a157a2fe5082b36e2fb', '0000-00-00', '', 0, 14, '5,6,9', NULL),
+('5', 'asdf', 'd2e0a90b46d1163632ee571b3ccf1b674ba2c30e4b690159cc5f94e51c68fa50', '0000-00-00', '', 0, 26, '', NULL),
+('ssfsdfe', 'dasgfd', '9a4ac2962d517239b1cf85743b47e54fc33bb5128a8568b3ceb413754f2e441b', '0000-00-00', '', 0, 27, '', NULL),
+('teettt', 'dlfd', '2b6bd9c379fa362064406eddd70b32a408b89ece51fb29cc0f3d86f33605edc1', '0000-00-00', '', 0, 28, '', NULL),
+('e', 'fljgfok', 'f6fc315971592ac7d4edd61cedfa73b7ad3e7c4b5d6795cedb390aa3136f7823', '0000-00-00', '', 0, 29, '', NULL);
 
 --
 -- 덤프된 테이블의 인덱스
@@ -133,7 +146,7 @@ ALTER TABLE `users`
 -- 테이블의 AUTO_INCREMENT `colorgroups`
 --
 ALTER TABLE `colorgroups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 테이블의 AUTO_INCREMENT `colors`
@@ -145,7 +158,7 @@ ALTER TABLE `colors`
 -- 테이블의 AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- 덤프된 테이블의 제약사항

@@ -5,7 +5,7 @@ namespace Areuka\Model;
 use Areuka\Engine\DB;
 
 class Color {
-	// Tag를 가져오는 class(중복X)
+	// Tag를 가져오는 function(중복X)
 	static function getTag($id){
 		$tags=array();
 		$tags=DB::fetchAll("SELECT DISTINCT tag FROM colors");
@@ -21,14 +21,14 @@ class Color {
 		return $result;
 	}
 
-	// color를 가져오는 class(GET)
+	// color를 가져오는 function(GET)
 	static function getColor($id){
 		$colors=array();
 		$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
 		return $colors;
 	}
 
-	// color를 DB에 add하는 class(POST)
+	// color를 DB에 add하는 function(POST)
 	static function addColor($user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag){
 		$user=DB::query("SELECT user_id FROM users WHERE user_id = ?",[$user_id]);
 		$result=false;
@@ -39,7 +39,7 @@ class Color {
 		return $result;
 	}
 
-	// color를 수정하는 class(PUT)
+	// color를 수정하는 function(PUT)
 	static function putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag){
 		$result=false;
 		if(DB::query("SELECT id FROM colors WHERE id = ?",[$id])){
@@ -49,14 +49,14 @@ class Color {
 		return $result;
 	}
 
-	// color를 삭제하는 class(DELETE)
+	// color를 삭제하는 function(DELETE)
 	static function delColor($id){
 		if(DB::query("SELECT id FROM colors WHERE id = ?",[$id])){
 			DB::query("DELETE FROM colors WHERE id = ?",[$id]);
 		}
 	}
 
-	// good 관리하는 class(GET)
+	// good 관리하는 function(GET)
 	static function goodColor($id,$user){
 		// session->user의 good정보 가져오기
 		$good=DB::fetch("SELECT good FROM users WHERE user_id = ?",[$user]);
@@ -94,7 +94,7 @@ class Color {
 	    return $result;
 	}
 
-	// color를 colorgroup안에 추가하는 class()
+	// color를 colorgroup안에 추가하는 function()
 	// ColorIngroupAdd의 줄임말 ->CIA
 	static function CIA($colors_id,$group_id){
 		if($colors_id && $group_id){
@@ -104,12 +104,28 @@ class Color {
 		return $result;
 	}
 
-	// colorgroup 추가하는 class(POST)
+	// colorgroup 추가하는 function(POST)
 	static function AddCgroup($id,$name){
 		if($id&&$name){
 			DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,?)",[$id,$name]);
 			$result="colorgroup add";
 		}else $result="colorgroup not add";
 		return $result;
+	}
+
+	// user의 colorgroup가져오기
+	static function getuserCgroup($user_id){
+		if($user_id){
+			$group=DB::fetchAll("SELECT id,name FROM colorgroups WHERE owner_id = ?",[$user_id]);
+			return $group;
+		}
+	}
+
+	// group_id에 해당하는 color 가져오기
+	static function gcolor($group_id){
+		if($group_id){
+			$result=DB::fetchAll("SELECT * FROM colors WHERE group_id = ?",$group_id);
+			return $result;
+		}
 	}
 }
