@@ -42,7 +42,8 @@ window.onload = function(){
                             type:"POST",
                             data: data,
                             dataType:"JSON",
-                            success:function(){
+                            success:function(result){
+                                console.log(result);
                                 $("#info").fadeOut(600,function(){
                                    $("#agree").load("/join/success #success",function(){
                                         //성공시의 텍스트 이름 변경

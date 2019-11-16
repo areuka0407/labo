@@ -2,6 +2,7 @@
 
 namespace Areuka\Controller;
 
+use Areuka\Model\Color;
 use Areuka\Engine\DB;
 
 class ColorController extends Controller
@@ -25,17 +26,7 @@ class ColorController extends Controller
 		$request = isset($_GET['request']) ? $_GET['request'] : "";
 		$path = explode("/",$request);
 		$id = isset($path[2]) ? $path[2] : 0;
-		$tags=array();
-		$tags=DB::fetchAll("SELECT DISTINCT tag FROM colors");
-		$tags_length=count($tags);
-		$result = array();
-		for($i=0;$i<$tags_length;$i++){
-			$num=explode(" ",$tags[$i]->tag);
-			$num_l=count($num);
-			for($j=0; $j < $num_l; $j++) {
-				if(substr($num[$j],0,strlen($id)) == $id)	array_push($result,$num[$j]); 	
-			}
-		}
+		Color::getTag($id);
 		echo json_encode($result);
 	}
 
@@ -49,9 +40,8 @@ class ColorController extends Controller
 		$id = isset($path[2]) ? $path[2] : 0;
 		if($work == "colors"){
 			if($method=="GET"){
-				$colors=array();
-				$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
-				echo json_encode($colors);
+				$result=Color::getColor($id);
+				echo json_encode($result);
 			}
 			if($method == "POST"){
 				$user_id=isset($_POST['user_id']) ? $_POST['user_id'] : '';
@@ -66,12 +56,7 @@ class ColorController extends Controller
 				$hex4=isset($_POST['hex4']) ? $_POST['hex4'] : '';
 				$hex5=isset($_POST['hex5']) ? $_POST['hex5'] : '';
 				$tag=isset($_POST['tag']) ? $_POST['tag'] : '';
-				$user=DB::query("SELECT user_id FROM users WHERE user_id = ?",[$user_id]);
-				$result=false;
-				if($user){
-					DB::query("INSERT INTO colors(user_id,rgb1,rgb2,rgb3,rgb4,rgb5,hex1,hex2,hex3,hex4,hex5,tag,day) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,now())",[$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag]);
-					$result=true;
-				}
+				Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
 				echo json_encode($result);
 			}
 			if($method == "PUT"){
@@ -90,20 +75,13 @@ class ColorController extends Controller
 					$hex4=isset($inputData['hex4']) ? $inputData['hex4'] : '';
 					$hex5=isset($inputData['hex5']) ? $inputData['hex5'] : '';
 					$tag =isset($inputData['tag'])  ? $inputData['tag'] : '';
-					$result=false;
-					if(DB::query("SELECT id FROM colors WHERE id = ?",[$id])){
-						DB::query("UPDATE colors SET rgb1 = ?,rgb2 = ?,rgb3 = ?,rgb4 = ?,rgb5 = ?,hex1 = ?,hex2 = ?,hex3 = ?,hex4 = ?,hex5=?,tag = ? WHERE id = ?",[$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag,$id]);
-						$result=true;
-					}
+					Color::putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+					
 					echo json_encode($result);
 				}
 			}
 			if($method == "DELETE"){
-				if($id){
-					if(DB::query("SELECT id FROM colors WHERE id = ?",[$id])){
-						DB::query("DELETE FROM colors WHERE id = ?",[$id]);
-					}
-				}
+				if($id) Color::delColor($id);
 			}
 		}
 	}
@@ -111,35 +89,24 @@ class ColorController extends Controller
 	public function addgood($id){
 		$id=(int)$id;
 		$user = $_SESSION['user']->user_id;
-		$good=DB::fetch("SELECT good FROM users WHERE user_id = ?",[$user]);
-		$good=$good->good;
-		$add=DB::fetch("SELECT good FROM colors WHERE id = ?",[$id]);
-		$add=(int)$add->good;
-		if($user && $id){
-	        $check_result=false;
-            $check = explode(",",$good);
-            $check_num = count($check);
-            $update_data="";
-            for ($i=0; $i < $check_num; $i++) {
-                if($id == $check[$i]){
-                    $check_result=true;
-                }else if($update_data == "") $update_data = $update_data.$check[$i];
-		        else $update_data = $update_data.",".$check[$i];
-		    }
-		    if(!$check_result && $update_data == "") $update_data =$id;
-		    else if(!$check_result)$update_data = $update_data.",".$id;
-		    DB::query("UPDATE users SET good = ? WHERE user_id = ?",[$update_data,$user]);
-            if($check_result == true){
-            	$result="minus";
-            	$add=$add-1;
-            	DB::query("UPDATE colors SET good = ? WHERE id= ?",[$add,$id]);
-            }
-	        else{
-	        	$result="add";
-	        	$add=$add+1;
-	        	DB::query("UPDATE colors SET good = ? WHERE id = ?",[$add,$id]);
-	        }
-	    }
+		Color::goodColor($id,$user);
 	    echo json_encode($result);
+	}
+
+	public function colorIngroupsAdd(){
+		if($_SERVER["REQUEST_METHOD"] == "POST"){
+			$colors_id = isset($POST['colors_id']) ? $POST['colors_id'] : 0;
+			$group_id = isset($POST['group_id']) ? $POST['group_id'] : 0;
+			Color::CIA($colors_id,$group_id);
+			echo json_encode($result);
+		}
+	}
+
+	public function groupAdd(){
+		$id = $_SESSION['user']->id;
+		if($id && $_SERVER["REQUEST_METHOD"] == "POST"){
+			$groupname=isset($POST['groupname']) ? $POST['groupname'] : "";
+			Color::AddCgroup($id,$groupname);
+		}
 	}
 }

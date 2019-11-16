@@ -43,6 +43,10 @@ class UserController extends Controller
         }else{
             // 회원가입
             DB::query("INSERT INTO users(user_id,user_name,password,y_m_d,gender) VALUES(?,?,?,?,?)",[$id,$name,$pw,$Y_M_D,$Gender]);
+            $owner=DB::fetch("SELECT id FROM users WHERE user_id = ?",[$id]);
+            echo json_encode($owner->id);
+            $owner=(int)$owner->id;
+            DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,'기본')",[$owner]);
             echo json_encode(["result" => true]);
         }
     }
