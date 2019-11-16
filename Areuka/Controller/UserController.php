@@ -63,4 +63,36 @@ class UserController extends Controller
     public function logoutPage(){
         if(isset($_SESSION['user'])) session_destroy();
     }
+
+    public function userUpdate(){
+        // 수정 가능 항목 : 이름 / 생일 / 성별 / 이미지 / 비밀번호
+        $id=$_SESSION['user']->id;
+        if($_SERVER["REQUEST_METHOD"] == "PUT" && $id){
+            // 원래 데이터 가져오기
+            $original=DB::fetch("SELECT user_name,y_m_d,gender,image,password FROM users WHERE id = ?",[$id]);
+            $putData = file_get_contents("php://input");
+            $inputData=array();
+            parse_str($putData,$inputData);
+            // input 된게 없으면 원래 데이터로 함
+            $name = isset($inputData['user_name']) ? $inputData['user_name'] : $original->user_name;
+            $y_m_d = isset($inputData['y_m_d']) ? $inputData['y_m_d'] : $original->y_m_d;
+            $gender = isset($inputData['gender']) ? $inputData['gender'] : $original->gender;
+            $image = isset($inputData['image']) ? $inputData['image'] : $original->image;
+            $password = isset($inputData['password']) ? $inputData['password'] : $original->password;
+            // 하지만 하나정도는 input 된게 있어야함
+            if($name != $original->user_name || $y_m_d != $original->y_m_d || $gender != $original->gender || $image != $original->image || $password != $original->password){
+                DB::query("UPDATE users SET user_name = ?, y_m_d = ?, gender = ?, image = ?, password = ? WHERE id = ?",[$name,$y_m_d,$gender,$image,$password,$id]);
+                $result = "user update";
+            }else{
+                $result = "not change";
+            }
+            echo json_encode($result);
+        }
+    }
+
+    public function userDel(){
+        $id = $_SESSION['user']->id;
+        if($_SERVER["REQUEST_METHOD"] == "DELETE" && $id) DB::query("DELETE FROM users WHERE id = ?",[$id]);
+        echo json_encode("del");
+    }
 }
