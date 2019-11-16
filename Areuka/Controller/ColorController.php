@@ -17,14 +17,20 @@ class ColorController extends Controller
 	}
 
 	// 색 보관 페이지
-	public function storagePage(){
-		return $this->view("colors.storage", [], "colors.structure");
+	public function storagePage($user_id){
+		$owner = DB::fetch("SELECT * FROM users WHERE user_id = ?", [$user_id]);
+
+		if(!$owner) CommonController::page_not_found();
+		return $this->view("colors.storage", ['owner' => $owner], "colors.structure");
+	}
+
+	// 이름으로 그룹으로 이뤄진 색상 리스트 가져오기
+	public function getColorGroupsByOwnerId($owner_id){
+		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
 	
-	public function getTags(){
-		$request = isset($_GET['request']) ? $_GET['request'] : "";
-		$path = explode("/",$request);
-		$id = isset($path[2]) ? $path[2] : 0;
+	// 태그 가져오기
+	public function getTags($id){
 		$tags=array();
 		$tags=DB::fetchAll("SELECT DISTINCT tag FROM colors");
 		$tags_length=count($tags);
@@ -39,6 +45,7 @@ class ColorController extends Controller
 		echo json_encode($result);
 	}
 
+	// 색상 검색 / 추가 / 수정 / 삭제 (Default)
 	public function ApiController(){
 		header("Content-type", "application/json");
 
@@ -108,6 +115,8 @@ class ColorController extends Controller
 		}
 	}
 
+
+	// 좋아요 표시하기
 	public function addgood($id){
 		$id=(int)$id;
 		$user = $_SESSION['user']->user_id;

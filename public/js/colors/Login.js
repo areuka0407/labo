@@ -1,5 +1,8 @@
 class Login {
     constructor(){
+        this.login = new Event("login");
+        this.logout = new Event("logout");
+
         this.userdata = null;
         this.elemNav = document.querySelector(".nav.right");
         this.elemLoginBtn = this.create(`<li class="btn-login"><a href="#" data-tooltip-text="로그인">로그인</a></li>`);
@@ -109,6 +112,7 @@ class Login {
             xhr.onload = () => {
                 let res = JSON.parse(xhr.responseText);
                 if(res) {
+                    window.dispatchEvent(this.login);
                     $(this.elemLoginArea).fadeOut(500, () => this.elemLoginArea.remove());
                     this.init();
                 }
@@ -127,7 +131,10 @@ class Login {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "/users/logout");
             xhr.send();
-            xhr.onload = () => this.init();
+            xhr.onload = () => {
+                window.dispatchEvent(this.logout);
+                this.init();
+            }
         });
 
 

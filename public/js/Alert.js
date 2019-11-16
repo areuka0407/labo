@@ -43,4 +43,35 @@ class Alert {
             }, 1000);
         }, 500);
     }
+
+    static confirm(message, callBack = null, applyText = "예", cancelText = "아니오"){
+        if(document.querySelector(".alert-message")) return;
+
+        let elem = Alert.create();
+        elem.classList.add("confirm");
+        Style.setStyle(elem, "backgroundColor", Alert.error);
+
+        elem.innerHTML =`<div class="w-100 pt-3 pl-3 pr-3">
+                            <p>${message}</p>
+                        </div>
+                        <div class="w-100 mt-2 flex">
+                            <button class="btn-apply">${applyText}</button>
+                            <button class="btn-cancel">${cancelText}</button>
+                        </div>`;
+        elem.querySelector(".btn-apply").addEventListener("click", function(){
+            callBack && callBack();
+            this.parentElement.parentElement.remove();
+        });
+
+        elem.querySelector(".btn-cancel").addEventListener("click", function(){
+            this.parentElement.parentElement.remove();
+        });
+
+        document.body.append(elem);
+        
+    }
+
+    static prompt(message, callBack = null, applyText = "확인", canelText = "취소"){
+        
+    }
 }
