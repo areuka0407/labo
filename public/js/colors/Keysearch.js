@@ -21,6 +21,15 @@ class Keysearch {
 
     loadKeyword(){
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/tags" + );
+        xhr.open("GET", "/api/tags?keyword=" + encodeURI(this.target.value));
+        xhr.send();
+        xhr.onload = () => {
+            let result = JSON.parse(xhr.responseText);
+            console.log(result);
+            result.forEach(x => {
+                this.elem.append("<div>"+x+"</div>")
+            });
+        };
+        xhr.onerror = () => console.error(xhr.response);
     }
 }

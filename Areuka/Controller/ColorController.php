@@ -5,6 +5,7 @@ namespace Areuka\Controller;
 use Areuka\Model\Color;
 use Areuka\Engine\DB;
 
+
 class ColorController extends Controller
 {
 	// 색 조합 페이지
@@ -29,9 +30,17 @@ class ColorController extends Controller
 	public function getColorGroupsByOwnerId($owner_id){
 		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
-	
-	public function getTags($id){
-		$result=Color::getTag($id);
+
+	public function getTags(){
+		$keyword = trim($_GET['keyword']);
+		if($keyword === "") {
+			echo json_encode(false);
+			exit;
+		}
+		$keyword = urldecode($keyword);
+		// echo json_encode($keyword);
+
+		$result = Color::getTag($keyword);
 		echo json_encode($result);
 	}
 
@@ -62,7 +71,7 @@ class ColorController extends Controller
 				$hex4=isset($_POST['hex4']) ? $_POST['hex4'] : '';
 				$hex5=isset($_POST['hex5']) ? $_POST['hex5'] : '';
 				$tag=isset($_POST['tag']) ? $_POST['tag'] : '';
-				$result=Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+				$result=Color::addColor($user_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag);
 				echo json_encode($result);
 			}
 			if($method == "PUT"){

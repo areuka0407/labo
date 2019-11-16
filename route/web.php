@@ -19,9 +19,9 @@ include "permission.php";
   Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
 
   /* API */
-  Route::set("GET","/api/colors","ColorController@ApiController","All");
-  Route::set("GET","/api/colors/{id}","ColorController@ApiController","All");
-  Route::set("GET","/api/tags/{id}","ColorController@getTags","All");
+  Route::set("GET", "/api/colors","ColorController@ApiController","All");
+  Route::set("GET", "/api/colors/{id}","ColorController@ApiController","All");
+  Route::set("GET", "/api/tags","ColorController@getTags","All");
   Route::set("GET", "/api/users/{owner_id}/groups", "ColorController@getColorGroupsByOwnerId", "All"); // 유저 아이디로 색상 그룹 가져오기
 
   /* Colors */

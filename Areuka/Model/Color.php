@@ -6,18 +6,25 @@ use Areuka\Engine\DB;
 
 class Color {
 	// Tag를 가져오는 function(중복X)
-	static function getTag($id){
-		$tags=array();
-		$tags=DB::fetchAll("SELECT DISTINCT tag FROM colors");
-		$tags_length=count($tags);
-		$result = array();
-		for($i=0;$i<$tags_length;$i++){
-			$num=explode(" ",$tags[$i]->tag);
-			$num_l=count($num);
-			for($j=0; $j < $num_l; $j++) {
-				if(substr($num[$j],0,strlen($id)) == $id)	array_push($result,$num[$j]); 	
+	static function getTag($keyword){
+		$tagLists = DB::fetchAll("SELECT DISTINCT tag FROM colors");
+		$result = [];
+		foreach($tagLists as $tagList){
+			foreach(explode(" ", $tagList->tag) as $tag){
+				if(!in_array($tag, $result) && preg_match("/^(#{$keyword}.*)/", $tag) == true){
+					array_push($result, $tag);
+				}
+					
 			}
 		}
+		// for($i=0;$i<$tags_length;$i++){
+		// 	$num=explode(" ",$tags[$i]->tag);
+		// 	$num_l=count($num);
+		// 	for($j=0; $j < $num_l; $j++) {
+		// 		if(mb_substr($num[$j], 0, mb_strlen($id)) == $id) 
+		// 			array_push($result,$num[$j]); 	
+		// 	}
+		// }
 		return $result;
 	}
 
@@ -29,7 +36,7 @@ class Color {
 	}
 
 	// color를 DB에 add하는 function(POST)
-	static function addColor($user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag){
+	static function addColor($user_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag){
 		$user=DB::query("SELECT user_id FROM users WHERE user_id = ?",[$user_id]);
 		$result=false;
 		if($user){
@@ -40,10 +47,10 @@ class Color {
 	}
 
 	// color를 수정하는 function(PUT)
-	static function putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag){
+	static function putColor($id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag){
 		$result=false;
 		if(DB::query("SELECT id FROM colors WHERE id = ?",[$id])){
-			DB::query("UPDATE colors SET rgb1 = ?,rgb2 = ?,rgb3 = ?,rgb4 = ?,rgb5 = ?,hex1 = ?,hex2 = ?,hex3 = ?,hex4 = ?,hex5=?,tag = ? WHERE id = ?",[$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag,$id]);
+			DB::query("UPDATE colors SET rgb1 = ?, rgb2 = ?, rgb3 = ?, rgb4 = ?, rgb5 = ?, hex1 = ?, hex2 = ?, hex3 = ?, hex4 = ?, hex5 = ?, tag = ? WHERE id = ?",[$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag,$id]);
 			$result=true;
 		}
 		return $result;

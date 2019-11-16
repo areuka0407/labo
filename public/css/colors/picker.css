@@ -215,7 +215,7 @@ Container
 }
 
 .container > ul > li > ul > li:not(.brightness) {
-    width: 100%;
+    width: calc(100% - 5px);
     color: white;
     margin-left: 5px;
     display: flex;

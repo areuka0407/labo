@@ -45,7 +45,7 @@ class ColorPicker {
         });
 
         this.optionTab = document.querySelector(options.option);
-        
+    
         this.keyseach = new Keysearch("#tag-box .input");
 
        this.eventTrigger();

@@ -62,6 +62,8 @@ class Tags {
     
                 form.append("user_id", data.id);
                 form.append("tag", document.querySelector("#tag-box .output").value);
+
+                console.log(form.getAll("tag"));
     
                 let xhr = new XMLHttpRequest();
                 xhr.open("POST", "/api/colors");

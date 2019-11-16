@@ -17,6 +17,7 @@ class Search {
             xhr.send();
             xhr.onload = () => res(xhr.responseText);
         }).then(data => {
+            console.log(data);
             JSON.parse(data).forEach(x => {
                 let cnew = this.templateColor(x);
                 cnew.tags.forEach(tag => {     
