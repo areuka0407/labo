@@ -182,10 +182,12 @@ class Search {
 <<<<<<< HEAD:public/js/colors/Search.js
 =======
 
-        data.elem.querySelector(".good").addEventListener("click", function(){
-            if(this.userdata === null) return false;
-            const elemCnt = this.querySelector(".count");
-            const elemSvg = this.querySelector("svg");
+        data.elem.querySelector(".good").addEventListener("click", e => {
+            if(!this.userdata) return false;
+            let target = e.target;
+            while(!target.classList.contains("good")) target = target.parentElement;
+            const elemCnt = target.querySelector(".count");
+            const elemSvg = target.querySelector("svg");
             
             let xhr = new XMLHttpRequest();
             xhr.open("GET", "/api/good/" + data.id);
