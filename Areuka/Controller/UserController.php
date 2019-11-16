@@ -8,6 +8,7 @@
 
 namespace Areuka\Controller;
 
+use Areuka\Model\User;
 use Areuka\Engine\DB;
 
 class UserController extends Controller
@@ -34,21 +35,8 @@ class UserController extends Controller
         $Y_M_D=$_POST['y_m_d'];
         $Gender=$_POST['gender'];
         $login_check=$_POST['login_check'];
-        if($login_check == "id"){
-            $result=DB::fetch("SELECT user_id FROM users WHERE user_id = ?",[$id]);
-            echo json_encode(["result"=>$result]);
-        }else if($login_check == "name"){
-            $result=DB::fetch("SELECT user_name FROM users WHERE user_name = ?",[$name]);
-            echo json_encode(["result"=>$result]);
-        }else{
-            // 회원가입
-            DB::query("INSERT INTO users(user_id,user_name,password,y_m_d,gender) VALUES(?,?,?,?,?)",[$id,$name,$pw,$Y_M_D,$Gender]);
-            $owner=DB::fetch("SELECT id FROM users WHERE user_id = ?",[$id]);
-            echo json_encode($owner->id);
-            $owner=(int)$owner->id;
-            DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,'기본')",[$owner]);
-            echo json_encode(["result" => true]);
-        }
+        $result=User::userjoin($id,$name,$pw,$Y_M_D,$Gender,$login_check);
+        echo json_encode($result);
     }
 
     public function loginPage(){

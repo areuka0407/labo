@@ -106,8 +106,8 @@ class ColorController extends Controller
 
 	public function colorIngroupsAdd(){
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
-			$colors_id = isset($POST['colors_id']) ? $POST['colors_id'] : 0;
-			$group_id = isset($POST['group_id']) ? $POST['group_id'] : 0;
+			$colors_id = isset($_POST['colors_id']) ? $_POST['colors_id'] : 0;
+			$group_id = isset($_POST['group_id']) ? $_POST['group_id'] : 0;
 			$result=Color::CIA($colors_id,$group_id);
 			echo json_encode($result);
 		}
@@ -116,9 +116,19 @@ class ColorController extends Controller
 	public function groupAdd(){
 		$id = $_SESSION['user']->id;
 		if($id && $_SERVER["REQUEST_METHOD"] == "POST"){
-			$groupname=isset($POST['groupname']) ? $POST['groupname'] : "";
+			$groupname=isset($_POST['groupname']) ? $_POST['groupname'] : "";
 			$result=Color::AddCgroup($id,$groupname);
 			echo json_encode($result);
 		}
+	}
+
+	public function userCgroup($user_id){
+		$result=Color::getuserCgroup($user_id);
+		echo json_encode($result);
+	}
+
+	public function groupcolor($group_id){
+		$result=Color::gcolor($group_id);
+		echo json_encode($result);
 	}
 }
