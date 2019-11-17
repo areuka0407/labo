@@ -2,7 +2,7 @@ class Tags {
     constructor(selector){
         this.tagList = [];
 
-        this.elemBox = document.querySelector(selector);
+        this.elemBox = typeof selector === "string" ? document.querySelector(selector) : selector;
         this.elemInput = this.elemBox.querySelector(".input");
         this.elemOutput = this.elemBox.querySelector(".output");
         

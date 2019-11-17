@@ -15,10 +15,17 @@ class ColorPicker {
         this.checkRequireOption(options);
 
 
+        this.login = null;
         this.optionTab = document.querySelector(options.option);    // 색상 선택 탭
         this.contentsBox = document.querySelector(".contents")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
-        this.keyseach = new Keysearch("#tag-box .input");           // 연관 검색창
-        this.colorForm = document.querySelector("#color-form");     // 데이터 입력창
+        this.colorForm = document.querySelector("#color-form");     // 데이터 입력창        
+        if(this.colorForm){
+            this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
+            this.keysearch = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
+            this.getColorGroups().then( groups => {
+                // 그룹을 추가하는 로직 추가
+            });
+        }
 
 
         // 색상 선택기
@@ -57,8 +64,36 @@ class ColorPicker {
 
     eventTrigger(){
         //Login Events
-        window.addEventListener("login", () => this.contentsBox.append(this.colorForm));
-        window.addEventListener("logout", () => this.colorForm.remove())
+        window.addEventListener("login", () => {
+            if(!this.colorForm) {
+                let html = `<div id="color-form">
+                                <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
+                                <div id="group-box">
+                                    <select id="myGroups"></select>
+                                </div>
+                                <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
+                                <div id="tag-box">
+                                    <div class="input-box">
+                                        <span class="prefix">#</span>
+                                        <input type="text" class="output" hidden>
+                                        <input type="text" class="input" placeholder="봄_느낌">    
+                                    </div>
+                                </div>
+                                <button id="submit">저장하기</button>
+                            </div>`;
+                let box = document.createElement("div");
+                box.innerHTML = html;
+                this.colorForm = box.firstChild;   
+
+                this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
+                this.keyseach = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
+            }
+            this.contentsBox.append(this.colorForm);
+            
+        });
+        window.addEventListener("logout", () => {
+            this.colorForm.remove();
+        });
 
 
         // Window Mouse Events
@@ -170,5 +205,22 @@ class ColorPicker {
         let keyList = Object.keys(options);
         let checkRequire = ColorPicker.REQUIRE_LIST.reduce((p, c) => p && (keyList.indexOf(c) >= 0), true);
         if(!checkRequire) throw Error(`필수 설정 항목이 포함되어 있지 않습니다.\n필수 지정 항목: ${ColorPicker.REQUIRE_LIST.join(", ")}`);
+    }
+
+
+    getColorGroups(){
+        return new Promise( allResolve => {
+            new Promise( res =>{
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", `/users/session`);
+                xhr.send();
+                xhr.onload = () => res(JSON.parse(xhr.responseText));
+            }).then( data => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", `/api/users/${data.user_id}/groups`);
+                xhr.send();
+                xhr.onload = () => allResolve(JSON.parse(xhr.responseText));
+            });
+        });
     }
 }

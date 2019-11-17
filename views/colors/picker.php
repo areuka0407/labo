@@ -28,21 +28,23 @@
         </div>
     </div>
     <div id="colorPicker"></div>
-    <div id="color-form">
-        <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
-        <div id="group-box">
-            <select id="myGroups"></select>
-        </div>
-        <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
-        <div id="tag-box">
-            <div class="input-box">
-                <span class="prefix">#</span>
-                <input type="text" class="output" hidden>
-                <input type="text" class="input" placeholder="봄_느낌">    
+    <?php if(user()):?>
+        <div id="color-form">
+            <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
+            <div id="group-box">
+                <select id="myGroups"></select>
             </div>
+            <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
+            <div id="tag-box">
+                <div class="input-box">
+                    <span class="prefix">#</span>
+                    <input type="text" class="output" hidden>
+                    <input type="text" class="input" placeholder="봄_느낌">    
+                </div>
+            </div>
+            <button id="submit">저장하기</button>
         </div>
-        <button id="submit">저장하기</button>
-    </div>
+    <?php endif;?>
 </div>
 <div class="container">
     <ul>
@@ -170,7 +172,6 @@
             option: ".option-tab"
         };
         const app = new ColorPicker(option);
-        const tags = new Tags("#tag-box");
     }
 </script>
 <!--/contents-->
