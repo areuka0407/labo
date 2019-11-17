@@ -120,10 +120,10 @@ class Color {
 		return $result;
 	}
 
-	// user의 colorgroup가져오기
+	// user의 colorgroup가져오기 * 수정: users.id 가 아니라 users.user_id 로 검색하도록 수정
 	static function getuserCgroup($user_id){
 		if($user_id){
-			$group=DB::fetchAll("SELECT id,name FROM colorgroups WHERE owner_id = ?",[$user_id]);
+			$group=DB::fetchAll("SELECT C.id, C.name FROM colorgroups C LEFT JOIN users U ON U.id = C.owner_id WHERE U.user_id = ?", [$user_id]);
 			return $group;
 		}
 	}
@@ -131,7 +131,7 @@ class Color {
 	// group_id에 해당하는 color 가져오기
 	static function gcolor($group_id){
 		if($group_id){
-			$result=DB::fetchAll("SELECT * FROM colors WHERE group_id = ?",$group_id);
+			$result = DB::fetchAll("SELECT * FROM colors WHERE group_id = ?", [$group_id]);
 			return $result;
 		}
 	}

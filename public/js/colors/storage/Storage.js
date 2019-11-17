@@ -1,7 +1,25 @@
 class Storage {
     constructor(){
         this.colorList = [];
-        
+        this.user_id = location.pathname.split("/").pop();
+    
+        new Promise( res => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/users/"+ this.user_id +"/groups");
+            xhr.send();
+            xhr.onload = () => res(JSON.parse(xhr.responseText));
+        }).then(data => {
+            this.colorList = data;
+            this.colorList.forEach( group => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "/api/groups/"+group.id+"/colors");
+                xhr.send();
+                xhr.onload = () => {
+                    let colors = JSON.parse(xhr.responseText);
+                    console.log(colors);
+                };
+            });
+        });
 
         this.eventTrigger();
     }

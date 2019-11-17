@@ -33,6 +33,7 @@ include ROUTE.DS."web.php";
 include_once HELPERS.DS."random.php";
 include_once HELPERS.DS."move.php";
 include_once HELPERS.DS."debug.php";
+include_once HELPERS.DS."session.php";
 
 /**
  * Route

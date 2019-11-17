@@ -5,6 +5,13 @@ namespace Areuka\Model;
 use Areuka\Engine\DB;
 
 class User{
+    static function find($id){
+        return DB::fetch("SELECT * FROM users WHERE id = ?", [$id]);    
+    }
+
+    static function getByUserId($user_id){
+        return DB::fetch("SELECT * FROM users WHERE user_id = ?", [$user_id]);
+    }
 
 	// 회원가입 function (POST)
 	static function userjoin($id,$name,$pw,$Y_M_D,$Gender,$login_check){

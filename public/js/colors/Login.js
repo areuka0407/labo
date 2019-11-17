@@ -4,6 +4,8 @@ class Login {
         this.logout = new Event("logout");
 
         this.userdata = null;
+    
+        // Nav 구성 요소들
         this.elemNav = document.querySelector(".nav.right");
         this.elemLoginBtn = this.create(`<li class="btn-login"><a href="#" data-tooltip-text="로그인">로그인</a></li>`);
         this.elemJoinBtn = this.create(`<li class="btn-join"><a href="/join/agree" data-tooltip-text="회원가입">회원가입</a></li>`);
@@ -30,8 +32,9 @@ class Login {
                                                 </div>
                                             </div>
                                         </div>`);
-
             
+
+        // 이벤트 연결
         this.eventTrigger();
     }
 

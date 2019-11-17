@@ -14,6 +14,14 @@ class ColorPicker {
     constructor(options){
         this.checkRequireOption(options);
 
+
+        this.optionTab = document.querySelector(options.option);    // 색상 선택 탭
+        this.contentsBox = document.querySelector(".contents")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
+        this.keyseach = new Keysearch("#tag-box .input");           // 연관 검색창
+        this.colorForm = document.querySelector("#color-form");     // 데이터 입력창
+
+
+        // 색상 선택기
         ColorPicker.origin = document.querySelector(options.picker);
         ColorPicker.origin.style.zIndex = 1000;
 
@@ -44,14 +52,14 @@ class ColorPicker {
             this.cursorList[this.active].elem.classList.add("active");
         });
 
-        this.optionTab = document.querySelector(options.option);
-    
-        this.keyseach = new Keysearch("#tag-box .input");
-
-       this.eventTrigger();
+        this.eventTrigger();
     }
 
     eventTrigger(){
+        //Login Events
+        window.addEventListener("login", () => this.contentsBox.append(this.colorForm));
+        window.addEventListener("logout", () => this.colorForm.remove())
+
 
         // Window Mouse Events
         this.mouseDown = false;

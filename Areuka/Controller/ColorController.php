@@ -2,6 +2,7 @@
 
 namespace Areuka\Controller;
 
+use Areuka\Model\User;
 use Areuka\Model\Color;
 use Areuka\Engine\DB;
 
@@ -9,8 +10,10 @@ use Areuka\Engine\DB;
 class ColorController extends Controller
 {
 	// 색 조합 페이지
-	public function colorPickerPage(){
-		return $this->view("colors.picker", [], "colors.structure");
+	public function pickerPage(){
+		$groups = [];
+		if(user()) $groups = Color::getuserCgroup(user()->user_id);
+		return $this->view("colors.picker", ["groups" => $groups], "colors.structure");
 	}
 
 	// 색 검색 페이지
@@ -20,15 +23,9 @@ class ColorController extends Controller
 
 	// 색 보관 페이지
 	public function storagePage($user_id){
-		$owner = DB::fetch("SELECT * FROM users WHERE user_id = ?", [$user_id]);
-
-		if(!$owner) CommonController::page_not_found();
+		$owner = User::getByUserId($user_id);
+		if(!$owner) return CommonController::page_not_found();
 		return $this->view("colors.storage", ['owner' => $owner], "colors.structure");
-	}
-
-	// 이름으로 그룹으로 이뤄진 색상 리스트 가져오기
-	public function getColorGroupsByOwnerId($owner_id){
-		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
 
 	public function getTags(){

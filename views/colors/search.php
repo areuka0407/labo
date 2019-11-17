@@ -1,5 +1,7 @@
 <!--head-->
 <link rel="stylesheet" href="/css/colors/search.css">
+<link rel="stylesheet" href="/css/colors/keysearch.css">
+<script src="/js/colors/Keysearch.js" type="text/javascript"></script>
 <script src="/js/colors/search/Search.js" type="text/javascript"></script>
 <script src="/js/colors/Color.js" type="text/javascript"></script>
 <!--/head-->

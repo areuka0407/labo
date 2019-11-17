@@ -17,7 +17,6 @@ class Search {
             xhr.send();
             xhr.onload = () => res(xhr.responseText);
         }).then(data => {
-            console.log(data);
             JSON.parse(data).forEach(x => {
                 let cnew = this.templateColor(x);
                 cnew.tags.forEach(tag => {     
@@ -31,6 +30,8 @@ class Search {
             const tagBox = document.querySelector("#tag-box");
             tagBox.innerHTML = '';
             this.tagList.forEach(tag => tagBox.append(this.templateTag(tag)));
+            
+            this.keysearch = new Keysearch("#search-bar");
 
             this.init();
             this.eventTrigger();

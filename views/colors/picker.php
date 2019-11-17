@@ -1,5 +1,6 @@
 <!--head-->
 <link rel="stylesheet" href="/css/colors/picker.css">
+<link rel="stylesheet" href="/css/colors/keysearch.css">
 <script src="/js/colors/Keysearch.js" type="text/javascript"></script>
 <script src="/js/colors/picker/Viewer.js" type="text/javascript"></script>
 <script src="/js/colors/picker/Canvas.js" type="text/javascript"></script>
@@ -27,18 +28,21 @@
         </div>
     </div>
     <div id="colorPicker"></div>
-
-    <p class="help-message">
-        자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!
-    </p>
-    <div id="tag-box">
-        <div class="input-box">
-            <span class="prefix">#</span>
-            <input type="text" class="output" hidden>
-            <input type="text" class="input" placeholder="봄_느낌">    
+    <div id="color-form">
+        <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
+        <div id="group-box">
+            <select id="myGroups"></select>
         </div>
+        <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
+        <div id="tag-box">
+            <div class="input-box">
+                <span class="prefix">#</span>
+                <input type="text" class="output" hidden>
+                <input type="text" class="input" placeholder="봄_느낌">    
+            </div>
+        </div>
+        <button id="submit">저장하기</button>
     </div>
-    <button id="submit">저장하기</button>
 </div>
 <div class="container">
     <ul>
