@@ -78,6 +78,16 @@ class Tags {
     }
 
 
+    lock(){
+        this.elemInput.style.pointerEvents = "none";
+        this.elemBox.classList.add("disabled");
+    }
+    unlock(){
+        this.elemInput.style.pointerEvents = "all";
+        this.elemBox.classList.remove("disabled");
+    }
+
+
     createTag(value){
         // Create
         let elem = document.createElement("div");

@@ -29,4 +29,8 @@
             $condition = implode($condition);
             return self::fetchAll("SELECT * FROM {$table} WHERE {$condition}");
         }
+
+        public static function lastInsertId(){
+            return DB::$database->lastInsertId();
+        }
     }

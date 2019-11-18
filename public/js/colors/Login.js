@@ -1,8 +1,16 @@
 class Login {
-    constructor(){
-        this.login = new Event("login");
-        this.logout = new Event("logout");
+    static login = null;
+    static logout = null;
+    static open = null;
+    static request = null;
 
+    constructor(){
+        Login.login = new Event("login");
+        Login.logout = new Event("logout");
+        Login.open = new Event("loginopen");
+        Login.request = new Event("loginrequest");
+
+        this.responseEvent = new CustomEvent("loginresponse", {detail: this.responseDetail()});
         this.userdata = null;
     
         // Nav 구성 요소들
@@ -77,7 +85,16 @@ class Login {
         return box.firstChild;
     }
 
+    responseDetail(){
+        return { data: this.userdata};
+    }
+
     eventTrigger(){
+        window.addEventListener("loginopen", () => {
+            document.body.append(this.elemLoginArea);
+            $(this.elemLoginArea).fadeIn(500);
+        });
+
         // Nav의 유저명을 클릭하면 해당 유저의 보관함으로 이동함
         this.elemUName.addEventListener("click", e => {
             e.preventDefault();
@@ -115,7 +132,7 @@ class Login {
             xhr.onload = () => {
                 let res = JSON.parse(xhr.responseText);
                 if(res) {
-                    window.dispatchEvent(this.login);
+                    window.dispatchEvent(Login.login);
                     $(this.elemLoginArea).fadeOut(500, () => this.elemLoginArea.remove());
                     this.init();
                 }
@@ -135,7 +152,7 @@ class Login {
             xhr.open("POST", "/users/logout");
             xhr.send();
             xhr.onload = () => {
-                window.dispatchEvent(this.logout);
+                window.dispatchEvent(Login.logout);
                 this.init();
             }
         });

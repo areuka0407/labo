@@ -70,7 +70,7 @@ class Alert {
                         </div>
                         <div class="contents w-100 pt-3 pl-3 pr-3">
                             <h3>${message}</h3>
-                            <input type="text" id="prompt-output">
+                            <input type="text" id="prompt-output" placeholder="이곳에 내용을 입력하세요!">
                         </div>
                         <div class="btn-group w-100 mt-2 flex">
                             <button class="btn-apply">${applyText}</button>

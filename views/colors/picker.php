@@ -28,23 +28,29 @@
         </div>
     </div>
     <div id="colorPicker"></div>
-    <?php if(user()):?>
-        <div id="color-form">
-            <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
-            <div id="group-box">
-                <select id="myGroups"></select>
+    <div id="color-form">
+        <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
+        <div id="group-box">
+            <select id="myGroups"<?=!user() ? " disabled" : ""?>></select>
+        </div>
+        <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
+        <div id="tag-box"<?=!user() ? " class='disabled'" : ""?>>
+            <div class="input-box">
+                <span class="prefix">#</span>
+                <input type="text" class="output" hidden>
+                <input type="text" class="input" placeholder="봄_느낌">    
             </div>
-            <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
-            <div id="tag-box">
-                <div class="input-box">
-                    <span class="prefix">#</span>
-                    <input type="text" class="output" hidden>
-                    <input type="text" class="input" placeholder="봄_느낌">    
-                </div>
-            </div>
+        </div>
+        <div class="save-help<?=user() ? "" : " hidden"?>">
+            <div class="help-message">저장한 목록은 <span class="text-accent">보관함</span>에서 확인하세요!</div>
             <button id="submit">저장하기</button>
         </div>
-    <?php endif;?>
+        <div class="guest-help<?=!user() ? "" : " hidden"?>">
+            <p class="help-message">이미 계정이 있으신가요? <span class="text-accent">로그인하기</span></p>
+            <a href="/join/agree" class="join-btn">가입후 저장</a>
+        </div>
+    </div>
+    
 </div>
 <div class="container">
     <ul>

@@ -1,6 +1,7 @@
 class Keysearch {
     static default = 1;
     static multiple = 2;
+    static withoutPrefix = 3;
 
     constructor(target, type = Keysearch.default, callback = null){
         if(typeof target === "string") target = document.querySelector(target);
@@ -25,14 +26,14 @@ class Keysearch {
     }
 
     getValue(){
-        if(Keysearch.default === this.type) return this.target.value;
-        else if(Keysearch.multiple === this.type) return this.target.value.split(" ").pop();
+        if(Keysearch.multiple === this.type) return this.target.value.split(" ").pop();
+        else return this.target.value;
     }
 
     setValue(result){
         if(Keysearch.default === this.type) this.target.value = result;
         else if(Keysearch.multiple === this.type) this.target.value = this.target.value.split(" ").slice(0, -1).join(" ") + " " + result;
-        
+        else if(Keysearch.withoutPrefix === this.type) this.target.value = result.substr(1);
     }
 
     loadKeyword(){

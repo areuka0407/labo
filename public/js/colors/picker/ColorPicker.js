@@ -13,25 +13,57 @@ class ColorPicker {
      */
     constructor(options){
         this.checkRequireOption(options);
+        
+        this.userdata = null;
+        new Promise( res => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/users/session");
+            xhr.send();
+            xhr.onload = () => res(JSON.parse(xhr.responseText));
+            xhr.onerror = () => Alert.on("로그인 정보를 불러오지 못했어요….", Alert.error);
+        }).then( data => {
+            this.userdata = data;    
 
-
-        this.login = null;
-        this.optionTab = document.querySelector(options.option);    // 색상 선택 탭
-        this.contentsBox = document.querySelector(".contents")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
-        this.colorForm = document.querySelector("#color-form");     // 데이터 입력창        
-        if(this.colorForm){
+            this.optionTab = document.querySelector(options.option);    // 색상 선택 탭
+            this.contentsBox = document.querySelector(".contents")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
+            this.colorForm = document.querySelector("#color-form");     // 데이터 입력창        
+            this.groupSelect = this.colorForm.querySelector("#myGroups");
+            this.saveHelp = this.colorForm.querySelector(".save-help");
+            this.guestHelp = document.querySelector(".guest-help");
+            
             this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
-            this.keysearch = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
-            this.getColorGroups().then( groups => {
-                groups.forEach(group => {
-                    let elem = document.createElement("option");
-                    elem.value = group.id;
-                    elem.innerText = group.name
-                    
-                    this.colorForm.querySelector("#myGroups").append(elem);
+            this.keysearch = new Keysearch(this.colorForm.querySelector("#tag-box .input"), Keysearch.withoutPrefix); // 연관 검색창
+
+            if(this.userdata){
+                this.guestHelp.remove();
+                this.contentsBox.append(this.saveHelp);
+
+                this.tags.unlock();
+                this.groupSelect.disabled = false;
+                this.groupSelect.innerHTML = "";
+                this.getColorGroups().then( groups => {
+                    groups.forEach(group => {
+                        let elem = document.createElement("option");
+                        elem.value = group.id;
+                        elem.innerText = group.name
+                        
+                        this.groupSelect.append(elem);
+                    });
                 });
-            });
-        }
+            }
+            else {
+                this.saveHelp.remove();
+                this.contentsBox.append(this.guestHelp);
+
+                this.tags.lock();
+                this.groupSelect.disabled = true;
+                this.groupSelect.innerHTML = "";
+            }
+
+            this.saveHelp.classList.remove("hidden");
+            this.guestHelp.classList.remove("hidden");
+        });
+        
 
 
         // 색상 선택기
@@ -71,45 +103,29 @@ class ColorPicker {
     eventTrigger(){
         //Login Events
         window.addEventListener("login", () => {
-            if(!this.colorForm) {
-                let html = `<div id="color-form">
-                                <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
-                                <div id="group-box">
-                                    <select id="myGroups"></select>
-                                </div>
-                                <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
-                                <div id="tag-box">
-                                    <div class="input-box">
-                                        <span class="prefix">#</span>
-                                        <input type="text" class="output" hidden>
-                                        <input type="text" class="input" placeholder="봄_느낌">    
-                                    </div>
-                                </div>
-                                <button id="submit">저장하기</button>
-                            </div>`;
-                let box = document.createElement("div");
-                box.innerHTML = html;
-                this.colorForm = box.firstChild;   
-                this.contentsBox.append(this.colorForm);
-                
-                this.getColorGroups().then( groups => {
-                    groups.forEach(group => {
-                        let elem = document.createElement("option");
-                        elem.value = group.id;
-                        elem.innerText = group.name
-                        
-                        this.colorForm.querySelector("#myGroups").append(elem);
-                    });
-                });
+            this.guestHelp.remove();
+            this.contentsBox.append(this.saveHelp);
 
-                this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
-                this.keyseach = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
-            }
-            else this.contentsBox.append(this.colorForm);
-            
+            this.tags.unlock();
+            this.groupSelect.disabled = false;
+            this.groupSelect.innerHTML = "";
+            this.getColorGroups().then( groups => {
+                groups.forEach(group => {
+                    let elem = document.createElement("option");
+                    elem.value = group.id;
+                    elem.innerText = group.name
+                    
+                    this.groupSelect.append(elem);
+                });
+            });
         });
         window.addEventListener("logout", () => {
-            this.colorForm.remove();
+            this.saveHelp.remove();
+            this.contentsBox.append(this.guestHelp);
+
+            this.tags.lock();
+            this.groupSelect.disabled = true;
+            this.groupSelect.innerHTML = "";
         });
 
 

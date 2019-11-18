@@ -112,10 +112,11 @@ class Color {
 	}
 
 	// colorgroup 추가하는 function(POST)
-	static function AddCgroup($id,$name){
-		if($id&&$name){
-			DB::query("INSERT INTO colorgroups(owner_id,name) VALUES (?,?)",[$id,$name]);
-			$result="colorgroup add";
+	static function AddCgroup($owner_id,$name){
+		if($owner_id && $name){
+			$c_max = DB::fetch("SELECT IFNULL(MAX(idx), 0) AS max FROM colorgroups WHERE owner_id = ? GROUP BY owner_id", [$owner_id])->max;
+			DB::query("INSERT INTO colorgroups(owner_id, name, idx) VALUES (?,?,?)",[$owner_id, $name, $c_max + 1]);
+			$result = DB::fetch("SELECT * FROM colorgroups WHERE id = ?", [DB::lastInsertId()]);
 		}else $result="colorgroup not add";
 		return $result;
 	}
@@ -123,7 +124,7 @@ class Color {
 	// user의 colorgroup가져오기 * 수정: users.id 가 아니라 users.user_id 로 검색하도록 수정
 	static function getuserCgroup($user_id){
 		if($user_id){
-			$group=DB::fetchAll("SELECT C.id, C.name FROM colorgroups C LEFT JOIN users U ON U.id = C.owner_id WHERE U.user_id = ?", [$user_id]);
+			$group=DB::fetchAll("SELECT C.id, C.name, C.idx FROM colorgroups C LEFT JOIN users U ON U.id = C.owner_id WHERE U.user_id = ? ORDER BY C.idx", [$user_id]);
 			return $group;
 		}
 	}
@@ -161,7 +162,7 @@ class Color {
 		if($group_id){
 			$owner=DB::fetch("SELECT owner_id FROM colorgroups WHERE id = ?",[$group_id]);
 			$result="user not match";
-			$owner=(int)$owner->owner_id;
+			$owner=(int)($owner->owner_id);
 			if($owner == $_SESSION['user']->id){
 				DB::query("DELETE FROM colorgroups WHERE id = ?",[$group_id]);
 				$result="del group";

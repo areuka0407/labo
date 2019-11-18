@@ -5,19 +5,47 @@ class Storage {
         this.wrap = document.querySelector("#wrap");
     
         
-        this.loading().then(() => { // 색상 그룹, 색상 모두 불러오기 완료
-            this.colorList.forEach(group => {
-                group.elem = this.template(group);
-                this.wrap.append(group.elem);
-            });
-        });
+        this.loading();
+        this.eventTrigger();
+    }
+
+    eventTrigger(){
+        const addGroupBtn = document.querySelector("#user-profile .group-add");
+        addGroupBtn.addEventListener("click", () => {
+            let callback = name => {
+                let form = new FormData();
+                form.append("groupname", name);
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/api/groups");
+                xhr.send(form);
+                
+                xhr.onload = () => {
+                    let result = JSON.parse(xhr.responseText);
+                    if(result === "colorgroup not add") return Alert.on("<h3>서버에서 오류가 발생했어요!</h3><br>고객센터에서 관리자에게 문의해 주세요!");
+                    else {
+                        Alert.on("<h3>새로운 그룹이 추가되었어요!</h3>");
+
+                        let group = result;
+                        group.elem = this.template(group);
+                        this.colorList.push(group);
+                        this.wrap.append(group.elem);
+                    }
+                };
+            };
+
+            Alert.prompt("새 그룹의 이름을 정해주세요!", callback, "이걸로 할래요!", "조금만 시간을 주세요…!");
+        })
     }
 
     async loading(){
         this.colorList = await this.loadGroupData();
-        await this.loadColorData();
+        for(let group of this.colorList){
+            await this.loadColorData(group);
+            group.elem = this.template(group);
+            this.wrap.append(group.elem);
+        }
     }
-
     loadGroupData(){
         return new Promise( res => {
             let xhr = new XMLHttpRequest();
@@ -26,23 +54,22 @@ class Storage {
             xhr.onload = () => res(JSON.parse(xhr.responseText));
         })
     }
+    loadColorData(group){
+        return new Promise(res => {
+            if(!group) return res();
 
-    loadColorData(){
-        return new Promise( res => {
-            this.colorList.forEach((group, idx) => {
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", "/api/groups/"+group.id+"/colors");
-                xhr.send();
-                xhr.onload = () => {
-                    let colors = JSON.parse(xhr.responseText);;
-                    colors = colors.map(data => {
-                        data.tags = data.tag !== "" ? data.tag.split(" ") : [];
-                        return data;
-                    });
-                    group.data = colors;
-                    if(idx === this.colorList.length - 1) res();
-                }
-            });
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/groups/"+group.id+"/colors");
+            xhr.send();
+            xhr.onload = () => {
+                let colors = JSON.parse(xhr.responseText);;
+                colors = colors.map(data => {
+                    data.tags = data.tag !== "" ? data.tag.split(" ") : [];
+                    return data;
+                });
+                group.data = colors;
+                res();
+            }
         });
     }
 
@@ -53,6 +80,7 @@ class Storage {
     }
 
     template(group){
+        group.data = !group.data ? [] : group.data;
         /* 템플릿에 맞추어서 그룹 요소를 생성한다 */
         let template = `<section>
                             <div class="section-head">
@@ -66,7 +94,7 @@ class Storage {
                                     </button>
                                 </div>
                             </div>
-                            <article>`
+                            <article>`;
         group.data.slice(0, 5).forEach(color => {
             template += `<div class="item">
                             <div class="colors">
@@ -131,8 +159,22 @@ class Storage {
 
         // 그룹 삭제
         elem.querySelector("button.group-remove").addEventListener("click", e => {
-            let callback = function(){
-                alert("와! 삭제됐다!");
+            let callback = () => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("DELETE", "/api/groups/" + group.id);
+                xhr.send();
+                xhr.onload = () => {
+                    let result = JSON.parse(xhr.responseText);
+
+                    if(result === "del group") {
+                        Alert.on("그룹이 삭제되었어요!");
+                        group.elem.remove();
+                        let idx = this.colorList.findIndex(x => x === group);
+                        this.colorList.splice(idx, 1);
+                    }
+                    else if(result === "user not match") return Alert.on("이 그룹을 삭제할 권한이 없어요!<br><small>도대체 누구야!</small>");
+                    else return Alert.on("알 수 없는 오류로 실패했어요….<br><small>관리자에게 문의해 보세요!</small>", Alert.error);
+                };
             };
             Alert.confirm("정말 삭제하시겠습니까?", "그룹에 등록된 모든 색상이 삭제될 거에요!<br>신중하게 선택해 주세요!", callback, "네, 삭제할게요.", "아니 잠깐만요!")
         });

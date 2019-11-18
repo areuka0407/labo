@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!--@head-->
     <!--#common-->
     <link rel="stylesheet" href="/css/colors/general.css">
     <script src="/js/colors/Login.js" type="text/javascript"></script>
+    <!--@head-->
 </head>
 <body>
 <div class="wrapper">
