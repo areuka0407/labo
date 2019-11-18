@@ -25,6 +25,8 @@ include "permission.php";
 
   Route::set("GET","/api/users/{user_id}/groups","ColorController@userCgroup","All");
   Route::set("GET","/api/groups/{group_id}/colors","ColorController@groupcolor","All");
+  Route::set("PUT","/api/groups/{group_id}","ColorController@groupNameChange","User");
+  Route::set("DELETE","/api/groups/{group_id}","ColorController@colorgroupDel","User");
 
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지

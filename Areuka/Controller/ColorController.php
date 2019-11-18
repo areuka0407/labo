@@ -135,4 +135,20 @@ class ColorController extends Controller
 		$result=Color::gcolor($group_id);
 		echo json_encode($result);
 	}
+
+	public function groupNameChange($group_id){
+		$putData = file_get_contents("php://input");
+		$inputData=array();
+		parse_str($putData,$inputData);
+		if(isset($_SESSION['user'])){
+			$new_name = isset($inputData['name']) ? $inputData['name'] : "";
+			$result=Color::gNameUpdate($group_id,$new_name);
+			echo json_encode($result);
+		}
+	}
+
+	public function colorgroupDel($group_id){
+		if(isset($_SESSION['user'])) $result = Color::cgroupDel($group_id);
+		echo json_encode($result);
+	}
 }
