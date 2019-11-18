@@ -135,4 +135,39 @@ class Color {
 			return $result;
 		}
 	}
+
+	// color group 이름 수정
+	static function gNameUpdate($group_id,$new_name){
+		$result="";
+		$group_id=(int)$group_id;
+		if($group_id && $new_name != ""){
+			//group_id의 owner_id와 name를 가져옴
+			$owner=DB::fetch("SELECT owner_id,name FROM colorgroups WHERE id = ?",[$group_id]);
+			$name=$owner->name;
+			$owner=(int)$owner->owner_id;
+			$result="user not match";
+			//group_id가 세션 유저와 같고 변경할 이름이 원래이름과 다른가?
+			if($owner == $_SESSION['user']->id && $new_name !== $name){
+				DB::query("UPDATE colorgroups SET name = ? WHERE id = ?",[$new_name,$group_id]);
+				$result="name change";
+			}else $result = "name not change";
+		}
+		return $result;
+	}
+
+	// color group 삭제 (DELETE)
+	static function cgroupDel($group_id){
+		$result = "";
+		if($group_id){
+			$owner=DB::fetch("SELECT owner_id FROM colorgroups WHERE id = ?",[$group_id]);
+			$result="user not match";
+			$owner=(int)$owner->owner_id;
+			if($owner == $_SESSION['user']->id){
+				DB::query("DELETE FROM colorgroups WHERE id = ?",[$group_id]);
+				$result="del group";
+			}else $result = "group not del";
+		}
+		return $result;
+	}
+
 }

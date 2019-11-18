@@ -107,8 +107,24 @@ class Storage {
         // 그룹명 수정
         elem.querySelector("button.group-edit").addEventListener("click", e => {
             let callback = function(new_name){
+                let data  = { name: new_name };
+
                 let xhr = new XMLHttpRequest();
-                xhr.open("GET", "/");
+                xhr.open("PUT", "/api/groups/" + group.id);
+                xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+                xhr.send(JSON.stringify(data));
+
+                xhr.onload = () => {
+                    let result = JSON.parse(xhr.responseText);
+                    
+                    if(result === "name change") {
+                        Alert.on("그룹명이 새롭게 바뀌었어요!");
+                        elem.querySelector(".section-head > h3").innerText = new_name;
+                    }
+                    else if(result === "name not change") return Alert.on("똑같은 그룹명을 입력하셨어요!", Alert.error);
+                    else if(result === "user not match") return Alert.on("이 그룹명을 수정할 권한이 없어요!<br><small>도대체 누구야!</small>", Alert.error);
+                    else return Alert.on("알 수 없는 오류로 실패했어요….<br><small>관리자에게 문의해 보세요!</small>", Alert.error);
+                };
             };
             Alert.prompt("새로운 그룹명을 입력해 주세요!", callback, "수정 완료!", "더 고민해 볼래!"); 
         });

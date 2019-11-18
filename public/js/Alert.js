@@ -6,25 +6,7 @@ class Alert {
     static create(message){
         let elem = document.createElement("div");
         elem.classList.add("alert-message")
-        elem.innerText = message;
-        
-        let style = {
-            position: "fixed",
-            top: "50px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            // backgroundColor: "#EE4949",
-            color: "#ffffff",
-            borderRadius: "10px",
-            display: "inline",
-            padding: "10px 20px",
-            textAlign: "center",
-            transition: "top 5s, opacity 1s",
-            fontWeight: "bold",
-            fontSize: "1.2em",
-            zIndex: "100000"
-        };
-        Style.setStyle(elem, style);
+        elem.innerHTML = message;
         return elem;
     }
 

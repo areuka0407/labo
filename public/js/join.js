@@ -172,6 +172,7 @@ window.onload = function(){
             if(login.length!=0){
                 //입력된 아이디가 정규표현식에 맞는가?
                 let reg_name=/^[a-zA-Z0-9]{1,}$/;
+                console.log((reg_name.test(login)),error_name_regex);
                 if(!(reg_name.test(login))){
                     if(error_name_regex){
                         error("nickname_error_regex","아이디는 영문자나 숫자가 포함되어야 합니다.");
@@ -190,6 +191,7 @@ window.onload = function(){
                     }else $(".id_error").remove();
                 }
             }else{
+                error_name_regex=1;
                 $(".nickname_error_regex").remove();
                 $(".id_error").remove();
             }
