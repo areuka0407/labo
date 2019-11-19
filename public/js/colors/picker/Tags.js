@@ -2,6 +2,7 @@ class Tags {
     constructor(selector){
         this.tagList = [];
 
+        this.disabled = false;
         this.elemBox = typeof selector === "string" ? document.querySelector(selector) : selector;
         this.elemInput = this.elemBox.querySelector(".input");
         this.elemOutput = this.elemBox.querySelector(".output");
@@ -79,10 +80,12 @@ class Tags {
 
 
     lock(){
+        this.disabled = true;
         this.elemInput.style.pointerEvents = "none";
         this.elemBox.classList.add("disabled");
     }
     unlock(){
+        this.disabled = false;
         this.elemInput.style.pointerEvents = "all";
         this.elemBox.classList.remove("disabled");
     }

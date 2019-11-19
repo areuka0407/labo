@@ -1,7 +1,7 @@
 class Cursor {
 
-	static width = 25;
-	static height= 25;
+	static width = 35;
+	static height= 35;
 
 	/**
 	 *
@@ -40,7 +40,7 @@ class Cursor {
 		
 		styles = {
 			width: "0",
-			height: "1px",
+			height: "2px",
 			position: "absolute",
 			top: `50%`,
 			left: "50%",
@@ -81,7 +81,7 @@ class Cursor {
 		let cy = y - half;
 		angle *= -1;
 
-		let width = Math.sqrt(cx * cx + cy * cy) - Cursor.width / 2;
+		let width = Math.sqrt(cx * cx + cy * cy);
 		width = width < 0 ? 0 : width;
 
 		let styles = {

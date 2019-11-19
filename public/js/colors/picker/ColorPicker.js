@@ -62,6 +62,7 @@ class ColorPicker {
 
             this.saveHelp.classList.remove("hidden");
             this.guestHelp.classList.remove("hidden");
+            this.eventTrigger();
         });
         
 
@@ -96,8 +97,6 @@ class ColorPicker {
             this.viewerList[this.active].elemBox.classList.add("active");
             this.cursorList[this.active].elem.classList.add("active");
         });
-
-        this.eventTrigger();
     }
 
     eventTrigger(){
@@ -126,6 +125,12 @@ class ColorPicker {
             this.tags.lock();
             this.groupSelect.disabled = true;
             this.groupSelect.innerHTML = "";
+        });
+
+
+        // 팔레트가 변경되면 그에 맞게 기본값 배치
+        this.optionTab.querySelectorAll("input[type='radio']").forEach(x => {
+            x.addEventListener("change", () => this.init());
         });
 
 
@@ -179,7 +184,7 @@ class ColorPicker {
 
                     /* 선택한 커서에 따라 다른 커서들이 어떻게 위치할 것인지를 결정 */
                     // 0 < > 4  |  1  < >  3  끼리 마주보게 될 것임.
-                    if(this.optionTab.querySelector("[value='1']").checked){
+                    if(this.optionTab.querySelector("#p-similar").checked){
                         let totalAngle = ((angle - centerAngle > Math.PI || centerAngle - angle > Math.PI ? angle + Math.PI * 2 : angle) - centerAngle);
 
                         if(targetId == 0){
@@ -217,6 +222,91 @@ class ColorPicker {
                             this.cursorList[3].setAngle(centerAngle + totalAngle / 2);
                         }
                     }
+                    else if(this.optionTab.querySelector("#p-simple").checked) {
+                        this.cursorList.filter((x, i) => i != targetId).forEach(x => {
+                            x.setAngle(angle);
+                        });
+                    }
+                    else if(this.optionTab.querySelector("#p-complete").checked){
+                        if(targetId == 0){
+                            this.cursorList[1].setAngle(angle);
+                            this.cursorList[2].setAngle(angle - Math.PI);
+                            this.cursorList[3].setAngle(angle - Math.PI);
+                            this.cursorList[4].setAngle(angle - Math.PI);
+                        }
+                        else if(targetId == 1){
+                            this.cursorList[0].setAngle(angle);
+                            this.cursorList[2].setAngle(angle - Math.PI);
+                            this.cursorList[3].setAngle(angle - Math.PI);
+                            this.cursorList[4].setAngle(angle - Math.PI);
+                        }
+                        else if(targetId == 2){
+                            this.cursorList[0].setAngle(angle - Math.PI);
+                            this.cursorList[1].setAngle(angle - Math.PI);
+                            this.cursorList[3].setAngle(angle);
+                            this.cursorList[4].setAngle(angle);
+                        }
+                        else if(targetId == 3){
+                            this.cursorList[0].setAngle(angle - Math.PI);
+                            this.cursorList[1].setAngle(angle - Math.PI);
+                            this.cursorList[2].setAngle(angle);
+                            this.cursorList[4].setAngle(angle);
+                        }
+                        else if(targetId == 4){
+                            this.cursorList[0].setAngle(angle - Math.PI);
+                            this.cursorList[1].setAngle(angle - Math.PI);
+                            this.cursorList[2].setAngle(angle);
+                            this.cursorList[3].setAngle(angle);
+                        }
+                    }
+                    else if(this.optionTab.querySelector("#p-little").checked){
+                        if(targetId == 1 || targetId == 2){
+                            this.cursorList.forEach((x, i) => {
+                                if( i === 0 ) x.setAngle(angle + Math.PI * 9 / 10);
+                                else if ( i === 3 || i === 4 ) x.setAngle(angle + Math.PI * 11 / 10);
+                                else x.setAngle(angle);
+                            });
+                        }
+                        else if(targetId == 0){
+                            this.cursorList.forEach((x, i) => {
+                                if( i != 0 ){
+                                    if( i == 3 || i == 4 ) x.setAngle(angle + Math.PI / 5);
+                                    else x.setAngle(angle + Math.PI * 11 / 10);
+                                }
+                            });
+                        }
+                        else {
+                            this.cursorList.forEach((x, i) => {
+                                if( i == 3 || i == 4 ) x.setAngle(angle);
+                                else if( i == 0 ) x.setAngle(angle + Math.PI * 18 / 10);
+                                else x.setAngle(angle + Math.PI * 9 / 10);
+                            });
+                        }
+                    }
+                    else if(this.optionTab.querySelector("#p-trio").checked){
+                        if(targetId == 1 || targetId == 2){
+                            this.cursorList.forEach((x, i) => {
+                                if( i === 0 ) x.setAngle(angle + Math.PI * 2 / 3);
+                                else if ( i === 3 || i === 4 ) x.setAngle(angle + Math.PI * 4 / 3);
+                                else x.setAngle(angle);
+                            });
+                        }
+                        else if(targetId == 0){
+                            this.cursorList.forEach((x, i) => {
+                                if( i != 0 ){
+                                    if( i == 3 || i == 4 ) x.setAngle(angle + Math.PI * 2 / 3);
+                                    else x.setAngle(angle + Math.PI * 4 / 3);
+                                }
+                            });
+                        }
+                        else {
+                            this.cursorList.forEach((x, i) => {
+                                if( i == 3 || i == 4 ) x.setAngle(angle);
+                                else if( i == 0 ) x.setAngle(angle + Math.PI * 4 / 3);
+                                else x.setAngle(angle + Math.PI * 2 / 3);
+                            });
+                        }
+                    }
                 }
                 else if(this.downTarget.classList.contains("b_cursor")){
                     let parent = this.downTarget.parentElement;
@@ -228,6 +318,64 @@ class ColorPicker {
                 }
             }
         });
+    }
+
+    init(){
+        const half = ColorPicker.width / 2;
+
+        if(this.optionTab.querySelector("#p-simple").checked){
+            this.cursorList.forEach((x, i) => {
+                x.length = half * (i + 1) / 5;
+                x.setAngle(0);
+            });
+        }
+        else if(this.optionTab.querySelector("#p-complete").checked){
+            this.cursorList.forEach((x, i) => {
+                if(i === 0){
+                    x.length = half * 4 / 5;
+                    x.setAngle(Math.PI);
+                }
+                else if(i === 1){
+                    x.length = half;
+                    x.setAngle(Math.PI);
+                }
+                else {
+                    x.length = half * (i + 1) / 5;
+                    x.setAngle(0);
+                }
+            });
+        }
+        else if(this.optionTab.querySelector("#p-little").checked){
+            this.cursorList[0].length = half;
+            this.cursorList[0].setAngle(Math.PI * 9 / 10);
+            this.cursorList[1].length = half * 3 / 5;
+            this.cursorList[1].setAngle(0);
+            this.cursorList[2].length = half;
+            this.cursorList[2].setAngle(0);
+            this.cursorList[3].length = half * 3 / 5;
+            this.cursorList[3].setAngle(Math.PI * 11 / 10);
+            this.cursorList[4].length = half;
+            this.cursorList[4].setAngle(Math.PI * 11 / 10);
+        }
+        else if(this.optionTab.querySelector("#p-trio").checked){
+            this.cursorList[0].length = half;
+            this.cursorList[0].setAngle(Math.PI * 2 / 3);
+            this.cursorList[1].length = half * 3 / 5;
+            this.cursorList[1].setAngle(0);
+            this.cursorList[2].length = half;
+            this.cursorList[2].setAngle(0);
+            this.cursorList[3].length = half * 3 / 5;
+            this.cursorList[3].setAngle(Math.PI * 4 / 3);
+            this.cursorList[4].length = half;
+            this.cursorList[4].setAngle(Math.PI * 4 / 3);
+        }
+        else {
+            this.cursorList.forEach((x, i) => {
+                x.length = ColorPicker.width / 2 + ( i % 2 === 1 ? -50 : 0 );
+                x.setAngle(Math.PI / 4 - Math.PI / 180 * 10 * i);
+            });
+        }
+        
     }
 
     /**
