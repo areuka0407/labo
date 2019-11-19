@@ -58,6 +58,7 @@ class Alert {
     }
 
     static prompt(message, callBack = null, applyText = "확인", cancelText = "취소"){
+        console.log("prompt");
         if(document.querySelector(".alert-message")) return;
 
         let elem = Alert.create();

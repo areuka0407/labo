@@ -4,7 +4,6 @@ namespace Areuka\Controller;
 
 use Areuka\Model\User;
 use Areuka\Model\Color;
-use Areuka\Engine\DB;
 
 
 class ColorController extends Controller
@@ -27,6 +26,16 @@ class ColorController extends Controller
 		if(!$owner) return CommonController::page_not_found();
 		return $this->view("colors.storage", ['owner' => $owner], "colors.structure");
 	}
+
+	public function groupPage($user_id, $group_id){
+		$owner = User::getByUserId($user_id);
+		if(!$owner) return CommonController::page_not_found();
+
+		$group = Color::getGroupById($owner->id);
+		dd($group);
+		return $this->view("colors.group", ['owner' => $owner], "colors.structure");
+	}
+
 
 	public function getTags(){
 		$keyword = trim($_GET['keyword']);
@@ -149,5 +158,19 @@ class ColorController extends Controller
 	public function colorgroupDel($group_id){
 		if(isset($_SESSION['user'])) $result = Color::cgroupDel($group_id);
 		echo json_encode($result);
+	}
+
+	public function Upchangeidx($group_id){
+		if($group_id){
+			$result=Color::changeIndex(1,$group_id);
+			echo json_encode($result);
+		}
+	}
+
+	public function Downchangeidx($group_id){
+		if($group_id){
+			$result=Color::changeIndex(0,$group_id);
+			echo json_encode($result);
+		}
 	}
 }

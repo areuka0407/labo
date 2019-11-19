@@ -128,6 +128,12 @@ class ColorPicker {
         });
 
 
+        // 로그인하기 버튼을 누르면 로그인 탭 등장
+        this.guestHelp.querySelector(".login-span").addEventListener("click", () => {
+            window.dispatchEvent(Login.open);
+        });
+
+
         // 팔레트가 변경되면 그에 맞게 기본값 배치
         this.optionTab.querySelectorAll("input[type='radio']").forEach(x => {
             x.addEventListener("change", () => this.init());

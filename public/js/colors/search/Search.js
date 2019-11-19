@@ -27,9 +27,14 @@ class Search {
                 this.origin.push( cnew );
             });
 
-            const tagBox = document.querySelector("#tag-box");
-            tagBox.innerHTML = '';
-            this.tagList.forEach(tag => tagBox.append(this.templateTag(tag)));
+            
+            // 태그 기본 세팅
+            this.tagBox = document.querySelector("#tag-box");
+            this.tagBox.innerHTML = '';
+            this.tagList.forEach(tag => {
+                tag.elem = this.templateTag(tag);
+                this.tagBox.append(tag.elem);
+            });
             
             this.keysearch = new Keysearch("#search-bar", Keysearch.multiple, () => this.view.apply(this) );
 
@@ -84,7 +89,6 @@ class Search {
                 else {
                     this.userdata = null;
                 }
-
     
                 this.origin.forEach( data => {
                     data.elem.querySelector(".good svg").style.fill = this.userdata !== null && this.userdata.good.includes(data.id) ? "red" : "black";
@@ -98,6 +102,27 @@ class Search {
         // 로그인 이벤트
         window.addEventListener("login", e => this.view());
         window.addEventListener("logout", e => this.view());
+
+        document.querySelector("#filter-order").addEventListener("click", e => {
+            let target = e.target;
+            while(target.id !== "filter-order") target = target.parentElement;
+
+            this.tagBox.innerHTML = "";
+            if(target.classList.contains("DESC")){
+                target.classList.remove("DESC");
+                target.classList.add("ASC");
+                this.tagList.sort((a, b) => a.list.length - b.list.length).forEach(x => {
+                    this.tagBox.append(x.elem);
+                });
+            }
+            else if(target.classList.contains("ASC")) {
+                target.classList.remove("ASC");
+                target.classList.add("DESC");
+                this.tagList.sort((a, b) => b.list.length - a.list.length).forEach(x => {
+                    this.tagBox.append(x.elem);
+                });
+            }
+        });
 
 
         // 정렬 <select> 태그를 사용하면 내용물이 정렬되어 보여진다.
