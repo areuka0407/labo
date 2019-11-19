@@ -30,7 +30,7 @@
             <button id="submit">저장하기</button>
         </div>
         <div class="guest-help<?=!user() ? "" : " hidden"?>">
-            <p class="help-message">이미 계정이 있으신가요? <span class="text-accent">로그인하기</span></p>
+            <p class="help-message">이미 계정이 있으신가요? <span class="login-span text-accent">로그인하기</span></p>
             <a href="/join/agree" class="join-btn">가입후 저장</a>
         </div>
     </div>

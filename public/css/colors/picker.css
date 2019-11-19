@@ -361,6 +361,7 @@ Option
     color: rgb(82, 79, 79);
     font-weight: 700;
     line-height: 30px;
+    cursor: pointer;
 }
 
 #option label.radio {

@@ -45,17 +45,13 @@
                 <div class="name">노랑(Yellow)</div>
                 <div class="color" style="background-color: yellow"></div>
             </div>
-            <div class="item">
-                <div class="name">파랑(Blue)</div>
-                <div class="color" style="background-color: blue"></div>
-            </div>
-            <div class="item">
-                <div class="name">청록(Cyal)</div>
-                <div class="color" style="background-color: #00ffff"></div>
-            </div>
-            <div class="item">
-                <div class="name">초록(Green)</div>
-                <div class="color" style="background-color: green"></div>
+        </div>
+        <div class="filter-area">
+            <div class="filter-title">
+                <span>태그(Tags)</span>
+                <button id="filter-order" class="DESC">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sort-down" class="svg-inline--fa fa-sort-down fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"/></svg>
+                </button>
             </div>
             <div class="item">
                 <div class="name">보라(Purple)</div>
