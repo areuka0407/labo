@@ -170,7 +170,7 @@ class Storage {
         elem.querySelector("button.group-edit").addEventListener("click", e => {
             let callback = function(new_name){
                 let data  = { name: new_name };
-                
+
                 let xhr = new XMLHttpRequest();
                 xhr.open("PUT", "/api/groups/" + group.id);
                 xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -215,9 +215,11 @@ class Storage {
 
 
         // 그룹 페이지로 이동
-        elem.querySelector(".hidden-bar").addEventListener("click", () => {
-            location.assign("/colors/storage/"+this.user_id+"/groups/"+group.id);
-        });
+        let hidden = elem.querySelector(".hidden-bar");
+        if(hidden)
+            hidden.addEventListener("click", () => {
+                location.assign("/colors/storage/"+this.user_id+"/groups/"+group.id);
+            });
 
 
         return elem;
