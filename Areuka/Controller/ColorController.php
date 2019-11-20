@@ -162,14 +162,14 @@ class ColorController extends Controller
 
 	public function Upchangeidx($group_id){
 		if($group_id){
-			$result=Color::changeIndex(1,$group_id);
+			$result=Color::changeIdx(1,$group_id);
 			echo json_encode($result);
 		}
 	}
 
 	public function Downchangeidx($group_id){
 		if($group_id){
-			$result=Color::changeIndex(0,$group_id);
+			$result=Color::changeIdx(0,$group_id);
 			echo json_encode($result);
 		}
 	}

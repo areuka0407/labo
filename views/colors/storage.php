@@ -15,7 +15,7 @@
                     <span class="user-name"><?= $owner->user_name ?></span>
                     <span class="user-id">@<?= $owner->user_id ?></span>
                 </div>
-                <div class="tool-info">
+                <div class="tool-info<?=user() ? "" : " hidden"?>">
                     <button class="group-add">
                         <svg class="gUZ B9u U9O kVc" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true" aria-label="" role="img"><path d="M22 10h-8V2a2 2 0 0 0-4 0v8H2a2 2 0 0 0 0 4h8v8a2 2 0 0 0 4 0v-8h8a2 2 0 0 0 0-4"></path></svg>
                     </button>

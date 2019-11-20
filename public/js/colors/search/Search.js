@@ -164,18 +164,21 @@ class Search {
 
         // 태그버튼을 누르면 태그가 바뀌어서 필터링된다.
         document.querySelectorAll("#tag-box > .item").forEach(x => x.addEventListener("click", e => {
-            let tagName = e.target.querySelector(".name").innerText;
+            let target = e.target;
+            while(!target.classList.contains("item")) target = target.parentElement;
+
+            let tagName = target.querySelector(".name").innerText;
 
             // 기존 필터 태그가 있다면
             if(this.filter.tags.includes(tagName)){
                 let idx = this.filter.tags.indexOf(tagName);
                 this.filter.tags.splice(idx, 1);
-                e.target.classList.remove("active");
+                target.classList.remove("active");
             }
             // 기존 필터 태그가 없다면
             else {
                 this.filter.tags.push(tagName);
-                e.target.classList.add("active");
+                target.classList.add("active");
             }
 
             this.view();

@@ -4,6 +4,9 @@ class Storage {
         this.owner_id = location.pathname.split("/").pop();
         this.wrap = document.querySelector("#wrap");
         this.userdata = null;
+
+        this.profileInfo = document.querySelector("#user-profile .info");
+        this.toolBox = document.querySelector("#user-profile .tool-info");
     
         
         this.loading();
@@ -29,6 +32,9 @@ class Storage {
 
                         let group = result;
                         group.elem = this.template(group);
+                        group.elemBtns = group.elem.querySelector(".button-group");
+                        group.elemHead = data.elem.querySelector(".section-head");
+
                         this.colorList.push(group);
                         this.wrap.append(group.elem);
                     }
@@ -53,6 +59,8 @@ class Storage {
         for(let group of this.colorList){
             await this.loadColorData(group);
             group.elem = this.template(group);
+            group.elemBtns = group.elem.querySelector(".button-group");
+            group.elemHead = group.elem.querySelector(".section-head");
             this.wrap.append(group.elem);
         }
         this.updateLogin();
@@ -96,12 +104,20 @@ class Storage {
         let template = `<section>
                             <div class="section-head">
                                 <a href="/colors/storage/${this.owner_id}/groups/${group.id}" class="name">${group.name}</a>
-                                <div class="button-group">
+                                <div class="button-group hidden">
                                     <button class="group-edit ml-2">
                                         <svg class="gUZ B9u U9O kVc" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true" aria-label="" role="img"><path d="M13.386 6.018l4.596 4.596L7.097 21.499 1 22.999l1.501-6.096L13.386 6.018zm8.662-4.066a3.248 3.248 0 0 1 0 4.596L19.75 8.848 15.154 4.25l2.298-2.299a3.248 3.248 0 0 1 4.596 0z"></path></svg>
                                     </button>
                                     <button class="group-remove ml-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eraser" class="svg-inline--fa fa-eraser fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M497.941 273.941c18.745-18.745 18.745-49.137 0-67.882l-160-160c-18.745-18.745-49.136-18.746-67.883 0l-256 256c-18.745 18.745-18.745 49.137 0 67.882l96 96A48.004 48.004 0 0 0 144 480h356c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H355.883l142.058-142.059zm-302.627-62.627l137.373 137.373L265.373 416H150.628l-80-80 124.686-124.686z"/></svg>
+                                    </button>
+                                </div>
+                                <div class="index-group">
+                                    <button class="index-up mr-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sort-down" class="svg-inline--fa fa-sort-down fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"/></svg>
+                                    </button>
+                                    <button class="index-down mr-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sort-down" class="svg-inline--fa fa-sort-down fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"/></svg>
                                     </button>
                                 </div>
                             </div>
@@ -151,6 +167,33 @@ class Storage {
 
         /* 생성된 요소에 이벤트를 건다 */
 
+
+        // 위치 바꾸기
+        elem.querySelector(".index-up").addEventListener("click", e => {
+            let current = this.colorList.findIndex(x => x === group);
+            let target = current - 1;
+            if(target < 0) return;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("PUT", `/api/groups/${group.id}/up`);
+            xhr.send();
+            xhr.onload = () => {
+                this.swap(target, current);
+            }
+        });
+
+        elem.querySelector(".index-down").addEventListener("click", e => {
+            let current = this.colorList.findIndex(x => x === group);
+            let target = current + 1;
+            let xhr = new XMLHttpRequest();
+            xhr.open("PUT", `/api/groups/${group.id}/down`);
+            xhr.send();
+            xhr.onload = () => {
+                this.swap(current, target);
+            }
+        });
+
+
         // 좋아요 누르기
         elem.querySelectorAll(".good").forEach(x => {
             x.addEventListener("click", e => {
@@ -191,7 +234,7 @@ class Storage {
                     
                     if(result === "name change") {
                         Alert.on("그룹명이 새롭게 바뀌었어요!");
-                        elem.querySelector(".section-head > h3").innerText = new_name;
+                        elem.querySelector(".section-head > .name").innerText = new_name;
                     }
                     else if(result === "name not change") return Alert.on("똑같은 그룹명을 입력하셨어요!", Alert.error);
                     else if(result === "user not match") return Alert.on("이 그룹명을 수정할 권한이 없어요!<br><small>도대체 누구야!</small>", Alert.error);
@@ -231,11 +274,22 @@ class Storage {
                 location.assign("/colors/storage/"+this.owner_id+"/groups/"+group.id);
             });
 
-
         return elem;
     }
 
-    // 로그인 확인 + 좋아요 적용
+    // 그룹의 위치를 교환
+    swap(up, down){
+        let upItem = this.colorList[up];
+        let downItem = this.colorList[down];
+
+        downItem.elem.remove();
+        this.wrap.insertBefore(downItem.elem, upItem.elem);
+
+        this.colorList.splice(up, 1, downItem);
+        this.colorList.splice(down, 1, upItem);
+    }
+
+    // 로그인 확인 + 로그인 시 해야할 정보 적용
     updateLogin(){
         return new Promise( allResolve => {
             new Promise( res => { 
@@ -247,15 +301,30 @@ class Storage {
                 if(userdata !== false) {
                     this.userdata = userdata;
                     this.userdata.good = this.userdata.good.split(",");
+
+                    this.toolBox.classList.remove("hidden");
+                    this.profileInfo.append(this.toolBox);
                 }
                 else {
                     this.userdata = null;
+
+                    this.toolBox.classList.add("hidden");
+                    this.toolBox.remove();
                 }
     
                 this.colorList.forEach( data => {
+                    if(this.userdata !== null) {
+                        data.elemBtns.classList.remove("hidden")
+                        data.elemHead.append(data.elemBtns);
+                    }
+                    else {
+                        data.elemBtns.classList.add("hidden")
+                        data.elemBtns.remove();
+                    }
+
                     data.elem.querySelectorAll(".good svg").forEach(heart => {
                         heart.style.fill = this.userdata !== null && this.userdata.good.includes(heart.dataset.id) ? "red" : "black";
-                    })
+                    });
                 });
                 allResolve();
             });
