@@ -188,6 +188,7 @@ class Storage {
                     else return Alert.on("알 수 없는 오류로 실패했어요….<br><small>관리자에게 문의해 보세요!</small>", Alert.error);
                 };
             };
+            console.log(Alert);
             Alert.prompt("새로운 그룹명을 입력해 주세요!", callback, "수정 완료!", "더 고민해 볼래!"); 
         });
 

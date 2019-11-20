@@ -159,4 +159,18 @@ class ColorController extends Controller
 		if(isset($_SESSION['user'])) $result = Color::cgroupDel($group_id);
 		echo json_encode($result);
 	}
+
+	public function Upchangeidx($group_id){
+		if($group_id){
+			$result=Color::changeIndex(1,$group_id);
+			echo json_encode($result);
+		}
+	}
+
+	public function Downchangeidx($group_id){
+		if($group_id){
+			$result=Color::changeIndex(0,$group_id);
+			echo json_encode($result);
+		}
+	}
 }

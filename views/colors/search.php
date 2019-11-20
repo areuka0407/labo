@@ -31,19 +31,41 @@
             <label for="s-option-username" class="radio-box"></label>
         </div>
     </div>
-    <hr>
-    <div class="filter-area">
-        <div class="filter-title">
-            <span>색상(Colors)</span>
-        </div>
-        <div class="filter-list">
-            <div class="item active">
-                <div class="name">빨강(Red)</div>
-                <div class="color" style="background-color: red"></div>
+    <hr class="mb-0">
+    <div id="filter">
+        <div class="filter-area">
+            <div class="filter-title">
+                <span>색상(Colors)</span>
             </div>
-            <div class="item">
-                <div class="name">노랑(Yellow)</div>
-                <div class="color" style="background-color: yellow"></div>
+            <div id="color-box" class="filter-list">
+                <div class="item" data-color="red">
+                    <div class="name">빨강(Red)</div>
+                    <div class="color" style="background-color: red"></div>
+                </div>
+                <div class="item" data-color="yellow">
+                    <div class="name">노랑(Yellow)</div>
+                    <div class="color" style="background-color: yellow"></div>
+                </div>
+                <div class="item" data-color="blue">
+                    <div class="name">파랑(Blue)</div>
+                    <div class="color" style="background-color: blue"></div>
+                </div>
+                <div class="item" data-color="cyan">
+                    <div class="name">비취(Cyan)</div>
+                    <div class="color" style="background-color: cyan"></div>
+                </div>
+                <div class="item" data-color="green">
+                    <div class="name">초록(Green)</div>
+                    <div class="color" style="background-color: green"></div>
+                </div>
+                <div class="item" data-color="magenta">
+                    <div class="name">자홍(Magenta)</div>
+                    <div class="color" style="background-color: magenta"></div>
+                </div>
+                <div class="item" data-color="gray">
+                    <div class="name">무채색(Achromatic)</div>
+                    <div class="color" style="background-color: gray"></div>
+                </div>
             </div>
         </div>
         <div class="filter-area">
@@ -53,18 +75,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sort-down" class="svg-inline--fa fa-sort-down fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"/></svg>
                 </button>
             </div>
-            <div class="item">
-                <div class="name">보라(Purple)</div>
-                <div class="color" style="background-color: purple"></div>
+            <div id="tag-box" class="filter-list">
             </div>
-        </div>
-    </div>
-    <div class="filter-area">
-        <div class="filter-title">
-            <span>태그(Tags)</span>
-            <button id="filter-order" class="DESC">▼</button>
-        </div>
-        <div id="tag-box" class="filter-list">
         </div>
     </div>
 </aside>

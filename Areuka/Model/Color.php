@@ -114,7 +114,8 @@ class Color {
 	// colorgroup 추가하는 function(POST)
 	static function AddCgroup($owner_id,$name){
 		if($owner_id && $name){
-			$c_max = DB::fetch("SELECT IFNULL(MAX(idx), 0) AS max FROM colorgroups WHERE owner_id = ? GROUP BY owner_id", [$owner_id])->max;
+			$c_max = DB::fetch("SELECT IFNULL(MAX(idx), 0) AS max FROM colorgroups WHERE owner_id = ? GROUP BY owner_id", [$owner_id]);
+			$c_max = $c_max ? $c_max->max : 0;
 			DB::query("INSERT INTO colorgroups(owner_id, name, idx) VALUES (?,?,?)",[$owner_id, $name, $c_max + 1]);
 			$result = DB::fetch("SELECT * FROM colorgroups WHERE id = ?", [DB::lastInsertId()]);
 		}else $result="colorgroup not add";
@@ -151,9 +152,14 @@ class Color {
 			$owner=DB::fetch("SELECT owner_id,name FROM colorgroups WHERE id = ?",[$group_id]);
 			$name=$owner->name;
 			$owner=(int)$owner->owner_id;
+			$all_name=DB::fetchAll("SELECT name FROM colorgroups WHERE owner_id = ?",[$owner]);
+			$name_nsame=true;
+			for($i = 0;$i < count($all_name);$i++){
+				if($all_name[$i]->name == $new_name) $name_nsame=false;
+			}
 			$result="user not match";
 			//group_id가 세션 유저와 같고 변경할 이름이 원래이름과 다른가?
-			if($owner == $_SESSION['user']->id && $new_name !== $name){
+			if($name_nsame&&$owner == $_SESSION['user']->id && $new_name !== $name){
 				DB::query("UPDATE colorgroups SET name = ? WHERE id = ?",[$new_name,$group_id]);
 				$result="name change";
 			}else $result = "name not change";
@@ -172,6 +178,34 @@ class Color {
 				DB::query("DELETE FROM colorgroups WHERE id = ?",[$group_id]);
 				$result="del group";
 			}else $result = "group not del";
+		}
+		return $result;
+	}
+
+	// group index 교체
+	static function changeIdx($select,$group_id){
+		$result="";
+		//select == 0 : down select == 1 : up 
+		if($select){
+			$index = DB::fetch("SELECT idx FROM colorgroups WHERE id = ?",[$group_id]);
+			$index=(int)$index->idx;
+			$index_c = DB::fetch("SELECT id FROM colorgroups WHERE idx = ?",[$index-1]);
+			$index_c = (int)$index_c->id;
+			if(isset($index_c)){
+				DB::query("UPDATE colorgroups SET idx = ? WHERE id = ?",[$index-1,$group_id]);
+				DB::query("UPDATE colorgroups SET idx = ? WHERE id = ?",[$index,$index_c]);
+				$result = "up!";
+			}
+		}else{
+			$index = DB::fetch("SELECT idx FROM colorgroups WHERE id = ?",[$group_id]);
+			$index=(int)$index->idx;
+			$index_c = DB::fetch("SELECT id FROM colorgroups WHERE idx = ?",[$index+1]);
+			$index_c = (int)$index_c->id;
+			if(isset($index_c)){
+				DB::query("UPDATE colorgroups SET idx = ? WHERE id = ?",[$index+1,$group_id]);
+				DB::query("UPDATE colorgroups SET idx = ? WHERE id = ?",[$index,$index_c]);
+				$result = "down!";
+			}
 		}
 		return $result;
 	}
