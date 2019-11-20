@@ -89,7 +89,6 @@ class Search {
                 else {
                     this.userdata = null;
                 }
-
     
                 this.origin.forEach( data => {
                     data.elem.querySelector(".good svg").style.fill = this.userdata !== null && this.userdata.good.includes(data.id) ? "red" : "black";

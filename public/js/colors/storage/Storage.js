@@ -45,6 +45,7 @@ class Storage {
             group.elem = this.template(group);
             this.wrap.append(group.elem);
         }
+        this.updateLogin();
     }
     loadGroupData(){
         return new Promise( res => {
@@ -115,7 +116,7 @@ class Storage {
                             <div class="info">
                                 <span class="date">2019년 11월</span>
                                 <span class="good">
-                                    <svg viewBox="0 0 24 24"><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z"></path></g></svg>
+                                    <svg viewBox="0 0 24 24" data-id="${color.id}"><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z"></path></g></svg>
                                     <span class="good-count ml-1">0</span>
                                 </span>
                             </div>
@@ -125,6 +126,14 @@ class Storage {
             template += `<div class="hidden-bar">
                             <svg class="gUZ B9u U9O kVc" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true" aria-label="" role="img"><path d="M22 10h-8V2a2 2 0 0 0-4 0v8H2a2 2 0 0 0 0 4h8v8a2 2 0 0 0 4 0v-8h8a2 2 0 0 0 0-4"></path></svg>
                         </div>`;
+
+        else if(group.data.length === 0)
+            template += `<div class="no-item">
+                            <p>
+                                이런! 그룹에 등록된 색상이 없네요….<br>
+                                <a href="/colors/picker">당장 등록하러 가볼까요?</a>
+                            </p>
+                        </div>`;
         template += `</article>
                 </section>`;
         let elem = this.createElement(template);;
@@ -132,11 +141,36 @@ class Storage {
 
         /* 생성된 요소에 이벤트를 건다 */
 
+        // 좋아요 누르기
+        elem.querySelectorAll(".good").forEach(x => {
+            x.addEventListener("click", e => {
+                if(!this.userdata) return false;
+                let target = e.target;
+                while(!target.classList.contains("good")) target = target.parentElement;
+                const elemCnt = target.querySelector(".count");
+                const elemSvg = target.querySelector("svg");
+                
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "/api/good/" + data.id);
+                xhr.send();
+                xhr.onload = () => {
+                    let result = JSON.parse(xhr.responseText);
+                    if(result == "add"){
+                        elemSvg.style.fill = "red";
+                        elemCnt.innerText = parseInt(elemCnt.innerText) + 1;
+                    }else{
+                        elemSvg.style.fill = "black";
+                        elemCnt.innerText = parseInt(elemCnt.innerText) - 1;
+                    }
+                }
+            });
+        }); 
+
         // 그룹명 수정
         elem.querySelector("button.group-edit").addEventListener("click", e => {
             let callback = function(new_name){
                 let data  = { name: new_name };
-
+                
                 let xhr = new XMLHttpRequest();
                 xhr.open("PUT", "/api/groups/" + group.id);
                 xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -180,7 +214,42 @@ class Storage {
         });
 
 
+        // 그룹 페이지로 이동
+        elem.querySelector(".hidden-bar").addEventListener("click", () => {
+            location.assign("/colors/storage/"+this.user_id+"/groups/"+group.id);
+        });
+
+
         return elem;
+    }
+
+    // 로그인 확인 + 좋아요 적용
+    updateLogin(){
+        return new Promise( allResolve => {
+            new Promise( res => { 
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/users/session");
+                xhr.send();
+                xhr.onload = () => res(JSON.parse(xhr.responseText));
+            }).then( userdata => {
+                console.log(userdata);
+                if(userdata !== false) {
+                    this.userdata = userdata;
+                    // this.userdata.good = this.userdata.good.split(",");
+                }
+                else {
+                    this.userdata = null;
+                }
+    
+                this.colorList.forEach( data => {
+                    data.elem.querySelectorAll(".good svg").forEach(heart => {
+                        console.log(heart.dataset.id, this.userdata);
+                        heart.style.fill = this.userdata !== null && this.userdata.good.includes(heart.dataset.id) ? "red" : "black";
+                    })
+                });
+                allResolve();
+            });
+        });
     }
 
     

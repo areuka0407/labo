@@ -137,6 +137,11 @@ class Color {
 		}
 	}
 
+	// group_id로 group 가져오기
+	static function getGroupById($group_id){
+		return DB::fetch("SELECT * FROM colorgroups WHERE id = ?", [$group_id]);
+	}
+
 	// color group 이름 수정
 	static function gNameUpdate($group_id,$new_name){
 		$result="";

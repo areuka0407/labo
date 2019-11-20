@@ -30,6 +30,7 @@ include "permission.php";
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
   Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
   Route::set("GET", "/colors/storage/{user_id}", "ColorController@storagePage", "All"); // 보관 페이지
+  Route::set("GET", "/colors/storage/{user_id}/groups/{group_id}", "ColorController@groupPage", "All"); // 그룹 페이지
 
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
