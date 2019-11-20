@@ -31,7 +31,7 @@ class Color {
 	// color를 가져오는 function(GET)
 	static function getColor($id){
 		$colors=array();
-		$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
+		$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name AS user_name, u.user_id AS identity FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
 		return $colors;
 	}
 

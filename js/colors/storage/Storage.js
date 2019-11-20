@@ -60,7 +60,9 @@ class Storage {
             await this.loadColorData(group);
             group.elem = this.template(group);
             group.elemBtns = group.elem.querySelector(".button-group");
+            group.elemIdxs = group.elem.querySelector(".index-group");
             group.elemHead = group.elem.querySelector(".section-head");
+            group.elemNoItem = group.elem.querySelector(".no-item");
             this.wrap.append(group.elem);
         }
         this.updateLogin();
@@ -112,7 +114,7 @@ class Storage {
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eraser" class="svg-inline--fa fa-eraser fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M497.941 273.941c18.745-18.745 18.745-49.137 0-67.882l-160-160c-18.745-18.745-49.136-18.746-67.883 0l-256 256c-18.745 18.745-18.745 49.137 0 67.882l96 96A48.004 48.004 0 0 0 144 480h356c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H355.883l142.058-142.059zm-302.627-62.627l137.373 137.373L265.373 416H150.628l-80-80 124.686-124.686z"/></svg>
                                     </button>
                                 </div>
-                                <div class="index-group">
+                                <div class="index-group hidden">
                                     <button class="index-up mr-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sort-down" class="svg-inline--fa fa-sort-down fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"/></svg>
                                     </button>
@@ -318,10 +320,22 @@ class Storage {
                     if(this.userdata !== null) {
                         data.elemBtns.classList.remove("hidden")
                         data.elemHead.append(data.elemBtns);
+
+                        data.elemIdxs.classList.remove("hidden")
+                        data.elemHead.append(data.elemIdxs);
                     }
                     else {
-                        data.elemBtns.classList.add("hidden")
-                        data.elemBtns.remove();
+                        data.elemIdxs.classList.add("hidden")
+                        data.elemIdxs.remove();
+                    }
+
+                    if(data.elemNoItem){
+                        if(this.userdata !== null && this.owner_id === this.userdata.user_id) 
+                            data.elemNoItem.innerHTML = `<p>
+                                                            이런! 그룹에 등록된 색상이 없네요….<br>
+                                                            <a href="/colors/picker">당장 등록하러 가볼까요?</a>
+                                                        </p>`;
+                        else    data.elemNoItem.innerHTML = `<p>이 그룹에는 아직 등록된 색상이 없네요….</p>`;
                     }
 
                     data.elem.querySelectorAll(".good svg").forEach(heart => {
