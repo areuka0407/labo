@@ -4,6 +4,7 @@ namespace Areuka\Controller;
 
 use Areuka\Model\User;
 use Areuka\Model\Color;
+use Areuka\Model\ColorGroup;
 
 
 class ColorController extends Controller
@@ -11,7 +12,7 @@ class ColorController extends Controller
 	// 색 조합 페이지
 	public function pickerPage(){
 		$groups = [];
-		if(user()) $groups = Color::getuserCgroup(user()->user_id);
+		if(user()) $groups = ColorGroup::getuserCgroup(user()->user_id);
 		return $this->view("colors.picker", ["groups" => $groups], "colors.structure");
 	}
 
@@ -32,7 +33,6 @@ class ColorController extends Controller
 		if(!$owner) return CommonController::page_not_found();
 
 		$group = Color::getGroupById($owner->id);
-		dd($group);
 		return $this->view("colors.group", ['owner' => $owner], "colors.structure");
 	}
 
@@ -115,62 +115,5 @@ class ColorController extends Controller
 		$user = $_SESSION['user']->user_id;
 		$result=Color::goodColor($id,$user);
 	    echo json_encode($result);
-	}
-
-	public function colorIngroupsAdd(){
-		if($_SERVER["REQUEST_METHOD"] == "POST"){
-			$colors_id = isset($_POST['colors_id']) ? $_POST['colors_id'] : 0;
-			$group_id = isset($_POST['group_id']) ? $_POST['group_id'] : 0;
-			$result=Color::CIA($colors_id,$group_id);
-			echo json_encode($result);
-		}
-	}
-
-	public function groupAdd(){
-		$id = $_SESSION['user']->id;
-		if($id && $_SERVER["REQUEST_METHOD"] == "POST"){
-			$groupname=isset($_POST['groupname']) ? $_POST['groupname'] : "";
-			$result=Color::AddCgroup($id,$groupname);
-			echo json_encode($result);
-		}
-	}
-
-	public function userCgroup($user_id){
-		$result=Color::getuserCgroup($user_id);
-		echo json_encode($result);
-	}
-
-	public function groupcolor($group_id){
-		$result=Color::gcolor($group_id);
-		echo json_encode($result);
-	}
-
-	public function groupNameChange($group_id){
-		$putData = file_get_contents("php://input");
-		$inputData= json_decode($putData);
-		if(isset($_SESSION['user'])){
-			$new_name = isset($inputData->name) ? $inputData->name : "";
-			$result = Color::gNameUpdate($group_id,$new_name);
-			echo json_encode($result);
-		}
-	}
-
-	public function colorgroupDel($group_id){
-		if(isset($_SESSION['user'])) $result = Color::cgroupDel($group_id);
-		echo json_encode($result);
-	}
-
-	public function Upchangeidx($group_id){
-		if($group_id){
-			$result=Color::changeIndex(1,$group_id);
-			echo json_encode($result);
-		}
-	}
-
-	public function Downchangeidx($group_id){
-		if($group_id){
-			$result=Color::changeIndex(0,$group_id);
-			echo json_encode($result);
-		}
 	}
 }

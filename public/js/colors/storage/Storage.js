@@ -22,7 +22,7 @@ class Storage {
                 
                 xhr.onload = () => {
                     let result = JSON.parse(xhr.responseText);
-                    if(result === "colorgroup not add") return Alert.on("<h3>서버에서 오류가 발생했어요!</h3><br>고객센터에서 관리자에게 문의해 주세요!");
+                    if(result === "colorgroup not add") return Alert.on("<h3>이미 존재하는 그룹이 있어요!</h3><br>현재 존재하는 그룹과 중복되지 않는 이름으로 정해주세요", Alert.error);
                     else {
                         Alert.on("<h3>새로운 그룹이 추가되었어요!</h3>");
 
