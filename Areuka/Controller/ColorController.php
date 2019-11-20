@@ -32,7 +32,7 @@ class ColorController extends Controller
 		if(!$owner) return CommonController::page_not_found();
 
 		$group = Color::getGroupById($group_id);
-		if($owner->id !== $group->owner_id) return CommonController::page_not_found();
+		if(@$owner->id !== @$group->owner_id) return CommonController::page_not_found();
 		return $this->view("colors.group", ['owner' => $owner, 'group' => $group], "colors.structure");
 	}
 

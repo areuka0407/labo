@@ -1,8 +1,9 @@
 class Storage {
     constructor(){
         this.colorList = [];
-        this.user_id = location.pathname.split("/").pop();
+        this.owner_id = location.pathname.split("/").pop();
         this.wrap = document.querySelector("#wrap");
+        this.userdata = null;
     
         
         this.loading();
@@ -35,7 +36,16 @@ class Storage {
             };
 
             Alert.prompt("새 그룹의 이름을 정해주세요!", callback, "이걸로 할래요!", "조금만 시간을 주세요…!");
-        })
+        });
+
+
+        window.addEventListener("login", () => {
+            this.updateLogin();
+        });
+
+        window.addEventListener("logout", () => {
+            this.updateLogin();
+        });
     }
 
     async loading(){
@@ -50,7 +60,7 @@ class Storage {
     loadGroupData(){
         return new Promise( res => {
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", "/api/users/"+ this.user_id +"/groups");
+            xhr.open("GET", "/api/users/"+ this.owner_id +"/groups");
             xhr.send();
             xhr.onload = () => res(JSON.parse(xhr.responseText));
         })
@@ -85,7 +95,7 @@ class Storage {
         /* 템플릿에 맞추어서 그룹 요소를 생성한다 */
         let template = `<section>
                             <div class="section-head">
-                                <h3>${group.name}</h3>
+                                <a href="/colors/storage/${this.owner_id}/groups/${group.id}" class="name">${group.name}</a>
                                 <div class="button-group">
                                     <button class="group-edit ml-2">
                                         <svg class="gUZ B9u U9O kVc" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true" aria-label="" role="img"><path d="M13.386 6.018l4.596 4.596L7.097 21.499 1 22.999l1.501-6.096L13.386 6.018zm8.662-4.066a3.248 3.248 0 0 1 0 4.596L19.75 8.848 15.154 4.25l2.298-2.299a3.248 3.248 0 0 1 4.596 0z"></path></svg>
@@ -117,7 +127,7 @@ class Storage {
                                 <span class="date">${this.koreanDate(color.day)}</span>
                                 <span class="good">
                                     <svg viewBox="0 0 24 24" data-id="${color.id}"><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z"></path></g></svg>
-                                    <span class="good-count ml-1">0</span>
+                                    <span class="good-count ml-1">${color.good}</span>
                                 </span>
                             </div>
                         </div>`;
@@ -147,11 +157,11 @@ class Storage {
                 if(!this.userdata) return false;
                 let target = e.target;
                 while(!target.classList.contains("good")) target = target.parentElement;
-                const elemCnt = target.querySelector(".count");
+                const elemCnt = target.querySelector(".good-count");
                 const elemSvg = target.querySelector("svg");
                 
                 let xhr = new XMLHttpRequest();
-                xhr.open("GET", "/api/good/" + data.id);
+                xhr.open("GET", "/api/good/" + elemSvg.dataset.id);
                 xhr.send();
                 xhr.onload = () => {
                     let result = JSON.parse(xhr.responseText);
@@ -188,7 +198,6 @@ class Storage {
                     else return Alert.on("알 수 없는 오류로 실패했어요….<br><small>관리자에게 문의해 보세요!</small>", Alert.error);
                 };
             };
-            console.log(Alert);
             Alert.prompt("새로운 그룹명을 입력해 주세요!", callback, "수정 완료!", "더 고민해 볼래!"); 
         });
 
@@ -219,7 +228,7 @@ class Storage {
         let hidden = elem.querySelector(".hidden-bar");
         if(hidden)
             hidden.addEventListener("click", () => {
-                location.assign("/colors/storage/"+this.user_id+"/groups/"+group.id);
+                location.assign("/colors/storage/"+this.owner_id+"/groups/"+group.id);
             });
 
 
@@ -235,10 +244,9 @@ class Storage {
                 xhr.send();
                 xhr.onload = () => res(JSON.parse(xhr.responseText));
             }).then( userdata => {
-                console.log(userdata);
                 if(userdata !== false) {
                     this.userdata = userdata;
-                    // this.userdata.good = this.userdata.good.split(",");
+                    this.userdata.good = this.userdata.good.split(",");
                 }
                 else {
                     this.userdata = null;
@@ -246,7 +254,6 @@ class Storage {
     
                 this.colorList.forEach( data => {
                     data.elem.querySelectorAll(".good svg").forEach(heart => {
-                        console.log(heart.dataset.id, this.userdata);
                         heart.style.fill = this.userdata !== null && this.userdata.good.includes(heart.dataset.id) ? "red" : "black";
                     })
                 });

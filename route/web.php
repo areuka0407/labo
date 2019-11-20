@@ -64,7 +64,7 @@ include "permission.php";
   Route::set("POST", "/api/groups", "ColorController@groupAdd", "User");
   Route::set("PUT","/api/groups/{group_id}","ColorController@groupNameChange","All");
   Route::set("DELETE","/api/groups/{group_id}","ColorController@colorgroupDel","User");
-  Route::set("PUT","/api/groups/{group_id}/up","ColorController@upchangeidx","User");
+  Route::set("PUT","/api/groups/{group_id}/up","ColorController@Upchangeidx","User");
   Route::set("PUT","/api/groups/{group_id}/down","ColorController@Downchangeidx","User");
 
   /* userpage */

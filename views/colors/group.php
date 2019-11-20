@@ -1,4 +1,6 @@
 <!--head-->
+<meta name="owner_idx" content="<?=$owner->id?>">
+<meta name="owner_id" content="<?=$owner->user_id?>">
 <meta name="group_id" content="<?=$group->id?>">
 <link rel="stylesheet" href="/css/colors/group.css">
 <script src="/js/colors/Color.js" type="text/javascript"></script>
@@ -10,9 +12,12 @@
         <div id="group-profile">
             <div class="info">
                 <div class="group-info">
-                    <div class="title"><?=$group->name?></div>
+                    <div id="group-title" class="title"><?=$group->name?></div>
                     <button class="group-edit">
                         <svg class="gUZ B9u U9O kVc" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true" aria-label="" role="img"><path d="M13.386 6.018l4.596 4.596L7.097 21.499 1 22.999l1.501-6.096L13.386 6.018zm8.662-4.066a3.248 3.248 0 0 1 0 4.596L19.75 8.848 15.154 4.25l2.298-2.299a3.248 3.248 0 0 1 4.596 0z"></path></svg>
+                    </button>
+                    <button class="group-remove">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eraser" class="svg-inline--fa fa-eraser fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M497.941 273.941c18.745-18.745 18.745-49.137 0-67.882l-160-160c-18.745-18.745-49.136-18.746-67.883 0l-256 256c-18.745 18.745-18.745 49.137 0 67.882l96 96A48.004 48.004 0 0 0 144 480h356c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H355.883l142.058-142.059zm-302.627-62.627l137.373 137.373L265.373 416H150.628l-80-80 124.686-124.686z"/></svg>
                     </button>
                 </div>
                 <div class="user-info">
@@ -31,8 +36,8 @@
             </div>    
         </div>
         <hr>
-        <div class="contents">
-            
+        <div id="color-contents">
+
         </div>
     </div>
 <!--/contents-->

@@ -61,6 +61,7 @@
     display: inline-flex;
     align-items: flex-end;
     float: right;
+    cursor: pointer;
 }
 
 #group-profile .user-image {
@@ -97,7 +98,7 @@
 /* 콘텐츠 영역
  */
 
-.contents {
+#color-contents {
     margin-top: 20px;
     padding: 10px;
     width: 100%;
@@ -106,7 +107,7 @@
     align-items: flex-start;
 }
 
-.contents .item {
+#color-contents .item {
     height: 300px;
     flex: 0 0 calc(25% - 20px);
     width: calc(25% - 20px);
@@ -117,37 +118,37 @@
     background-color: #fff;
 }
 
-.contents .item .colors {
+#color-contents .item .colors {
     height: calc(100% * 2 / 3);
 }
 
-.contents .item .line {
+#color-contents .item .line {
     height: calc(100% / 5);
     display: flex;
     align-items: center;
     padding-left: 10px;
 }
 
-.contents .item .tags {
+#color-contents .item .tags {
     height: calc(100% / 3 - 50px);
     padding: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.contents .item .tag {
+#color-contents .item .tag {
     margin: 10px 10px;
     display: inline-block;
 }
 
-.contents .item .tags p {
+#color-contents .item .tags p {
     justify-self: center;
     text-align: center;
     line-height: 40px;
 }
 
 
-.contents .item .info {
+#color-contents .item .info {
     width: 100%;
     height: 50px;
     padding: 10px 20px;
@@ -156,24 +157,24 @@
     align-items: center;
 }
 
-.contents .item .date {
+#color-contents .item .date {
     color: rgb(88, 88, 88);
     font-size: 0.95em;
 }
 
-.contents .item .good {
+#color-contents .item .good {
     display: inline-flex;
     align-items: center;
     width: 40px;
     cursor: pointer;
 }
 
-.contents .item .good svg {
+#color-contents .item .good svg {
     width: 20px; 
     height: 20px;
     fill: #8e8e8e;
 }
 
-.contents .item .good-count {
-    color: #8e8e8e;
+#color-contents .item .good-count {
+    color: #383636;
 }
