@@ -361,6 +361,7 @@ article .item svg {
 
 article .item .owner {
     width: 120px;
+    color: #342F30;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
