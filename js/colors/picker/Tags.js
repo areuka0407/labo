@@ -63,7 +63,18 @@ class Tags {
     
                 form.append("group_id", document.querySelector("#myGroups").value);
                 form.append("user_id", data.id);
+<<<<<<< HEAD
                 form.append("tag", document.querySelector("#tag-box .output").value);
+=======
+
+                let tags = document.querySelector("#tag-box .output").value;
+                if(this.elemInput.value.trim() !== "") {
+                    let tagArr = tags.split(" ").filter(x => x.trim() !== "");
+                    tagArr.push("#"+this.elemInput.value.trim())
+                    tags = tagArr.join(" ");
+                }
+                form.append("tag", tags);
+>>>>>>> 7481e3f... Tab 기능 추가
     
                 let xhr = new XMLHttpRequest();
                 xhr.open("POST", "/api/colors");

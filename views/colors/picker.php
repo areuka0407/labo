@@ -16,6 +16,12 @@
         <p class="help-message">완성한 색들을 그룹으로 분류하여 저장해 보세요!</p>
         <div id="group-box">
             <select id="myGroups"<?=!user() ? " disabled" : ""?>></select>
+<<<<<<< HEAD
+=======
+            <button class="group-add">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" class="svg-inline--fa fa-plus fa-w-14" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/></svg>
+            </button>
+>>>>>>> 7481e3f... Tab 기능 추가
         </div>
         <p class="help-message">자유롭게 당신의 색을 표현할 수 있는 태그를 작성해 보세요!</p>
         <div id="tag-box"<?=!user() ? " class='disabled'" : ""?>>

@@ -10,21 +10,22 @@ class Alert {
         return elem;
     }
 
+<<<<<<< HEAD
     static on(message, type = Alert.info, callBack = null){
         if(document.querySelector(".alert-message")) return;
         
+=======
+    static on(message, type = Alert.info, callBack = null, auto_color_change = false){
+>>>>>>> 7481e3f... Tab 기능 추가
         let elem = Alert.create(message);
         elem.style.backgroundColor = type;
+        if(auto_color_change) elem.classList.add( Color.checkBrightness(type) );
         
         document.body.append(elem);
-        setTimeout(() => {
-            elem.style.top = "80px";
-            elem.style.opacity = "0";
-            setTimeout(() => {
-                elem.remove();
-                callBack && callBack();
-            }, 1000);
-        }, 500);
+        $(elem).animate({top: "80px", opacity: "0"}, 2000, () => {
+            elem.remove();
+            callBack && callBack();
+        });
     }
 
     static confirm(title, message, callBack = null, applyText = "예", cancelText = "아니오"){
@@ -93,3 +94,7 @@ class Alert {
         document.body.append(elem);
     }
 }
+
+window.addEventListener("load", () => {
+    get_coo
+});

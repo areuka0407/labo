@@ -211,7 +211,7 @@ footer {
 
 .y-m-d {
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 20px;
 }
 
 .y-m-d > input {

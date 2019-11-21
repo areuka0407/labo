@@ -1,4 +1,16 @@
 class Style {
+    static create(html, parentNodeName = "div"){
+        let parent = document.createElement(parentNodeName);
+        parent.innerHTML = html;
+        return parent.firstChild;
+    }
+
+
+    static getStyle(elem, styleName){
+        return getComputedStyle(elem).getPropertyValue(styleName);
+    }
+
+
     /**
      * 문서 객체의 스타일을 정수로 가져오는 함수
      * @param {Object} elem 스타일을 가져올 문서 객체

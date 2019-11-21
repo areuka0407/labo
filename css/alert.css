@@ -14,7 +14,10 @@
     z-index: 100000;
     overflow: hidden;
     padding: 10px 20px;
+<<<<<<< HEAD
     transition: top 5s, opacity 1s;
+=======
+>>>>>>> 7481e3f... Tab 기능 추가
     box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.1);
 }
 

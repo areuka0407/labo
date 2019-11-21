@@ -52,18 +52,57 @@ class UserController extends Controller
         if(isset($_SESSION['user'])) session_destroy();
     }
 
-    public function userUpdate(){
+    public function userUpdate($id){
         // 수정 가능 항목 : 이름 / 생일 / 성별 / 이미지 / 비밀번호
-        $id=$_SESSION['user']->id;
+<<<<<<< HEAD
         if($_SERVER["REQUEST_METHOD"] == "PUT" && $id){
             $result=User::userUpdate($id);
             echo json_encode($result);
         }
+=======
+        // 메소드가 PUT인지, $id가 있는지를 검사하는 것은 이미 되어있음
+
+        $putData = file_get_contents("php://input");
+        $inputData = (array)json_decode($putData);
+        $result=User::userUpdate($id, $inputData);
+            
+        echo json_encode($result);
+        
+>>>>>>> cd8be30... 사용자 정보 수정 업데이트 중
     }
 
     public function userDel(){
         $id = $_SESSION['user']->id;
         if($_SERVER["REQUEST_METHOD"] == "DELETE" && $id) User::userDel($id);
         echo json_encode("del");
+    }
+
+    public function validPassword(){
+        $result = false;
+
+        $password = isset($_POST['password']) ? $_POST['password'] : "";
+        if(trim($password) === "") $result = false;
+        else if(!user()) $result = false;
+        else if(user()->password !== hash("sha256", $password)) $result = false;
+        else {
+            $_SESSION['validator_time'] = time();
+            $result = true;
+        }
+
+        echo json_encode($result);
+    }
+
+    public function validTime(){
+        $result = false;
+        if(isset($_SESSION['validator_time'])){
+            if(time() - $_SESSION['validator_time'] <= 300) $result = true;
+            else {
+                unset($_SESSION['validator_time']);
+                $result = false;
+            }
+        }
+        else $result = false;
+
+        echo json_encode($result);
     }
 }

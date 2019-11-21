@@ -1,0 +1,338 @@
+@charset "UTF-8";
+
+#option {
+    width: 1140px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+#option hr { background-color: #616161; } 
+
+#option .o-header {
+    width: 100%;
+    height: 50px;
+    padding: 0 10px;
+}
+
+#option .o-header h2 {
+    font-size: 2em;
+    color: #4d4a4a;
+}
+
+/* 사이드바 탭
+ */
+
+#option .o-side {
+    float: left;
+    width: 25%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 2px solid rgb(97, 97, 97);
+}
+
+#option .o-side .item {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: right;
+    padding: 0 50px;
+}
+
+#option .o-side .item.active a { color: rgb(48, 47, 47); }
+#option .o-side .item.active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #616161;
+}
+
+#option .o-side a {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: rgb(139, 136, 136);
+}
+
+#option .o-side a:hover {
+    color: rgb(48, 47, 47);
+    transition: color 0.2s;
+}
+
+
+/* 이미지 탭
+ */
+
+#option .o-image {
+    float: left;
+<<<<<<< HEAD:css/option/home.css
+    width: 50%;
+=======
+    width: calc(75% - 50px);
+    margin-left: 50px;
+>>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+<<<<<<< HEAD:css/option/home.css
+=======
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px #00000020;
+}
+
+#option .o-image > label {
+    font-size: 1.2em;
+    color: #444040;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+}
+
+#option .help-message {
+    font-size: 0.95em;
+    color: rgb(100, 99, 99);
+>>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
+}
+
+#option .profile-image {
+    width: 250px;
+    height: 250px;
+    position: relative;
+}
+
+#option .preview {
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px #00000010;
+}
+
+#option .o-image .icon-area {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+}
+
+#option .o-image .edit {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 1em;
+    border-radius: 50%;
+    padding: 10px 20px;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(243, 184, 65);
+    box-shadow: 0 0 4px #00000030;
+    color: #fff;
+    transition: transform 0.3s, background-color 0.3s;
+}
+#option .o-image .icon-area:hover .edit {
+    transform: rotateY(180deg);
+    background-color: #fff;
+}
+
+#option .o-image .icon-area:hover svg { fill: rgb(243, 184, 65); }
+
+#option .o-image .edit svg {
+    flex: 0 0 30px; 
+    fill: #fff; 
+    transition: color 0.3s;
+}
+
+#option #dropdown-area {
+    display: none;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 1.3em;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#dropdown-area p {
+    margin-top: 280px;
+}
+
+#dropdown-area .icon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -70%);
+}
+
+#dropdown-area .icon svg {
+    width: 150px;
+}
+
+
+/* 유저 정보 탭
+ */
+
+#option .o-info {
+    float: left;
+    width: calc(75% - 50px);
+    margin-left: 50px;
+    padding: 10px 20px;
+    height: 450px;
+}
+
+#option .form-group {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+#option .form-group label {
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #444040;
+}
+
+#option .form-group input, #option .form-group select { transition: border-color 0.2s; }
+#option .form-group input:focus, #option .form-group select:focus { border-color: #f8ac54;}
+
+#option .form-group > input {
+    width: 250px;
+    height: 30px;
+    outline: 0;
+    border: 0;
+<<<<<<< HEAD:css/option/home.css
+    border-bottom: 2px solid rgb(207, 200, 200);
+=======
+    border-bottom: 2px solid #9e9d9d;
+>>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
+    font-size: 1.1em;
+    padding: 0 5px;
+}
+
+#option .form-group > #validator { border: 2px solid #9e9d9d; }
+#option .form-group > #validator:focus { border-color: #f8ac54; }
+
+#option .form-group > input[readonly] {
+    border-color: rgb(216, 71, 66);
+    color: rgb(122, 122, 122);
+}
+
+#option .y-m-d {
+    width: 250px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+#option .y-m-d span {
+    font-size: 1.1em;
+}
+
+#option .y-m-d input {
+    margin: 0 5px 0 15px;
+    height: 30px;
+    border: 0;
+    border-bottom: 2px solid rgb(207, 200, 200);
+    font-size: 1em;
+    outline: 0;
+    text-align: center;
+}
+
+#option .y-m-d input:not(#birthday-Y) {
+    width: 30px;
+}
+
+#option .y-m-d #birthday-Y {
+    width: 50px;
+    margin-left: 0;
+}
+
+#option .form-group select::-ms-expand { display: none; }
+#option .form-group select {
+    outline: 0;
+    border: 0;
+    padding: 0 20px;
+    height: 30px;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-bottom: 2px solid rgb(207, 200, 200);
+}
+
+#option .submit-btn {
+    width: 200px;
+    height: 50px;
+<<<<<<< HEAD:css/option/home.css
+    margin-top: 30px;
+    margin-left: 30px;
+=======
+    line-height: 50px;
+    text-align: center;
+>>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
+    border: 0;
+    background: rgb(241, 183, 56);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    outline: 0;
+}
+
+#option .submit-btn:hover {
+    transition: background 0.2s;
+    background: rgb(216, 71, 66);
+}
+
+
+/* 비밀번호 확인
+*/
+
+.o-validator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.o-validator .form-group {
+    width: auto!important;
+}
+
+
+.o-validator .valid-btn {
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background: linear-gradient(135deg, #892886 0%, #e94057 50%, #f27123 100%);
+    color: #fff;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: 0;
+    box-shadow: 0 0 10px #00000050;
+    border-radius: 10px;
+}
+
+.o-validator .valid-btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+}

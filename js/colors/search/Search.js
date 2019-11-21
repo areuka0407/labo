@@ -73,6 +73,25 @@ class Search {
         });
     }
 
+<<<<<<< HEAD
+=======
+    tagView(color = null){
+        this.filter.tags = []; // 태그 선택 초기화
+
+        let viewList = this.tagList;        
+        viewList = viewList.filter(x => x.list.length !== 0);
+
+        this.tagBox.innerHTML = "";
+        viewList.filter(x => {
+            return color === null || x.list.filter(c => Color.getMainColor(c.hex3) === color).length !== 0;
+        }).forEach(x => {
+            x.elem.classList.remove("active");
+            x.setCount(x.list.length);
+            this.tagBox.append(x.elem);
+        });
+    }
+
+>>>>>>> 7481e3f... Tab 기능 추가
     // 로그인 확인
     updateLogin(){
         return new Promise( allResolve => {
@@ -91,6 +110,8 @@ class Search {
                 }
     
                 this.origin.forEach( data => {
+                    if(this.userdata) data.elem.append(data.elemTab);
+                    else data.elemTab.remove();
                     data.elem.querySelector(".good svg").style.fill = this.userdata !== null && this.userdata.good.includes(data.id) ? "red" : "black";
                 });
                 allResolve();
@@ -190,7 +211,16 @@ class Search {
             let color = e.target.dataset.color;
             document.querySelectorAll("#color-box > .item.active").forEach(y => y.classList.remove("active"));
 
+<<<<<<< HEAD
             if(color === this.filter.main_color) this.filter.main_color = "";
+=======
+
+            // 색상 필터링
+            if(color === this.filter.main_color) {
+                this.filter.main_color = "";
+                this.tagView();
+            }
+>>>>>>> 7481e3f... Tab 기능 추가
             else {
                 e.target.classList.add("active");
                 this.filter.main_color = color;
@@ -205,6 +235,78 @@ class Search {
         if(data.tags.length === 1 && data.tags[0] === "") data.tags = [];
         data.day = new Date(data.day);
         data.good = parseInt(data.good);
+<<<<<<< HEAD
+=======
+        data.changeView = () => {
+            const box = data.elem.querySelector(".colors");
+            if(this.type === "hex"){
+                box.innerHTML = `<div class="line hex ${Color.checkBrightness(data.hex1)}" style="background-color: #${data.hex1}">
+                                    <span>#${data.hex1}</span>
+                                </div>
+                                <div class="line hex ${Color.checkBrightness(data.hex2)}" style="background-color: #${data.hex2}">
+                                    <span>#${data.hex2}</span>
+                                </div>
+                                <div class="line hex ${Color.checkBrightness(data.hex3)}" style="background-color: #${data.hex3}">
+                                    <span>#${data.hex3}</span>
+                                </div>
+                                <div class="line hex ${Color.checkBrightness(data.hex4)}" style="background-color: #${data.hex4}">
+                                    <span>#${data.hex4}</span>
+                                </div>
+                                <div class="line hex ${Color.checkBrightness(data.hex5)}" style="background-color: #${data.hex5}">
+                                    <span>#${data.hex5}</span>
+                                </div>`;
+            }
+            else if(this.type === "rgb"){
+                const {rgb1, rgb2, rgb3, rgb4, rgb5} = data;
+                let rgbList = [rgb1, rgb2, rgb3, rgb4, rgb5].map(color => {
+                    color = color.match(/rgb\((?<red>[0-9]+),(?<green>[0-9]+),(?<blue>[0-9]+)\)/);
+                    return color && color.groups;
+                });
+
+                box.innerHTML = `<div class="line rgb ${Color.checkBrightness(data.hex1)}" style="background-color: #${data.hex1}">
+                                    <span>${rgbList[0].red}</span>
+                                    <span>${rgbList[0].green}</span>
+                                    <span>${rgbList[0].blue}</span>
+                                </div>
+                                <div class="line rgb ${Color.checkBrightness(data.hex2)}" style="background-color: #${data.hex2}">
+                                    <span>${rgbList[1].red}</span>
+                                    <span>${rgbList[1].green}</span>
+                                    <span>${rgbList[1].blue}</span>
+                                </div>
+                                <div class="line rgb ${Color.checkBrightness(data.hex3)}" style="background-color: #${data.hex3}">
+                                    <span>${rgbList[2].red}</span>
+                                    <span>${rgbList[2].green}</span>
+                                    <span>${rgbList[2].blue}</span>
+                                </div>
+                                <div class="line rgb ${Color.checkBrightness(data.hex4)}" style="background-color: #${data.hex4}">
+                                    <span>${rgbList[3].red}</span>
+                                    <span>${rgbList[3].green}</span>
+                                    <span>${rgbList[3].blue}</span>
+                                </div>
+                                <div class="line rgb ${Color.checkBrightness(data.hex5)}" style="background-color: #${data.hex5}">
+                                    <span>${rgbList[4].red}</span>
+                                    <span>${rgbList[4].green}</span>
+                                    <span>${rgbList[4].blue}</span>
+                                </div>`;
+            }
+            box.querySelectorAll(".line > span").forEach(x => {
+                x.addEventListener("click", e => {
+                    let text = e.target.innerText;
+                    
+                    let input = document.createElement("input");
+                    input.value = text;
+                    document.body.append(input);
+                    input.select();
+
+                    document.execCommand("copy");
+                    input.remove();
+
+                
+                    Alert.on("클립보드에 복사 되었습니다!", text, null, true);
+                });
+            });
+        };
+>>>>>>> 7481e3f... Tab 기능 추가
 
         let template = `<div class="colors">
                             <div class="line" style="background-color: #${data.hex1}">
@@ -265,12 +367,42 @@ class Search {
             }
         });
 
+        data.elemTab = Style.create(`<button class="tab">
+                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa fa-ellipsis-v fa-w-6" role="img" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
+                                </button>`);
+
+        let list = [
+            {
+                name: "수정하기",
+                callback: () => {
+                    alert("수정 완료!");
+                }
+            },
+            {
+                name: "삭제하기",
+                callback: () => {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/api/colors/"+data.id);
+                    xhr.send();
+                    xhr.onload = () => {
+                        location.reload();
+                    };  
+                }
+            },
+        ];
+        data.tab = new Tab(data.elemTab, list);
+        
         return data;
     }
 
     templateTag(data){
         let main_color = data.list.sort((a, b) => b.good - a.good)[0].hex3;
+<<<<<<< HEAD
         
+=======
+        let length = `${data.list.length}`.length > 3 ? `${data.list.length}`.length.substr(0, 3) + "+" : data.list.length;
+
+>>>>>>> 7481e3f... Tab 기능 추가
         let elem = document.createElement("div");
         let innerHTML = `<div class="name">${data.name}</div>
                          <span class="count ${this.getTagBrightness(main_color)}" style="background-color: #${main_color}">300+</span>`;
