@@ -38,7 +38,7 @@ a {
     animation-iteration-count: infinite;
 }
 
-@-webkit-keyframes Shaking {
+@keyframes Shaking {
     0% {
         transform: rotate(3deg);
     }

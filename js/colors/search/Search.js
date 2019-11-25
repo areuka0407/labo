@@ -110,8 +110,8 @@ class Search {
                 }
     
                 this.origin.forEach( data => {
-                    if(this.userdata) data.elem.append(data.elemTab);
-                    else data.elemTab.remove();
+                    // if(this.userdata) data.elem.append(data.elemTab);
+                    // else data.elemTab.remove();
                     data.elem.querySelector(".good svg").style.fill = this.userdata !== null && this.userdata.good.includes(data.id) ? "red" : "black";
                 });
                 allResolve();
@@ -367,30 +367,30 @@ class Search {
             }
         });
 
-        data.elemTab = Style.create(`<button class="tab">
-                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa fa-ellipsis-v fa-w-6" role="img" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
-                                </button>`);
+        // data.elemTab = Style.create(`<button class="tab">
+        //                                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa fa-ellipsis-v fa-w-6" role="img" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
+        //                         </button>`);
 
-        let list = [
-            {
-                name: "수정하기",
-                callback: () => {
-                    alert("수정 완료!");
-                }
-            },
-            {
-                name: "삭제하기",
-                callback: () => {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("DELETE", "/api/colors/"+data.id);
-                    xhr.send();
-                    xhr.onload = () => {
-                        location.reload();
-                    };  
-                }
-            },
-        ];
-        data.tab = new Tab(data.elemTab, list);
+        // let list = [
+        //     {
+        //         name: "수정하기",
+        //         callback: () => {
+        //             alert("수정 완료!");
+        //         }
+        //     },
+        //     {
+        //         name: "삭제하기",
+        //         callback: () => {
+        //             let xhr = new XMLHttpRequest();
+        //             xhr.open("DELETE", "/api/colors/"+data.id);
+        //             xhr.send();
+        //             xhr.onload = () => {
+        //                 location.reload();
+        //             };  
+        //         }
+        //     },
+        // ];
+        // data.tab = new Tab(data.elemTab, list);
         
         return data;
     }
