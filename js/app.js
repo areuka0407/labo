@@ -144,6 +144,7 @@ window.onload = function () {
     }
 
     $("#click_start").on("click",function(){
+        $(this).css("pointer-events", "none");
         $("#font-card").fadeOut();
         $("#play_button").fadeIn();
     });

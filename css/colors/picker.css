@@ -4,6 +4,7 @@
 Contents
 */
 
+<<<<<<< HEAD
 .contents {
     width: 700px;
 <<<<<<< HEAD
@@ -12,10 +13,18 @@ Contents
     height: 100%;
 >>>>>>> 1d2510f... 로그인 잔버그 수정 + 그룹 추가 삭제 수정 완료
     margin: 0 auto;
+=======
+#main {
+    position: absolute;
+    top: 50px; left: calc(50% - 350px);
+    width: 700px;
+    height: calc(100% - 50px);
+>>>>>>> 9fd78fb... 노트북 사이즈에서도 정상적으로 스타일이 보이도록 수정
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 50px 0 0;
+    overflow: hidden;
 }
 
 .contents .help-message {
