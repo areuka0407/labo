@@ -1,6 +1,7 @@
 <!--head-->
 <link rel="stylesheet" href="/css/colors/search.css">
-<script src="/js/colors/Search.js" type="text/javascript"></script>
+<script src="/js/colors/search/Search.js" type="text/javascript"></script>
+<script src="/js/colors/Color.js" type="text/javascript"></script>
 <!--/head-->
 
 <!--contents-->

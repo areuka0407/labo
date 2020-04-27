@@ -18,18 +18,27 @@ class ColorController extends Controller
 	}
 
 	// 색 보관 페이지
-	public function storagePage(){
-		return $this->view("colors.storage", [], "colors.structure");
+	public function storagePage($user_id){
+		$owner = DB::fetch("SELECT * FROM users WHERE user_id = ?", [$user_id]);
+
+		if(!$owner) CommonController::page_not_found();
+		return $this->view("colors.storage", ['owner' => $owner], "colors.structure");
+	}
+
+	// 이름으로 그룹으로 이뤄진 색상 리스트 가져오기
+	public function getColorGroupsByOwnerId($owner_id){
+		return json_encode(DB::fetchAll("SELECT * FROM colorgroups WHERE owner_id = ?", [$owner_id]));
 	}
 	
 	public function getTags(){
 		$request = isset($_GET['request']) ? $_GET['request'] : "";
 		$path = explode("/",$request);
 		$id = isset($path[2]) ? $path[2] : 0;
-		Color::getTag($id);
+		$result=Color::getTag($id);
 		echo json_encode($result);
 	}
 
+	// 색상 검색 / 추가 / 수정 / 삭제 (Default)
 	public function ApiController(){
 		header("Content-type", "application/json");
 
@@ -56,7 +65,7 @@ class ColorController extends Controller
 				$hex4=isset($_POST['hex4']) ? $_POST['hex4'] : '';
 				$hex5=isset($_POST['hex5']) ? $_POST['hex5'] : '';
 				$tag=isset($_POST['tag']) ? $_POST['tag'] : '';
-				Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+				$result=Color::addColor($user_id,$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
 				echo json_encode($result);
 			}
 			if($method == "PUT"){
@@ -75,7 +84,7 @@ class ColorController extends Controller
 					$hex4=isset($inputData['hex4']) ? $inputData['hex4'] : '';
 					$hex5=isset($inputData['hex5']) ? $inputData['hex5'] : '';
 					$tag =isset($inputData['tag'])  ? $inputData['tag'] : '';
-					Color::putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
+					$result=Color::putColor($id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag);
 					
 					echo json_encode($result);
 				}
@@ -86,10 +95,12 @@ class ColorController extends Controller
 		}
 	}
 
+
+	// 좋아요 표시하기
 	public function addgood($id){
 		$id=(int)$id;
 		$user = $_SESSION['user']->user_id;
-		Color::goodColor($id,$user);
+		$result=Color::goodColor($id,$user);
 	    echo json_encode($result);
 	}
 
@@ -97,7 +108,7 @@ class ColorController extends Controller
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$colors_id = isset($POST['colors_id']) ? $POST['colors_id'] : 0;
 			$group_id = isset($POST['group_id']) ? $POST['group_id'] : 0;
-			Color::CIA($colors_id,$group_id);
+			$result=Color::CIA($colors_id,$group_id);
 			echo json_encode($result);
 		}
 	}
@@ -106,7 +117,8 @@ class ColorController extends Controller
 		$id = $_SESSION['user']->id;
 		if($id && $_SERVER["REQUEST_METHOD"] == "POST"){
 			$groupname=isset($POST['groupname']) ? $POST['groupname'] : "";
-			Color::AddCgroup($id,$groupname);
+			$result=Color::AddCgroup($id,$groupname);
+			echo json_encode($result);
 		}
 	}
 }

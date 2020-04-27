@@ -1,2 +1,265 @@
 @charset "UTF-8";
 
+
+#wrap {
+    width: 1140px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+
+/*
+ 유저 프로필
+*/
+
+#user-profile {
+    margin-top: 30px;
+    width: 100%;
+    height: 150px;
+}
+
+#user-profile .image {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 25px 0;
+    border-radius: 50%;
+    background-color: #ddd;
+    overflow: hidden;
+}
+
+#user-profile .image img {
+    width: 100%;
+    height: 100%;
+}
+
+#user-profile .info {
+    float: left;
+    width: calc(100% - 200px);
+    height: 100%;
+    padding: 20px 20px 20px 50px;
+}
+
+#user-profile .user-info {
+    width: 100%;
+    margin: 10px 0 5px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 1.2em;
+}
+
+#user-profile .user-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: rgb(43, 42, 42);
+}
+
+#user-profile .user-id {
+    margin-left: 5px;
+    color: rgb(122, 122, 122);
+}
+
+#user-profile .tool-info {
+    width: 100%;
+    height: 30px;
+    display: flex;
+}
+
+#user-profile .tool-info button {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    width: 30px; height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#user-profile .tool-info button svg {
+    fill: #8e8e8e;
+    color: #8e8e8e;
+    width: 25px;
+}
+
+
+/*
+ 색상 그룹
+*/
+
+section {
+    margin: 50px 0;
+    width: 100%;
+    height: 400px;
+}
+
+.section-head {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.section-head > h3 {
+    font-size : 1.6em;
+    color: #3f3d3d;
+}
+
+.section-head:hover button {
+    opacity: 1;
+    transition: 0.5s opacity;
+    pointer-events: all;
+}
+
+.section-head button {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: 0.2s opacity;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 50%;
+    color: rgb(141, 141, 141);
+}
+.section-head button svg { width: 20px; fill: rgb(141, 141, 141); }
+.section-head button:hover { color: rgb(252, 34, 70); }
+.section-head button:hover svg { fill: rgb(252, 34, 70); }
+
+
+section article {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 20px;
+    height: 350px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: rgba(245, 243, 243, 0.281);
+    box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgb(243, 242, 242);
+}
+
+section article .hidden-bar {
+    /* display: none; */
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: rgb(248, 247, 247);
+    cursor: pointer;
+    box-shadow: -1px 0 11px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 0 20px 20px 0;
+}   
+
+section article .hidden-bar svg {
+    width: 24px;
+    height: 24px;
+    fill: rgb(230, 42, 83);
+    margin: 163px auto;
+    display: block;
+}
+
+/* 추가된 색상이 존재하지 않을 떄 */
+
+section article .no-item {
+    width: 500px;
+    height: 100px;
+    margin: 175px auto;
+    padding: 20px 0 20px 120px;
+    position: relative;
+}
+section article .no-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 100px;
+    height: 100px;
+    background-image: url(/images/not-found.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+section article .no-item p {
+    font-size: 1.4em;
+    line-height: 40px;
+    color: rgb(77, 76, 76);
+}
+section article .no-item a {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: rgb(233, 36, 36);
+}
+
+
+/* 내용물 디자인 */
+
+section .item {
+    height: calc(100% - 40px);
+    width: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+    flex: 0 0 250px;
+    background-color: #fff;
+}
+
+section .item .colors {
+    height: calc(100% * 2 / 3);
+}
+
+section .item .line {
+    height: calc(100% / 5);
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+section .item .tags {
+    height: calc(100% / 3 - 50px);
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+section .item .tag {
+    margin: 10px 10px;
+    display: inline-block;
+}
+
+
+section .item .info {
+    width: 100%;
+    height: 50px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section .item .date {
+    color: rgb(88, 88, 88);
+    font-size: 0.95em;
+}
+
+section .item .good {
+    display: inline-flex;
+    align-items: center;
+    width: 50px;
+    cursor: pointer;
+}
+
+section .item .good svg {
+    width: 24px; 
+    height: 24px;
+    fill: #8e8e8e;
+}
+
+section .item .good-count {
+    color: #8e8e8e
+}
