@@ -92,12 +92,14 @@ class ColorPicker {
                 this.colorForm = box.firstChild;   
                 this.contentsBox.append(this.colorForm);
                 
-                groups.forEach(group => {
-                    let elem = document.createElement("option");
-                    elem.value = group.id;
-                    elem.innerText = group.name
-                    
-                    this.colorForm.querySelector("#myGroups").append(elem);
+                this.getColorGroups().then( groups => {
+                    groups.forEach(group => {
+                        let elem = document.createElement("option");
+                        elem.value = group.id;
+                        elem.innerText = group.name
+                        
+                        this.colorForm.querySelector("#myGroups").append(elem);
+                    });
                 });
 
                 this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
