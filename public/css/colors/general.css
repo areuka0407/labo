@@ -49,6 +49,10 @@ hr {
     border: 0;
 }
 
+.column {
+    display: flex;
+    flex-direction: column;
+}
 
 .text-accent {
     text-decoration: underline;
