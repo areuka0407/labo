@@ -26,14 +26,14 @@ class Storage {
                 
                 xhr.onload = () => {
                     let result = JSON.parse(xhr.responseText);
-                    if(result === "colorgroup not add") return Alert.on("<h3>서버에서 오류가 발생했어요!</h3><br>고객센터에서 관리자에게 문의해 주세요!");
+                    if(result === "colorgroup not add") return Alert.on("<h3>이미 존재하는 그룹이 있어요!</h3><br>현재 존재하는 그룹과 중복되지 않는 이름으로 정해주세요", Alert.error);
                     else {
                         Alert.on("<h3>새로운 그룹이 추가되었어요!</h3>");
 
                         let group = result;
                         group.elem = this.template(group);
                         group.elemBtns = group.elem.querySelector(".button-group");
-                        group.elemHead = data.elem.querySelector(".section-head");
+                        group.elemHead = group.elem.querySelector(".section-head");
 
                         this.colorList.push(group);
                         this.wrap.append(group.elem);
@@ -43,6 +43,9 @@ class Storage {
 
             Alert.prompt("새 그룹의 이름을 정해주세요!", callback, "이걸로 할래요!", "조금만 시간을 주세요…!");
         });
+
+        const optionBtn = document.querySelector("#user-profile .option-btn");
+        optionBtn.addEventListener("click", () => location.assign("/option"));
 
 
         window.addEventListener("login", () => {
@@ -185,6 +188,8 @@ class Storage {
         elem.querySelector(".index-down").addEventListener("click", e => {
             let current = this.colorList.findIndex(x => x === group);
             let target = current + 1;
+            if(target >= this.colorList.length) return;
+
             let xhr = new XMLHttpRequest();
             xhr.open("PUT", `/api/groups/${group.id}/down`);
             xhr.send();

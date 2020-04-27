@@ -23,8 +23,8 @@ include "permission.php";
   Route::set("GET", "/api/colors/{id}","ColorController@ApiController","All");
   Route::set("GET", "/api/tags","ColorController@getTags","All");
 
-  Route::set("GET","/api/users/{user_id}/groups","ColorController@userCgroup","All");
-  Route::set("GET","/api/groups/{group_id}/colors","ColorController@groupcolor","All");
+  Route::set("GET","/api/users/{user_id}/groups","ColorGroupController@userCgroup","All");
+  Route::set("GET","/api/groups/{group_id}/colors","ColorGroupController@groupcolor","All");
 
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
@@ -35,6 +35,9 @@ include "permission.php";
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
   Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
+
+  /* 이용 가이드 */
+  Route::set("GET", "/guide", "GuideController@homePage", "All");
 /**
  * Guest
  */
@@ -51,6 +54,19 @@ include "permission.php";
 /**
  * User
  */
+  /* Option */
+<<<<<<< HEAD
+  Route::set("GET", "/option", "OptionController@userPage", "User");
+  Route::set("GET", "/option/user", "OptionController@userPage", "User");
+  Route::set("GET", "/option/password", "OptionController@passwordPage", "User");
+  Route::set("GET", "/option/profile-image", "OptionController@imagePage", "User");
+
+  /* Option - Validator */
+  Route::set("POST", "/api/validator/password", "UserController@validPassword", "User");
+  Route::set("POST", "/api/validator/time", "UserController@validTime", "User");
+=======
+  Route::set("GET", "/option", "OptionController@homePage", "User");
+>>>>>>> 2581b96... 사용자 설정 페이지 추가
 
   /* Logout */
   Route::set("POST","/users/logout","UserController@logoutPage","User");
@@ -61,14 +77,14 @@ include "permission.php";
   Route::set("PUT","/api/colors/{id}","ColorController@ApiController","User");
   Route::set("GET","/api/good/{id}","ColorController@addgood","User");
   
-  Route::set("POST", "/api/groups", "ColorController@groupAdd", "User");
-  Route::set("PUT","/api/groups/{group_id}","ColorController@groupNameChange","All");
-  Route::set("DELETE","/api/groups/{group_id}","ColorController@colorgroupDel","User");
-  Route::set("PUT","/api/groups/{group_id}/up","ColorController@Upchangeidx","User");
-  Route::set("PUT","/api/groups/{group_id}/down","ColorController@Downchangeidx","User");
+  Route::set("POST", "/api/groups", "ColorGroupController@groupAdd", "User");
+  Route::set("PUT","/api/groups/{group_id}","ColorGroupController@groupNameChange","All");
+  Route::set("DELETE","/api/groups/{group_id}","ColorGroupController@colorgroupDel","User");
+  Route::set("PUT","/api/groups/{group_id}/up","ColorGroupController@Upchangeidx","User");
+  Route::set("PUT","/api/groups/{group_id}/down","ColorGroupController@Downchangeidx","User");
 
   /* userpage */
-  Route::set("PUT","/users/user","UserController@userUpdate","User");
+  Route::set("PUT","/users/{id}","UserController@userUpdate","User");
   Route::set("DELETE","/users/user","UserController@userDel","User");
 
 /**
