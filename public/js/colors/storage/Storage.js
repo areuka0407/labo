@@ -3,25 +3,38 @@ class Storage {
         this.colorList = [];
         this.user_id = location.pathname.split("/").pop();
     
-        new Promise( res => {
+        this.loading().then(() => { // 색상 그룹, 색상 모두 불러오기 완료
+            console.log(this.colorList);
+        });
+
+        this.eventTrigger();
+    }
+
+    async loading(){
+        this.colorList = await this.loadGroupData();
+        this.colorList.forEach(item => {
+            this.loadColorData(item.id).then(colors => {
+                item.data = colors;
+            });
+        });
+    }
+
+    loadGroupData(){
+        return new Promise( res => {
             let xhr = new XMLHttpRequest();
             xhr.open("GET", "/api/users/"+ this.user_id +"/groups");
             xhr.send();
             xhr.onload = () => res(JSON.parse(xhr.responseText));
-        }).then(data => {
-            this.colorList = data;
-            this.colorList.forEach( group => {
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", "/api/groups/"+group.id+"/colors");
-                xhr.send();
-                xhr.onload = () => {
-                    let colors = JSON.parse(xhr.responseText);
-                    console.log(colors);
-                };
-            });
-        });
+        })
+    }
 
-        this.eventTrigger();
+    loadColorData(group_id){
+        return new Promise( res => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/groups/"+group_id+"/colors");
+            xhr.send();
+            xhr.onload = () => res(JSON.parse(xhr.responseText));
+        });
     }
 
     eventTrigger(){

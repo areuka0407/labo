@@ -57,6 +57,7 @@ class ColorController extends Controller
 			}
 			if($method == "POST"){
 				$user_id=isset($_POST['user_id']) ? $_POST['user_id'] : '';
+				$group_id = isset($_POST['group_id']) ? $_POST['group_id'] : "";
 				$rgb1=isset($_POST['rgb1']) ? $_POST['rgb1'] : '';
 				$rgb2=isset($_POST['rgb2']) ? $_POST['rgb2'] : '';
 				$rgb3=isset($_POST['rgb3']) ? $_POST['rgb3'] : '';
@@ -68,7 +69,7 @@ class ColorController extends Controller
 				$hex4=isset($_POST['hex4']) ? $_POST['hex4'] : '';
 				$hex5=isset($_POST['hex5']) ? $_POST['hex5'] : '';
 				$tag=isset($_POST['tag']) ? $_POST['tag'] : '';
-				$result=Color::addColor($user_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag);
+				$result=Color::addColor($user_id, $group_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag);
 				echo json_encode($result);
 			}
 			if($method == "PUT"){

@@ -60,6 +60,7 @@ class Tags {
                     form.append("hex" + (i+1), hex); 
                 });
     
+                form.append("group_id", document.querySelector("#myGroups").value);
                 form.append("user_id", data.id);
                 form.append("tag", document.querySelector("#tag-box .output").value);
     

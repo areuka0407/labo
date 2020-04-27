@@ -36,11 +36,11 @@ class Color {
 	}
 
 	// color를 DB에 add하는 function(POST)
-	static function addColor($user_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag){
+	static function addColor($user_id, $group_id, $rgb1, $rgb2, $rgb3, $rgb4, $rgb5, $hex1, $hex2, $hex3, $hex4, $hex5, $tag){
 		$user=DB::query("SELECT user_id FROM users WHERE user_id = ?",[$user_id]);
 		$result=false;
 		if($user){
-			DB::query("INSERT INTO colors(user_id,rgb1,rgb2,rgb3,rgb4,rgb5,hex1,hex2,hex3,hex4,hex5,tag,day) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,now())",[$user_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag]);
+			DB::query("INSERT INTO colors(user_id, group_id, rgb1, rgb2, rgb3, rgb4, rgb5, hex1, hex2, hex3, hex4, hex5, tag, day) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,now())",[$user_id,$group_id,$rgb1,$rgb2,$rgb3,$rgb4,$rgb5,$hex1,$hex2,$hex3,$hex4,$hex5,$tag]);
 			$result=true;
 		}
 		return $result;

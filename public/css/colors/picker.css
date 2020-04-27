@@ -79,6 +79,16 @@ Contents
     position: relative;
 }
 
+#myGroups {
+    width: 100%;
+    height: 40px;
+    border: 2px solid rgb(134, 134, 134);
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 1.1em;
+    color: rgb(110, 103, 103);
+}
+
 #tag-box {
     border: 2px solid rgb(134, 134, 134);
     border-radius: 10px;

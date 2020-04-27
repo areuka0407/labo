@@ -23,7 +23,13 @@ class ColorPicker {
             this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
             this.keysearch = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
             this.getColorGroups().then( groups => {
-                // 그룹을 추가하는 로직 추가
+                groups.forEach(group => {
+                    let elem = document.createElement("option");
+                    elem.value = group.id;
+                    elem.innerText = group.name
+                    
+                    this.colorForm.querySelector("#myGroups").append(elem);
+                });
             });
         }
 
@@ -84,11 +90,20 @@ class ColorPicker {
                 let box = document.createElement("div");
                 box.innerHTML = html;
                 this.colorForm = box.firstChild;   
+                this.contentsBox.append(this.colorForm);
+                
+                groups.forEach(group => {
+                    let elem = document.createElement("option");
+                    elem.value = group.id;
+                    elem.innerText = group.name
+                    
+                    this.colorForm.querySelector("#myGroups").append(elem);
+                });
 
                 this.tags = new Tags(this.colorForm.querySelector("#tag-box"));
                 this.keyseach = new Keysearch(this.colorForm.querySelector("#tag-box .input")); // 연관 검색창
             }
-            this.contentsBox.append(this.colorForm);
+            else this.contentsBox.append(this.colorForm);
             
         });
         window.addEventListener("logout", () => {

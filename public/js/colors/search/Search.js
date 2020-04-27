@@ -52,9 +52,13 @@ class Search {
             return data.match(new RegExp(this.search.keyword)) !== null;
         });
 
-
+        console.log(viewList, this.filter);
         //filter
-
+        viewList = viewList.filter(x => {
+            let tagFilter = ( this.filter.tags.length === 0 && x.tags.length === 0 ) || x.tags.reduce((p, c) => p || this.filter.tags.includes(c) || this.filter.tags.length === 0, false);
+            let colorFilter = this.filter.main_color === "" || this.filter.main_color === Color.getMainColor(x.hex3);
+            return tagFilter && colorFilter;
+        });
 
         // sort
         viewList = viewList.sort(this.sort);
