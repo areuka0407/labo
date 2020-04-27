@@ -12,7 +12,8 @@ define("PASSWORD", "");
  * 상수 설정
  */
 define("DS", DIRECTORY_SEPARATOR);
-define("ROOT", dirname(__DIR__));
+// define("ROOT", dirname(__DIR__));
+define("ROOT", __DIR__);
 define("PULBIC", __DIR__);
 define("APP", ROOT.DS."App");
 define("HELPERS", ROOT.DS."helpers");
