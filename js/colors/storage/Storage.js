@@ -44,6 +44,9 @@ class Storage {
             Alert.prompt("새 그룹의 이름을 정해주세요!", callback, "이걸로 할래요!", "조금만 시간을 주세요…!");
         });
 
+        const optionBtn = document.querySelector("#user-profile .option-btn");
+        optionBtn.addEventListener("click", () => location.assign("/option"));
+
 
         window.addEventListener("login", () => {
             this.updateLogin();

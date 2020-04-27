@@ -244,6 +244,11 @@ hr {
     color: rgb(156, 156, 156);
 }
 
+.middle li a:hover {
+    transition: 0.2s color;
+    color: #fff!important;
+}
+
 [data-tooltip-text]:hover {
     position: relative;
 }
