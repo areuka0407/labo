@@ -4,7 +4,8 @@ window.onload = function () {
     var wrap = `<div id='wrap'></div>`;
     $("body").append(wrap);
     let session;
-    let loginA=`<li class="login_b" id="login_nav"><a href="#" id="login_btn">로그인</a></li>`;
+    let loginA=`<li class="login_b" id="login_nav"><a href="#" id="login_btn">로그인</a></li>
+                <li class="login_b" id="join_nav"><a href="/join/agree" id="join_btn">회원가입</a></li>`;
      $(".nav ul").prepend(loginA);
     let loginA2=`<div class="login_b font-card" id="font-card">
                     <p class="main-font">
@@ -38,11 +39,6 @@ window.onload = function () {
                                 <span class="line">/</span>
                                 <a href="#" class="FAccount2"><img src="images/question-circle.png" alt="question-circle" width="16"
                                                                    height="16">계정에 로그인 할 수 없습니까?</a>
-                                
-                                <div class="google">
-                                    <img src="images/google.jpg" alt="google_img" width="50" height="50">
-                                    <p>Sign up with Google</p>
-                                </div>
                             </div>
                         </div>
                     </div>`;
@@ -148,19 +144,6 @@ window.onload = function () {
         $("#font-card").fadeOut();
         $("#play_button").fadeIn();
     });
-    // $("#good").css("z-index",100);
-    // $("#good").on("click",function(){
-    //     $.ajax({
-    //         //나중에 해야됨
-    //         url:"/users/good/5",
-    //         method:"GET",
-    //         success:function(result){
-    //             console.log(result);
-    //             if(result == "good insert") $("#good").css("color","red");
-    //             else $("#good").css("color","black");
-    //         }
-    //     });
-    // });
-    // 
+
     $("#login_nav").css({"position":"absolute","right":"500px"});
 }

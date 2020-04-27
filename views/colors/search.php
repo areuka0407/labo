@@ -41,31 +41,31 @@
             <div id="color-box" class="filter-list">
                 <div class="item" data-color="red">
                     <div class="name">빨강(Red)</div>
-                    <div class="color" style="background-color: red"></div>
+                    <div class="color" style="background-color: #FE2B21"></div>
                 </div>
                 <div class="item" data-color="yellow">
                     <div class="name">노랑(Yellow)</div>
-                    <div class="color" style="background-color: yellow"></div>
-                </div>
-                <div class="item" data-color="blue">
-                    <div class="name">파랑(Blue)</div>
-                    <div class="color" style="background-color: blue"></div>
-                </div>
-                <div class="item" data-color="cyan">
-                    <div class="name">비취(Cyan)</div>
-                    <div class="color" style="background-color: cyan"></div>
+                    <div class="color" style="background-color: #FED229"></div>
                 </div>
                 <div class="item" data-color="green">
                     <div class="name">초록(Green)</div>
-                    <div class="color" style="background-color: green"></div>
+                    <div class="color" style="background-color: #4CFE40"></div>
+                </div>
+                <div class="item" data-color="cyan">
+                    <div class="name">비취(Cyan)</div>
+                    <div class="color" style="background-color: #14D9FE"></div>
+                </div>
+                <div class="item" data-color="blue">
+                    <div class="name">파랑(Blue)</div>
+                    <div class="color" style="background-color: #2326FE"></div>
                 </div>
                 <div class="item" data-color="magenta">
                     <div class="name">자홍(Magenta)</div>
-                    <div class="color" style="background-color: magenta"></div>
+                    <div class="color" style="background-color: #EF3AFE"></div>
                 </div>
                 <div class="item" data-color="gray">
                     <div class="name">무채색(Achromatic)</div>
-                    <div class="color" style="background-color: gray"></div>
+                    <div class="color" style="background-color: #AEADAD"></div>
                 </div>
             </div>
         </div>
@@ -87,6 +87,10 @@
             <p>당신이 생각하는 <span>최고의 색 조합(Color Collaboration)</span>을 찾아 보세요!</p>
         </div>
         <div class="tool-bar">
+            <select id="colorView" class="mr-2">
+                <option value="hex">색상 코드: Hex</option>
+                <option value="rgb">색상 코드: RGB</option>
+            </select>
             <select id="orderBy">
                 <option value="day-ASC">생성한 날짜: 오름차순</option>
                 <option value="day-DESC">생성한 날짜: 내림차순</option>

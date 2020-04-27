@@ -8,7 +8,7 @@
     <div id="wrap">
         <div id="user-profile">
             <div class="image">
-                <img src="/images/default-userprofile.png" alt="User-Profile">
+                <img src="/images/<?=$owner->image ? "users/".$owner->image : "default-userprofile.png" ?>" alt="User-Profile">
             </div>
             <div class="info">
                 <div class="user-info">

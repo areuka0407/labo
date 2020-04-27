@@ -15,10 +15,10 @@ class Login {
     
         // Nav 구성 요소들
         this.elemNav = document.querySelector(".nav.right");
-        this.elemLoginBtn = this.create(`<li class="btn-login"><a href="#" data-tooltip-text="로그인">로그인</a></li>`);
-        this.elemJoinBtn = this.create(`<li class="btn-join"><a href="/join/agree" data-tooltip-text="회원가입">회원가입</a></li>`);
-        this.elemLogoutBtn = this.create(`<li class="btn-logout"><a data-tooltip-text="로그아웃">로그아웃</a></li>`);
-        this.elemUName = this.create(`<li class="user-name text-accent"></li>`);
+        this.elemLoginBtn = this.elemNav.querySelector(".btn-login") ? this.elemNav.querySelector(".btn-login") : this.create(`<li class="btn-login"><a href="#" data-tooltip-text="로그인">로그인</a></li>`);
+        this.elemJoinBtn = this.elemNav.querySelector(".btn-join") ? this.elemNav.querySelector(".btn-join") : this.create(`<li class="btn-join"><a href="/join/agree" data-tooltip-text="회원가입">회원가입</a></li>`);
+        this.elemLogoutBtn = this.elemNav.querySelector(".btn-logout") ? this.elemNav.querySelector(".btn-logout") : this.create(`<li class="btn-logout"><a data-tooltip-text="로그아웃">로그아웃</a></li>`);
+        this.elemUName = this.elemNav.querySelector(".user-name") ? this.elemNav.querySelector(".user-name") : this.create(`<li class="user-name text-accent"></li>`);
         this.elemLoginArea = this.create(`<div class="login-wrap" style="display: none;">
                                             <div class="login">
                                                 <img src="/images/Blogo.png" alt="logo" class="login-logo">
@@ -34,10 +34,6 @@ class Login {
                                                 <span class="line">/</span>
                                                 <a href="#" class="FAccount2"><img src="/images/question-circle.png" alt="question-circle" width="16"
                                                                                 height="16">계정에 로그인 할 수 없습니까?</a>
-                                                <div class="google">
-                                                    <img src="/images/google.jpg" alt="google_img" width="50" height="50">
-                                                    <p>Sign up with Google</p>
-                                                </div>
                                             </div>
                                         </div>`);
             

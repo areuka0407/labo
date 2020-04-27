@@ -4,12 +4,13 @@ class Search {
         this.tagList = [];
         this.search = {keyword: "", type: "tag"};
         this.filter = {
-            tags: "",
-            user_name: "",
+            tags: [],
             main_color: "",
         };
-        
         this.sort = (a, b) => a.day - b.day;
+        this.userdata = null;
+        this.type = "hex";
+
 
         new Promise(res => {
             let xhr = new XMLHttpRequest();
@@ -19,26 +20,32 @@ class Search {
         }).then(data => {
             JSON.parse(data).forEach(x => {
                 let cnew = this.templateColor(x);
+
+                // 태그 추가하기
                 cnew.tags.forEach(tag => {     
                     let find = this.tagList.find(x => x.name === tag);
                     if(!find)  this.tagList.push({name: tag, list: [cnew]})
                     else find.list.push(cnew);
                 });
-                this.origin.push( cnew );
+
+                this.origin.push(cnew);
             });
 
             
             // 태그 기본 세팅
             this.tagBox = document.querySelector("#tag-box");
             this.tagBox.innerHTML = '';
-            this.tagList.forEach(tag => {
+            this.tagList.sort((a, b) => b.list.length - a.list.length).forEach(tag => {
                 tag.elem = this.templateTag(tag);
+                tag.setCount = cnt => {
+                    tag.elem.querySelector(".count").innerText = cnt;
+                };
                 this.tagBox.append(tag.elem);
             });
             
             this.keysearch = new Keysearch("#search-bar", Keysearch.multiple, () => this.view.apply(this) );
 
-            this.init();
+            this.view();
             this.eventTrigger();
         });
     }
@@ -49,7 +56,6 @@ class Search {
         elemBox.innerHTML = "";
         
         let viewList = Object.assign(this.origin);
-
 
         // search
         viewList = viewList.filter(x => {
@@ -67,14 +73,12 @@ class Search {
         // sort
         viewList = viewList.sort(this.sort);
         
-        
         viewList.forEach(x => {
+            x.changeView();
             elemBox.append(x.elem);
         });
     }
 
-<<<<<<< HEAD
-=======
     tagView(color = null){
         this.filter.tags = []; // 태그 선택 초기화
 
@@ -91,7 +95,6 @@ class Search {
         });
     }
 
->>>>>>> 7481e3f... Tab 기능 추가
     // 로그인 확인
     updateLogin(){
         return new Promise( allResolve => {
@@ -124,6 +127,8 @@ class Search {
         window.addEventListener("login", e => this.view());
         window.addEventListener("logout", e => this.view());
 
+
+        // 카테고리 정렬
         document.querySelector("#filter-order").addEventListener("click", e => {
             let target = e.target;
             while(target.id !== "filter-order") target = target.parentElement;
@@ -146,19 +151,25 @@ class Search {
         });
 
 
-        // 정렬 <select> 태그를 사용하면 내용물이 정렬되어 보여진다.
-        document.querySelector("#orderBy").addEventListener("change", e => {
-            let order = e.target.value.split("-");
-            this.sort = (a, b) => {
-                let comA = a[order[0]];
-                let comB = b[order[0]];
-
-                if(order[1] === "ASC") return comA - comB;
-                else return comB - comA;
-            };
-            this.init();
+        
+        // 색상 <select> 태그를 사용하면 View의 텍스트들이 바뀐다.
+        document.querySelector("#colorView").addEventListener("change", e => {
+            this.type = e.target.value;
+            this.view();
         });
 
+        // 정렬 <select> 태그를 사용하면 내용물이 정렬되어 보여진다.
+        document.querySelector("#orderBy").addEventListener("change", e => {
+            let [key, order] = e.target.value.split("-");
+            this.sort = (a, b) => {
+                let comA = a[key];
+                let comB = b[key];
+
+                if(order === "ASC") return comA - comB;
+                else return comB - comA;
+            };
+            this.view();
+        });
 
         // 검색창 내에 키워드를 입력할 때마다 검색 내용이 적용되어 보여진다.
         const searchBar = document.querySelector("#search-bar");
@@ -211,19 +222,16 @@ class Search {
             let color = e.target.dataset.color;
             document.querySelectorAll("#color-box > .item.active").forEach(y => y.classList.remove("active"));
 
-<<<<<<< HEAD
-            if(color === this.filter.main_color) this.filter.main_color = "";
-=======
 
             // 색상 필터링
             if(color === this.filter.main_color) {
                 this.filter.main_color = "";
                 this.tagView();
             }
->>>>>>> 7481e3f... Tab 기능 추가
             else {
                 e.target.classList.add("active");
                 this.filter.main_color = color;
+                this.tagView(color);
             }
 
             this.view();
@@ -235,8 +243,6 @@ class Search {
         if(data.tags.length === 1 && data.tags[0] === "") data.tags = [];
         data.day = new Date(data.day);
         data.good = parseInt(data.good);
-<<<<<<< HEAD
-=======
         data.changeView = () => {
             const box = data.elem.querySelector(".colors");
             if(this.type === "hex"){
@@ -306,24 +312,9 @@ class Search {
                 });
             });
         };
->>>>>>> 7481e3f... Tab 기능 추가
 
         let template = `<div class="colors">
-                            <div class="line" style="background-color: #${data.hex1}">
-                                <span>#${data.hex1}</span>
-                            </div>
-                            <div class="line" style="background-color: #${data.hex2}">
-                                <span>#${data.hex2}</span>
-                            </div>
-                            <div class="line" style="background-color: #${data.hex3}">
-                                <span>#${data.hex3}</span>
-                            </div>
-                            <div class="line" style="background-color: #${data.hex4}">
-                                <span>#${data.hex4}</span>
-                            </div>
-                            <div class="line" style="background-color: #${data.hex5}">
-                                <span>#${data.hex5}</span>
-                            </div>
+                            
                         </div>
                         <div class="tags">`
         
@@ -335,7 +326,7 @@ class Search {
         template +=    `</div>
                         <div class="other">
                             <span class="date">${this.koreanDate(data.day)}</span>
-                            <a class="owner" href="/colors/storage/${data.identity}">${data.user_name}</a>
+                            <a href="/colors/storage/${data.user_id}" class="owner">${data.user_name}</a>
                             <div class="good">
                                 <svg viewBox="0 0 24 24" style="fill:'black'"><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z"></path></g></svg>
                                 <span class="count" id="count${data.id}">${data.good}</span>
@@ -344,6 +335,14 @@ class Search {
         data.elem = document.createElement("div");
         data.elem.classList.add("item");
         data.elem.innerHTML = template;
+
+        data.elem.querySelectorAll(".tags > span").forEach(tag => {
+            tag.addEventListener("click", () => {
+                let keyword = document.querySelector("#search-bar").value;
+                document.querySelector("#search-bar").value += keyword === "" ? tag.innerText : " " + tag.innerText;
+                this.searchBar();
+            });
+        });
 
         data.elem.querySelector(".good").addEventListener("click", e => {
             if(!this.userdata) return false;
@@ -397,17 +396,14 @@ class Search {
 
     templateTag(data){
         let main_color = data.list.sort((a, b) => b.good - a.good)[0].hex3;
-<<<<<<< HEAD
-        
-=======
         let length = `${data.list.length}`.length > 3 ? `${data.list.length}`.length.substr(0, 3) + "+" : data.list.length;
 
->>>>>>> 7481e3f... Tab 기능 추가
         let elem = document.createElement("div");
         let innerHTML = `<div class="name">${data.name}</div>
-                         <span class="count ${this.getTagBrightness(main_color)}" style="background-color: #${main_color}">300+</span>`;
+                         <span class="count ${Color.checkBrightness(main_color)}" style="background-color: #${main_color}">${length}</span>`;
         elem.classList.add("item");
         elem.innerHTML = innerHTML;
+
         return elem;
     }
 
@@ -415,17 +411,10 @@ class Search {
         let bar = document.querySelector("#search-bar");
         let type = bar.dataset.type;
         let keyword = bar.value;
-        this.search = {"keyword": keyword, "type": type};
-        this.init();
-    }
+        
 
-    getTagBrightness(hex){
-        let color = [
-            parseInt(hex.substr(0, 2), 16),
-            parseInt(hex.substr(2, 2), 16),
-            parseInt(hex.substr(4, 2), 16)
-        ];
-        return color.reduce(p => p > 255 / 2) ? "dark" : "light";
+        this.search = {"keyword": keyword, "type": type};
+        this.view();
     }
 
     encodeRegex(str){
@@ -437,25 +426,5 @@ class Search {
         return dateObj.getMonth() + "월 " + dateObj.getDate() + "일";
     }
 };
-//good event
-function addgood(id){
-    console.log(id);
-    $.ajax({
-        url:"/api/good/"+id,
-        type:"GET",
-        success:function(result){
-            result = $.parseJSON(result);
-            if(result == "add"){
-                $("#good"+id).css("fill","red");
-                let count = Number($("#count"+id).text());
-                $("#count"+id).text(count+1);
-            }else{
-                $("#good"+id).css("fill","black");
-                let count = Number($("#count"+id).text());
-                $("#count"+id).text(count-1);
-            }
-        }
-    })
-}
 
 window.addEventListener("load", () => new Search());

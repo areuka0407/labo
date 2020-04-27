@@ -1,5 +1,6 @@
 class GroupView {
     constructor(){
+        // 그룹의 주인 정보
         this.owner_idx = document.querySelector("meta[name='owner_idx']").content;
         this.owner_id = document.querySelector("meta[name='owner_id']").content;
         this.group_id = document.querySelector("meta[name='group_id']").content;
@@ -7,9 +8,18 @@ class GroupView {
         this.g_title = document.querySelector("#group-title");
         this.wrap = document.querySelector("#color-contents");
         this.userBox = document.querySelector("#group-profile .user-info");
+
+
+        // View 기준점
+        this.type = "hex";
+        this.sort = (b, a) => new Date(b.day) - new Date(a.day);
+
+        // Login 시 사라져야 하는 버튼
+        this.ownerBtns = document.querySelector("#group-profile .btn-group");
         
         this.colorList = [];
         this.loading().then(() => {
+            this.view();
             this.updateLogin();
             this.eventTrigger();
         });
@@ -51,7 +61,7 @@ class GroupView {
             };
             Alert.prompt("새로운 그룹명을 입력해 주세요!", callback, "수정 완료!", "더 고민해 볼래!"); 
         });
-
+// 
         // 그룹 삭제
         document.querySelector("button.group-remove").addEventListener("click", e => {
             let callback = () => {
@@ -73,6 +83,30 @@ class GroupView {
             Alert.confirm("정말 삭제하시겠습니까?", "그룹에 등록된 모든 색상이 삭제될 거에요!<br>신중하게 선택해 주세요!", callback, "네, 삭제할게요.", "아니 잠깐만요!")
         });
 
+        // 색상 <select> 태그를 사용하면 View의 텍스트들이 바뀐다.
+        document.querySelector("#colorView").addEventListener("change", e => {
+            this.type = e.target.value;
+            this.view();
+        });
+
+
+        // 정렬 기준 변경
+        document.querySelector("#orderBy").addEventListener("change", e => {
+            let [key, order] = e.target.value.split("-");
+            this.sort = (a, b) => {
+                let comA = a[key];
+                let comB = b[key];
+
+                if(key === "day"){
+                    if(order === "ASC") return new Date(comA) - new Date(comB);
+                    else return new Date(comB) - new Date(comA);
+                }
+
+                if(order === "ASC") return comA - comB;
+                else return comB - comA;
+            };
+            this.view();
+        });
     }
     
     loading(){
@@ -87,22 +121,95 @@ class GroupView {
                     x.tags = x.tag.split(" ");
                     x.tags = x.tags[0] === "" ? [] : x.tags;
                     x.elem = this.template(x);
+                    x.changeView = () => {
+                        const box = x.elem.querySelector(".colors");
+                        if(this.type === "hex"){
+                            box.innerHTML = `<div class="line hex ${Color.checkBrightness(x.hex1)}" style="background-color: #${x.hex1}">
+                                                <span>#${x.hex1}</span>
+                                            </div>
+                                            <div class="line hex ${Color.checkBrightness(x.hex2)}" style="background-color: #${x.hex2}">
+                                                <span>#${x.hex2}</span>
+                                            </div>
+                                            <div class="line hex ${Color.checkBrightness(x.hex3)}" style="background-color: #${x.hex3}">
+                                                <span>#${x.hex3}</span>
+                                            </div>
+                                            <div class="line hex ${Color.checkBrightness(x.hex4)}" style="background-color: #${x.hex4}">
+                                                <span>#${x.hex4}</span>
+                                            </div>
+                                            <div class="line hex ${Color.checkBrightness(x.hex5)}" style="background-color: #${x.hex5}">
+                                                <span>#${x.hex5}</span>
+                                            </div>`;
+                        }
+                        else if(this.type === "rgb"){
+                            const {rgb1, rgb2, rgb3, rgb4, rgb5} = x;
+                            let rgbList = [rgb1, rgb2, rgb3, rgb4, rgb5].map(color => {
+                                color = color.match(/rgb\((?<red>[0-9]+),(?<green>[0-9]+),(?<blue>[0-9]+)\)/);
+                                return color && color.groups;
+                            });
+
+                            box.innerHTML = `<div class="line rgb ${Color.checkBrightness(x.hex1)}" style="background-color: #${x.hex1}">
+                                                <span>${rgbList[0].red}</span>
+                                                <span>${rgbList[0].green}</span>
+                                                <span>${rgbList[0].blue}</span>
+                                            </div>
+                                            <div class="line rgb ${Color.checkBrightness(x.hex2)}" style="background-color: #${x.hex2}">
+                                                <span>${rgbList[1].red}</span>
+                                                <span>${rgbList[1].green}</span>
+                                                <span>${rgbList[1].blue}</span>
+                                            </div>
+                                            <div class="line rgb ${Color.checkBrightness(x.hex3)}" style="background-color: #${x.hex3}">
+                                                <span>${rgbList[2].red}</span>
+                                                <span>${rgbList[2].green}</span>
+                                                <span>${rgbList[2].blue}</span>
+                                            </div>
+                                            <div class="line rgb ${Color.checkBrightness(x.hex4)}" style="background-color: #${x.hex4}">
+                                                <span>${rgbList[3].red}</span>
+                                                <span>${rgbList[3].green}</span>
+                                                <span>${rgbList[3].blue}</span>
+                                            </div>
+                                            <div class="line rgb ${Color.checkBrightness(x.hex5)}" style="background-color: #${x.hex5}">
+                                                <span>${rgbList[4].red}</span>
+                                                <span>${rgbList[4].green}</span>
+                                                <span>${rgbList[4].blue}</span>
+                                            </div>`;
+                        }
+                        box.querySelectorAll(".line > span").forEach(x => {
+                            x.addEventListener("click", e => {
+                                let text = e.target.innerText;
+                                
+                                let input = document.createElement("input");
+                                input.value = text;
+                                document.body.append(input);
+                                input.select();
+
+                                document.execCommand("copy");
+                                input.remove();
+
+                                Alert.on("클립보드에 복사 되었습니다!", Alert.wine);
+                            });
+                        });
+                    }
+                    
                     this.colorList.push(x);
-                    this.wrap.append(x.elem);
                 });
                 res();
             };
         });
     }
 
+    view(){
+        let viewList = Object.assign(this.colorList);
+
+        viewList.sort(this.sort).forEach(x => {
+            x.changeView();
+            this.wrap.append(x.elem);
+        });
+    }
+
     template(data){
+
         let html = `<div class="item">
                         <div class="colors">
-                            <div class="line" style="background-color: #${data.hex1}">#${data.hex1}</div>
-                            <div class="line" style="background-color: #${data.hex2}">#${data.hex2}</div>
-                            <div class="line" style="background-color: #${data.hex3}">#${data.hex3}</div>
-                            <div class="line" style="background-color: #${data.hex4}">#${data.hex4}</div>
-                            <div class="line" style="background-color: #${data.hex5}">#${data.hex5}</div>
                         </div>
                         <div class="tags">`;
         data.tags.forEach(tag => {
@@ -163,9 +270,12 @@ class GroupView {
                 if(userdata !== false) {
                     this.userdata = userdata;
                     this.userdata.good = this.userdata.good.split(",");
+
+                    this.g_title.parentElement.append(this.ownerBtns);
                 }
                 else {
                     this.userdata = null;
+                    this.ownerBtns.remove();
                 }
     
                 this.colorList.forEach( data => {

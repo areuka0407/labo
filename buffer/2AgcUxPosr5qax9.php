@@ -45,6 +45,7 @@
         </div>
         <hr class="mb-2">
         <div class="o-image">
+            <label for="upload-image">프로필 이미지</label>
             <input type="file" id="upload-image" hidden>
             <div class="profile-image">
                 <label for="upload-image" class="preview" style="background-image: url(<?=user()->image ? "/images/users/".user()->image : "/images/default-userprofile.png"?>)"></label>
@@ -61,8 +62,12 @@
                 </div>
                 <p>업로드할 이미지를 끌어 놓으세요!</p>
             </div>
+
+            <div class="help-message mt-2">※ 적정 사이즈: 80px × 80px</div>
+            <div class="help-message mt-1">※ 이미지 사이즈는 자동으로 조정됩니다.</div>
         </div>
         <div class="o-info">
+            <input type="hidden" id="uid" value="<?=user()->id?>">
             <div class="form-group">
                 <label>아이디</label>
                 <input type="text" id="user_id" value="<?=user()->user_id?>" readonly>
@@ -70,10 +75,6 @@
             <div class="form-group">
                 <label for="user_name">이름</label>
                 <input type="text" id="user_name" value="<?=user()->user_name?>">
-            </div>
-            <div class="form-group">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password">
             </div>
             <div class="form-group">
                 <label for="birthday-Y">생년월일</label>
@@ -95,7 +96,11 @@
                     <option value="none">밝히고 싶지 않음</option>
                 </select>
             </div>
-            <button class="submit-btn">
+            <div class="form-group">
+                <label for="now-pass">현재 비밀번호</label>
+                <input type="password" id="now-pass">
+            </div>
+            <button class="submit-btn mt-4">
                 수정하기
             </button>
         </div>

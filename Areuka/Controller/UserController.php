@@ -54,12 +54,6 @@ class UserController extends Controller
 
     public function userUpdate($id){
         // 수정 가능 항목 : 이름 / 생일 / 성별 / 이미지 / 비밀번호
-<<<<<<< HEAD
-        if($_SERVER["REQUEST_METHOD"] == "PUT" && $id){
-            $result=User::userUpdate($id);
-            echo json_encode($result);
-        }
-=======
         // 메소드가 PUT인지, $id가 있는지를 검사하는 것은 이미 되어있음
 
         $putData = file_get_contents("php://input");
@@ -68,7 +62,6 @@ class UserController extends Controller
             
         echo json_encode($result);
         
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중
     }
 
     public function userDel(){

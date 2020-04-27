@@ -48,23 +48,16 @@ class User{
 	}
 
 	// 유저 정보변경 (PUT)
-<<<<<<< HEAD
-	static function userUpdate($id){
-=======
 	static function userUpdate($id, $inputData){
->>>>>>> 7481e3f... Tab 기능 추가
 		$result="";
 		// 원래 데이터 가져오기
         $original=DB::fetch("SELECT user_name,y_m_d,gender,image,password FROM users WHERE id = ?",[$id]);
-        $putData = file_get_contents("php://input");
-        $inputData=array();
-        parse_str($putData,$inputData);
         // input 된게 없으면 원래 데이터로 함
         $name = isset($inputData['user_name']) ? $inputData['user_name'] : $original->user_name;
         $y_m_d = isset($inputData['y_m_d']) ? $inputData['y_m_d'] : $original->y_m_d;
         $gender = isset($inputData['gender']) ? $inputData['gender'] : $original->gender;
         $image = isset($inputData['image']) ? $inputData['image'] : $original->image;
-        $password = isset($inputData['password']) ? $inputData['password'] : $original->password;
+        $password = isset($inputData['password']) ? hash("sha256", $inputData['password']) : $original->password;
         $image_size = 0;
         $filename=NULL;
         if($image != $original->image && $image_size < 2){
@@ -79,18 +72,20 @@ class User{
                 // 랜덤한 파일명 생성
                 $str="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
                 do{
-                    for($i = 0; $i < 20; $i++) $filename .=$str[rand(0,strlen($str)-1)];
-                    $same = DB::fetch("SELECT image FROM users WHERE image = ?",[$filename]);
+                    for($i = 0; $i < 20; $i++) $filename .= $str[rand(0,strlen($str)-1)];
+                    $same = DB::fetch("SELECT image FROM users WHERE image = ?",[$filename.$exten]);
                 }while($same);
-                $file_path = ROOT.DS."images".DS."users".DS.$filename.$exten;
+                $filename .= $exten;
+                $file_path = ROOT.DS."images".DS."users".DS.$filename;
                 // dd($filedata);
+                if(isset($original->image)) unlink(ROOT.DS."images".DS."users".DS.$original->image);
                 file_put_contents($file_path,$filedata);
             }
         }else $filename = $original->image;
         // random한 문자열 20자
         // 하지만 하나정도는 input 된게 있어야함
         if($name != $original->user_name || $y_m_d != $original->y_m_d || $gender != $original->gender || $image != $original->image || $password != $original->password){
-            DB::query("UPDATE users SET user_name = ?, y_m_d = ?, gender = ?, image = ?, password = ? WHERE id = ?",[$name,$y_m_d,$gender,$filename,$password,$id]);
+            DB::query("UPDATE users SET user_name = ?, y_m_d = ?, gender = ?, image = ?, password = ? WHERE id = ?",[$name,$y_m_d,$gender,$filename, $password, $id]);
             $result = "user update";
         }else $result = "not change";
         return $result;

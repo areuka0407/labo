@@ -1,5 +1,5 @@
-  
 <?php
+
 namespace Areuka\Controller;
 
 use Areuka\Model\User;

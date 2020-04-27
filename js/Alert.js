@@ -2,21 +2,16 @@ class Alert {
     static white = "#ffffff";
     static info = "#31E773";
     static error = "#EE4949";
+    static wine = "#EC2E90";
 
-    static create(message){
+    static create(message = ""){
         let elem = document.createElement("div");
         elem.classList.add("alert-message")
         elem.innerHTML = message;
         return elem;
     }
 
-<<<<<<< HEAD
-    static on(message, type = Alert.info, callBack = null){
-        if(document.querySelector(".alert-message")) return;
-        
-=======
     static on(message, type = Alert.info, callBack = null, auto_color_change = false){
->>>>>>> 7481e3f... Tab 기능 추가
         let elem = Alert.create(message);
         elem.style.backgroundColor = type;
         if(auto_color_change) elem.classList.add( Color.checkBrightness(type) );
@@ -45,21 +40,39 @@ class Alert {
                             <button class="btn-apply">${applyText}</button>
                             <button class="btn-cancel">${cancelText}</button>
                         </div>`;
+
+        let wrap = document.createElement("div");
+        wrap.classList.add("alert-wrapper");
+        wrap.append(elem);
         elem.querySelector(".btn-apply").addEventListener("click", function(){
             callBack && callBack();
-            this.parentElement.parentElement.remove();
+            wrap.remove();
         });
 
         elem.querySelector(".btn-cancel").addEventListener("click", function(){
-            this.parentElement.parentElement.remove();
+            console.log(wrap);
+            wrap.remove();
         });
 
-        document.body.append(elem);
+
+        wrap.addEventListener("click", e => {
+            e.stopPropagation();
+            
+            if(!e.path.includes(elem))
+                wrap.remove();
+            return false;
+        });
+
         
+        wrap.style.display = "none";
+        elem.style.top = "initial";
+        document.body.append(wrap);        
+        elem.style.bottom = "100%";
+        $(elem).animate({bottom: "50%"}, 600);
+        $(wrap).fadeIn();
     }
 
     static prompt(message, callBack = null, applyText = "확인", cancelText = "취소"){
-        console.log("prompt");
         if(document.querySelector(".alert-message")) return;
 
         let elem = Alert.create();
@@ -78,20 +91,41 @@ class Alert {
                             <button class="btn-apply">${applyText}</button>
                             <button class="btn-cancel">${cancelText}</button>
                         </div>`;
+        let wrap = document.createElement("div");
+        wrap.classList.add("alert-wrapper");
+        wrap.append(elem);
 
         let applyHandler = () => {
             let data = elem.querySelector("#prompt-output").value;
-            elem.remove();
+            wrap.remove();
             callBack && callBack(data);
         };
         elem.querySelector(".btn-apply").addEventListener("click", applyHandler);
         elem.querySelector("#prompt-output").addEventListener("keydown", e => e.keyCode === 13 && applyHandler());
 
         elem.querySelector(".btn-cancel").addEventListener("click", function(){
-            this.parentElement.parentElement.remove();
+            wrap.remove();
         });
 
-        document.body.append(elem);
+       
+
+        wrap.addEventListener("click", e => {
+            e.stopPropagation();
+ 
+            if(!e.path.includes(elem))
+                wrap.remove();
+            
+            return false;
+        });
+
+        wrap.style.display = "none";
+        elem.style.top = "initial";
+        document.body.append(wrap);        
+        elem.style.bottom = "100%";
+        $(elem).animate({bottom: "50%"}, 600);
+        $(wrap).fadeIn();
+        
+
     }
 }
 

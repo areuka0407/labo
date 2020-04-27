@@ -69,20 +69,14 @@
 
 #option .o-image {
     float: left;
-<<<<<<< HEAD:css/option/home.css
-    width: 50%;
-=======
     width: calc(75% - 50px);
     margin-left: 50px;
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
     height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
-<<<<<<< HEAD:css/option/home.css
-=======
     border: 1px solid #ddd;
     box-shadow: 0 0 10px #00000020;
 }
@@ -98,7 +92,6 @@
 #option .help-message {
     font-size: 0.95em;
     color: rgb(100, 99, 99);
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
 }
 
 #option .profile-image {
@@ -127,6 +120,7 @@
 }
 
 #option .o-image .edit {
+    cursor: pointer;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -160,7 +154,7 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     font-size: 1.3em;
     pointer-events: none;
@@ -197,15 +191,26 @@
     width: 100%;
     height: 70px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    position: relative;
 }
 
 #option .form-group label {
     display: inline-block;
     width: 150px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     font-size: 1.2em;
     color: #444040;
+}
+
+#option .form-group > .error-message {
+    color: #e73131;
+    font-size: 0.95em;
+    position: absolute;
+    bottom: 15px;
+    left: 160px;
 }
 
 #option .form-group input, #option .form-group select { transition: border-color 0.2s; }
@@ -216,11 +221,7 @@
     height: 30px;
     outline: 0;
     border: 0;
-<<<<<<< HEAD:css/option/home.css
-    border-bottom: 2px solid rgb(207, 200, 200);
-=======
     border-bottom: 2px solid #9e9d9d;
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
     font-size: 1.1em;
     padding: 0 5px;
 }
@@ -229,7 +230,7 @@
 #option .form-group > #validator:focus { border-color: #f8ac54; }
 
 #option .form-group > input[readonly] {
-    border-color: rgb(216, 71, 66);
+    border-color: rgb(209, 209, 209);
     color: rgb(122, 122, 122);
 }
 
@@ -248,7 +249,7 @@
     margin: 0 5px 0 15px;
     height: 30px;
     border: 0;
-    border-bottom: 2px solid rgb(207, 200, 200);
+    border-bottom: 2px solid rgb(158, 157, 157);
     font-size: 1em;
     outline: 0;
     text-align: center;
@@ -272,21 +273,16 @@
     font-size: 1em;
     -webkit-appearance: none;
     -moz-appearance: none;
-    border-bottom: 2px solid rgb(207, 200, 200);
+    border-bottom: 2px solid rgb(158, 157, 157);
 }
 
 #option .submit-btn {
     width: 200px;
     height: 50px;
-<<<<<<< HEAD:css/option/home.css
-    margin-top: 30px;
-    margin-left: 30px;
-=======
     line-height: 50px;
     text-align: center;
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중:css/option/option.css
     border: 0;
-    background: rgb(241, 183, 56);
+    background-color: rgb(241, 183, 56);
     border-radius: 10px;
     color: #fff;
     font-size: 1.1em;
@@ -296,7 +292,7 @@
 }
 
 #option .submit-btn:hover {
-    transition: background 0.2s;
+    transition: background-color 0.2s;
     background: rgb(216, 71, 66);
 }
 

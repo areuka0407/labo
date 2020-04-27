@@ -185,7 +185,7 @@ a {
 
 .login {
     width: 400px;
-    height: 500px;
+    height: 450px;
     margin-top: -250px;
     margin-left: -200px;
     top: 50%;
@@ -249,7 +249,7 @@ a {
 
 .FAccount1 {
     color: #00AFFF;
-    top: 380px;
+    top: 390px;
     left: 50px;
     position: absolute;
     font-size: 15px;
@@ -257,7 +257,7 @@ a {
 
 .line {
     color: #00AFFF;
-    top: 380px;
+    top: 390px;
     left: 120px;
     position: absolute;
     font-size: 15px;
@@ -265,7 +265,7 @@ a {
 
 .FAccount2 {
     color: #00AFFF;
-    top: 380px;
+    top: 390px;
     right: 50px;
     position: absolute;
     font-size: 15px;
@@ -276,34 +276,6 @@ a {
     position: absolute;
     top: 3px;
     left: -20px;
-}
-
-.google {
-    width: 80%;
-    height: 50px;
-    margin-top: 50px;
-    background-color: #4285F4;
-    border-radius: 5px;
-    position: relative;
-    cursor: pointer;
-}
-
-.google > img {
-    border: 2px #4285F4 solid;
-    border-radius: 5px;
-    position: absolute;
-}
-
-.google > p {
-    width: 100%;
-    height: 100%;
-    padding-left: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
 }
 
 #click_start{

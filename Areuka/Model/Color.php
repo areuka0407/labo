@@ -17,21 +17,13 @@ class Color {
 					
 			}
 		}
-		// for($i=0;$i<$tags_length;$i++){
-		// 	$num=explode(" ",$tags[$i]->tag);
-		// 	$num_l=count($num);
-		// 	for($j=0; $j < $num_l; $j++) {
-		// 		if(mb_substr($num[$j], 0, mb_strlen($id)) == $id) 
-		// 			array_push($result,$num[$j]); 	
-		// 	}
-		// }
 		return $result;
 	}
 
 	// color를 가져오는 function(GET)
 	static function getColor($id){
 		$colors=array();
-		$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name AS user_name, u.user_id AS identity FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
+		$colors=($id == 0) ? DB::fetchAll("SELECT c.*, u.user_name, u.user_id FROM colors c LEFT JOIN users u ON c.user_id = u.id") : $colors=DB::fetchAll("SELECT * FROM colors WHERE id = ?",[$id]);
 		return $colors;
 	}
 

@@ -130,6 +130,11 @@ input[name='s-option']:checked + .item .radio-box { background: linear-gradient(
 
 /* Filter */
 
+#filter {
+    height: calc(100% - 160px);
+    overflow-y: auto;
+}
+
 .filter-area {
     min-height: 200px;
     padding: 20px 0;
@@ -188,32 +193,23 @@ input[name='s-option']:checked + .item .radio-box { background: linear-gradient(
 
 .filter-list .item:last-child { border-bottom: 0; }
 
+.filter-list .name { pointer-events: none; }
+
 .filter-list .color {
+    pointer-events: none;
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
 
 .filter-list .count {
+    min-width: 35px;
     height: 35px;
     line-height: 40px;
+    text-align: center;
     padding: 0 10px;
-    border-radius: 20px;
-}
-
-.filter-list .count.dark {
-    color: #625050;
-}
-
-.filter-list .count.light {
+    border-radius: 50%;
     color: #fff;
-}
-
-
-#tag-box {
-    height: 250px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 /* Section
@@ -253,24 +249,34 @@ section header .tool-bar {
     border-bottom: 1px solid rgb(228, 220, 220);    
 }
 
-#orderBy {
-    width: 200px;
+section header .tool-bar select {
     height: 40px;
     font-size: 1em;
     border-radius: 50px;
+    background: #fff;
     border-color: rgb(230, 54, 54);
     color: rgb(230, 54, 54);
     margin-top: 10px;
     padding: 0 10px;
+    outline: 0;
 
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
 
     background-image: url("/images/select-icon.png");
-    background-position: 170px center;
     background-size: 15px 15px;
     background-repeat: no-repeat;
+}
+
+#colorView {
+    width: 160px;
+    background-position: 130px center;
+}
+
+#orderBy {
+    width: 200px;
+    background-position: 170px center;
 }
 
 
@@ -286,26 +292,8 @@ article {
     overflow: auto;
 }
 
-<<<<<<< HEAD
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: rgb(209, 209, 209);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(119, 119, 119);
-}
-
-article .item {
-=======
 article > .item {
     position: relative;
->>>>>>> 7481e3f... Tab 기능 추가
     width: 300px;
     height: 400px;
     border: 1px solid #ddd;
@@ -323,16 +311,81 @@ article .item .colors {
 article .item .colors .line {
     width: 100%;
     height: calc(100% / 5 - 5px);
-    padding: 0 10px;
     display: flex;
     align-items: center;
     color: #343231;
 } 
 
 article .item .colors .line:nth-child(3) {
-    height: calc(100% / 5 + 20px);
+    height: calc(100% / 5 + 15px);
     font-weight: bold;
 }
+
+article .item .colors .line span {
+    display: inline-block;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+article .item .colors .line.hex span { 
+    width: 100%; 
+    padding: 0 20px;
+    justify-content: initial!important; 
+    position: relative;
+}
+
+article .item .colors .line.rgb span {
+    width: calc(100% / 3); 
+    overflow: hidden;
+    position: relative; 
+    border-left: 2px solid rgba(65, 63, 63, 0.1);
+}
+article .item .colors .line.rgb span:first-child {
+    border-left: 0;
+}
+
+article .item .colors .line span::after {
+    content: "Copy!";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: calc(100% - 20px); height: 50%;
+    color: #fff;
+    border: 2px solid #fff;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity ease 0.2s;
+    pointer-events: none;
+    opacity: 0;
+}
+article .item .colors .line span::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: background-color ease 0.2s;
+    pointer-events: none;
+    box-shadow: inset 0 0 10px #00000050;
+    opacity: 0;
+}
+article .item .colors .line span:hover::after {
+    -webkit-text-fill-color: #fff;
+    opacity: 1;
+}
+article .item .colors .line span:hover::before {
+    opacity: 1;
+}
+
+article .item .colors .line span:hover {
+    -webkit-text-fill-color: transparent;
+}
+
+
 
 article .item .tags {
     height: calc(100% / 3 - 40px);
@@ -343,7 +396,14 @@ article .item .tags {
 }
 
 article .item .tags span {
+    height: 20px;
+    line-height: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     margin: 0 10px;
+    cursor: pointer;
 }
 
 article .item .tags p {
@@ -371,6 +431,7 @@ article .item .owner {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #000;
 }
 
 article .item .good {

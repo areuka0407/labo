@@ -25,7 +25,7 @@ class ColorPicker {
             this.userdata = data;    
 
             this.optionTab = document.querySelector(options.option);    // 색상 선택 탭
-            this.contentsBox = document.querySelector(".contents")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
+            this.contentsBox = document.querySelector("#main")      // 색상 선택기, 데이터 입력창이 포함된 콘텐츠 상자
             this.colorForm = document.querySelector("#color-form");     // 데이터 입력창        
             this.groupSelect = this.colorForm.querySelector("#myGroups");
             this.saveHelp = this.colorForm.querySelector(".save-help");
@@ -139,6 +139,33 @@ class ColorPicker {
             x.addEventListener("change", () => this.init());
         });
 
+        // 그룹 추가 버튼을 누르면 탭 등장
+        document.querySelector("#group-box > button").addEventListener("click", () => {
+            let callback = name => {
+                let form = new FormData();
+                form.append("groupname", name);
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/api/groups");
+                xhr.send(form);
+                
+                xhr.onload = () => {
+                    let result = JSON.parse(xhr.responseText);
+                    if(result === "colorgroup not add") return Alert.on("<h3>이미 존재하는 그룹이 있어요!</h3><br>현재 존재하는 그룹과 중복되지 않는 이름으로 정해주세요", Alert.error);
+                    else {
+                        Alert.on("<h3>새로운 그룹이 추가되었어요!</h3>");
+
+                        let option = document.createElement("option");
+                        option.value = result.id;
+                        option.innerText = result.name;
+                        document.querySelector("#myGroups").append(option);
+                    }
+                };
+            };
+
+            Alert.prompt("새 그룹의 이름을 정해주세요!", callback, "이걸로 할래요!", "조금만 시간을 주세요…!");
+        });
+
 
         // Window Mouse Events
         this.mouseDown = false;
@@ -149,6 +176,17 @@ class ColorPicker {
                 this.downTarget = e.target;
                 if(!this.downTarget.classList.contains("cursor") && !this.downTarget.classList.contains("box") && !this.downTarget.nodeName === "INPUT")
                     document.querySelectorAll(".cursor.active, .box.active").forEach(x => x.classList.remove("active"));
+                else if(this.downTarget.parentElement.classList.contains("brightness")){
+                    let parent = this.downTarget.parentElement;
+                    let target = parent.querySelector(".b_cursor");
+                    let x = e.clientX - parent.offsetLeft;
+                    x = x < 0 ? 0 : x > Style.getStyleByInteger(parent, "width") ? Style.getStyleByInteger(parent, "width") : x;
+                    target.style.left = x - Style.getStyleByInteger(target, "width") / 2 + "px";
+                    this.viewerList[target.dataset.id].b_cursor.X = x;
+                    this.viewerList[target.dataset.id].setColor();
+
+                    this.downTarget = target;
+                }
             }
         });
         window.addEventListener("mouseup", e => {
@@ -316,9 +354,16 @@ class ColorPicker {
                 }
                 else if(this.downTarget.classList.contains("b_cursor")){
                     let parent = this.downTarget.parentElement;
-                    let x = e.clientX - parent.offsetLeft;
-                    x = x < 0 ? 0 : x > Style.getStyleByInteger(parent, "width") - Style.getStyleByInteger(this.downTarget, "width") ? Style.getStyleByInteger(parent, "width") - Style.getStyleByInteger(this.downTarget, "width") : x;
-                    this.downTarget.style.left = x + "px";
+
+                    let width = {
+                        target: Style.getStyleByInteger(this.downTarget, "width"),
+                        parent: Style.getStyleByInteger(parent, "width")
+                    }
+                    
+
+                    let x = e.clientX - parent.offsetLeft - width.target / 2;
+                    x = x < 0 ? 0 / 2 : x > width.parent ? width.parent : x;
+                    this.downTarget.style.left = x - width.target / 2 + "px";
                     this.viewerList[this.downTarget.dataset.id].b_cursor.X = x;
                     this.viewerList[this.downTarget.dataset.id].setColor();
                 }

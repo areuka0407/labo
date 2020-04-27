@@ -1,5 +1,34 @@
 class Color {
-    static check
+    static checkBrightness(hex){
+        if(hex.indexOf("#") >= 0) hex = hex.substr(1);
+        const red = parseInt(hex.substr(0, 2), 16);
+        const green = parseInt(hex.substr(2, 2), 16);
+        const blue = parseInt(hex.substr(4, 2), 16);
+
+        const light = "dark";
+        const dark = "light";
+
+        // 모두 크기가 같은 경우
+        if(red === green && green === blue){
+            if(red < 128) return dark;
+            else return light;
+        }
+        // 빨강이 가장 큰 경우
+        else if(red >= blue && red >= green){
+            if(red < 128) return dark;
+            else return light;
+        }
+        // 초록이 가장 큰 경우
+        else if(green >= blue && green >= red){
+            if(green < 128) return dark;
+            else return light;
+        }
+        // 파랑이 가장 큰 경우
+        else if(blue >= green && blue >= red){
+            if(blue < 128) return dark;
+            else return light;
+        }
+    }
 
     static getMainColor(hex){
         if(hex.indexOf("#") >= 0) hex = hex.substr(1);

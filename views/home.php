@@ -15,7 +15,6 @@
             <img src="images/Tlogo.png" alt="logo" class="logo">
             <ul>
                 <li><a href="#">이용안내</a></li>
-                <li><a href="#">고객센터</a></li>
             </ul>
         </div>
     </div>

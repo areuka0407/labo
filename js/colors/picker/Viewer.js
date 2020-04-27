@@ -50,6 +50,7 @@ class Viewer {
 		this.elemB.value = color[2];
 		this.elemHex.value = this.rgb2hex(color[0], color[1], color[2]);
 		this.elemColor.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+		this.b_cursor.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 	}
 
 	rgb2hex(r, g, b){

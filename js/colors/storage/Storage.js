@@ -130,11 +130,21 @@ class Storage {
         group.data.slice(0, 5).forEach(color => {
             template += `<div class="item">
                             <div class="colors">
-                                <div class="line" style="background-color: #${color.hex1}">#${color.hex1}</div>
-                                <div class="line" style="background-color: #${color.hex2}">#${color.hex2}</div>
-                                <div class="line" style="background-color: #${color.hex3}">#${color.hex3}</div>
-                                <div class="line" style="background-color: #${color.hex4}">#${color.hex4}</div>
-                                <div class="line" style="background-color: #${color.hex5}">#${color.hex5}</div>
+                                <div class="line hex" style="background-color: #${color.hex1}">
+                                    <span>#${color.hex1}</span>
+                                </div>
+                                <div class="line hex" style="background-color: #${color.hex2}">
+                                    <span>#${color.hex2}</span>
+                                </div>
+                                <div class="line hex" style="background-color: #${color.hex3}">
+                                    <span>#${color.hex3}</span>
+                                </div>
+                                <div class="line hex" style="background-color: #${color.hex4}">
+                                    <span>#${color.hex4}</span>
+                                </div>
+                                <div class="line hex" style="background-color: #${color.hex5}">
+                                    <span>#${color.hex5}</span>
+                                </div>
                             </div>
                             <div class="tags">`;
             color.tags.forEach(tag => {
@@ -200,32 +210,6 @@ class Storage {
             }
         });
 
-
-        // 좋아요 누르기
-        elem.querySelectorAll(".good").forEach(x => {
-            x.addEventListener("click", e => {
-                if(!this.userdata) return false;
-                let target = e.target;
-                while(!target.classList.contains("good")) target = target.parentElement;
-                const elemCnt = target.querySelector(".good-count");
-                const elemSvg = target.querySelector("svg");
-                
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", "/api/good/" + elemSvg.dataset.id);
-                xhr.send();
-                xhr.onload = () => {
-                    let result = JSON.parse(xhr.responseText);
-                    if(result == "add"){
-                        elemSvg.style.fill = "red";
-                        elemCnt.innerText = parseInt(elemCnt.innerText) + 1;
-                    }else{
-                        elemSvg.style.fill = "black";
-                        elemCnt.innerText = parseInt(elemCnt.innerText) - 1;
-                    }
-                }
-            });
-        }); 
-
         // 그룹명 수정
         elem.querySelector("button.group-edit").addEventListener("click", e => {
             let callback = function(new_name){
@@ -280,6 +264,9 @@ class Storage {
             hidden.addEventListener("click", () => {
                 location.assign("/colors/storage/"+this.owner_id+"/groups/"+group.id);
             });
+        elem.querySelector("article").addEventListener("click", () => {
+            location.assign("/colors/storage/"+this.owner_id+"/groups/"+group.id);
+        });
 
         return elem;
     }
@@ -358,5 +345,4 @@ class Storage {
 
 window.addEventListener("load", () => {
     let storage = new Storage();
-    storage.init();
 });

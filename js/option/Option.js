@@ -12,14 +12,11 @@ class Option extends Validator {
         this.imagePreview = document.querySelector(".preview")
         this.imageInput = document.querySelector("#upload-image");
         this.form = {
+            id: document.querySelector("#uid"),
             user_id: document.querySelector("#user_id"),
             user_name: document.querySelector("#user_name"),
-<<<<<<< HEAD
-            user_pass: document.querySelector("#password"),
-=======
             passconf: document.querySelector("#passconf"),
             password: document.querySelector("#password"),
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중
             birth_y: document.querySelector("#birthday-Y"),
             birth_m: document.querySelector("#birthday-M"),
             birth_d: document.querySelector("#birthday-D"),
@@ -29,63 +26,6 @@ class Option extends Validator {
     }
 
     eventTrigger(){
-<<<<<<< HEAD
-        this.imagePreview.addEventListener("drop", e => e.preventDefault());
-        this.imagePreview.addEventListener("dragover", e => e.preventDefault());
-        this.imageBox.addEventListener("dragover", e => e.preventDefault());
-
-        this.imageBox.addEventListener("drop", e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            this.preview(e.dataTransfer.files[0]);
-            $(this.dropBox).hide();
-        });
-
-        window.addEventListener("dragenter", e => {
-            e.preventDefault();
-            e.stopPropagation();
-            $(this.dropBox).fadeIn();
-        });
-
-        window.addEventListener("dragleave", e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            let from = e.fromElement;
-            if(e.fromElement === null)
-                $(this.dropBox).hide();
-        });
-
-        this.dropBox.addEventListener("dragover", e => {
-            if($(this.dropBox).is(":animated")) return;
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        this.imageInput.addEventListener("change", e => {
-            this.preview(e.target.files[0]);
-        });  
-
-        this.submit.addEventListener("click", () => {
-            let form = {
-                user_name: this.form.user_name.value,
-                password: this.form.user_pass.value,
-                y_m_d: `${this.form.birth_y.value}-${this.form.birth_m.value}-${this.form.birth_d.value}`,
-                gender: this.form.gender.value,
-                image: this.image
-            };
-            
-            let xhr = new XMLHttpRequest();
-            xhr.open("PUT", "/users");
-            xhr.send(JSON.stringify(form));
-            xhr.onload = () => {
-                let result = xhr.responseText;
-                console.log(result);
-            };
-            xhr.onerror = () => console.error(xhr.response);
-        });
-=======
         /* Input
         */
 
@@ -274,8 +214,10 @@ class Option extends Validator {
                 xhr.onerror = () => console.error(xhr.response);
             });
         }
->>>>>>> cd8be30... 사용자 정보 수정 업데이트 중
     }
+
+    /* Preview
+     */
 
     preview(file){
         new Promise(res => {
