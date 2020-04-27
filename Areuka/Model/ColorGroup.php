@@ -5,6 +5,10 @@ namespace Areuka\Model;
 use Areuka\Engine\DB;
 
 Class ColorGroup{
+	static function find($id){
+		return DB::fetch("SELECT * FROM colorgroups WHERE id = ?", [$id]);
+	}
+
 	// color를 colorgroup안에 추가하는 function()
 	// ColorIngroupAdd의 줄임말 ->CIA
 	static function CIA($colors_id,$group_id){

@@ -52,9 +52,8 @@ class UserController extends Controller
         if(isset($_SESSION['user'])) session_destroy();
     }
 
-    public function userUpdate(){
+    public function userUpdate($id){
         // 수정 가능 항목 : 이름 / 생일 / 성별 / 이미지 / 비밀번호
-        $id=$_SESSION['user']->id;
         if($_SERVER["REQUEST_METHOD"] == "PUT" && $id){
             $result=User::userUpdate($id);
             echo json_encode($result);

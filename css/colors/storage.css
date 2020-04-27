@@ -15,14 +15,14 @@
 #user-profile {
     margin-top: 30px;
     width: 100%;
-    height: 150px;
+    height: 100px;
 }
 
 #user-profile .image {
     float: left;
-    width: 100px;
-    height: 100px;
-    margin: 25px 0;
+    width: 80px;
+    height: 80px;
+    margin: 10px 0;
     border-radius: 50%;
     background-color: #ddd;
     overflow: hidden;
@@ -37,14 +37,17 @@
     float: left;
     width: calc(100% - 200px);
     height: 100%;
-    padding: 20px 20px 20px 50px;
+    padding: 0 20px 0 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #user-profile .user-info {
     width: 100%;
-    margin: 10px 0 5px;
-    height: 60px;
-    line-height: 60px;
+    margin-bottom: 5px;
+    height: 40px;
+    line-height: 50px;
     font-size: 1.2em;
 }
 
@@ -78,7 +81,7 @@
 #user-profile .tool-info button svg {
     fill: #8e8e8e;
     color: #8e8e8e;
-    width: 25px;
+    width: 20px;
 }
 
 
@@ -95,16 +98,27 @@ section {
 .section-head {
     width: 100%;
     height: 30px;
-    display: flex;
-    align-items: center;
 }
 
-.section-head > h3 {
-    font-size : 1.6em;
+.section-head > .button-group {
+    width: 80px;
+    float: left;
+}
+
+.section-head > .name {
+    float: left;
+    font-size: 1.6em;
+    font-weight: 900;
     color: #3f3d3d;
+    background: rgba(255, 255, 255, 0);
+    transition: color 0.2s;
 }
 
-.section-head:hover button {
+.section-head > .name:hover {
+    color: rgb(243, 71, 99);
+}
+
+.section-head > .button-group:hover button {
     opacity: 1;
     transition: 0.5s opacity;
     pointer-events: all;
@@ -112,7 +126,6 @@ section {
 
 .section-head button {
     opacity: 0.5;
-    pointer-events: none;
     transition: 0.2s opacity;
     width: 20px;
     height: 20px;
@@ -121,10 +134,20 @@ section {
     background: transparent;
     border-radius: 50%;
     color: rgb(141, 141, 141);
+    outline: 0;;
 }
 .section-head button svg { width: 20px; fill: rgb(141, 141, 141); }
 .section-head button:hover { color: rgb(252, 34, 70); }
 .section-head button:hover svg { fill: rgb(252, 34, 70); }
+
+
+.section-head .index-group { float: right; }
+.section-head .index-group:hover button {
+    transition: color 0.2s;
+}
+.section-head .index-group:hover button { opacity: 1; }
+.section-head .index-group button:hover { color: rgb(252, 34, 70); }
+.section-head .index-up svg { transform: rotate(180deg) translateY(-15px); }
 
 
 section article {
@@ -261,5 +284,5 @@ section .item .good svg {
 }
 
 section .item .good-count {
-    color: #8e8e8e
+    color: #383636;
 }

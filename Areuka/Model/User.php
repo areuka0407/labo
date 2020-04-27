@@ -61,9 +61,32 @@ class User{
         $gender = isset($inputData['gender']) ? $inputData['gender'] : $original->gender;
         $image = isset($inputData['image']) ? $inputData['image'] : $original->image;
         $password = isset($inputData['password']) ? $inputData['password'] : $original->password;
+        $image_size = 0;
+        $filename=NULL;
+        if($image != $original->image && $image_size < 2){
+            $image_array = explode("/",$image);
+            $exten = substr($image_array[1],0,strpos($image_array[1],";"));
+            //확장자 확인
+            if($exten == "gif" || $exten == "png" || $exten == "jpg" || $exten == "jpeg" || $exten == "GIF" || $exten == "PNG" || $exten == "JPEG" || $exten == "JPG"){
+                if($exten == "jpeg") $exten = "jpg";
+                $exten = ".".$exten;
+                $file = substr($image,strpos($image_array[1],",")+12);
+                $filedata = base64_decode($file);
+                // 랜덤한 파일명 생성
+                $str="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+                do{
+                    for($i = 0; $i < 20; $i++) $filename .=$str[rand(0,strlen($str)-1)];
+                    $same = DB::fetch("SELECT image FROM users WHERE image = ?",[$filename]);
+                }while($same);
+                $file_path = ROOT.DS."images".DS."users".DS.$filename.$exten;
+                // dd($filedata);
+                file_put_contents($file_path,$filedata);
+            }
+        }else $filename = $original->image;
+        // random한 문자열 20자
         // 하지만 하나정도는 input 된게 있어야함
         if($name != $original->user_name || $y_m_d != $original->y_m_d || $gender != $original->gender || $image != $original->image || $password != $original->password){
-            DB::query("UPDATE users SET user_name = ?, y_m_d = ?, gender = ?, image = ?, password = ? WHERE id = ?",[$name,$y_m_d,$gender,$image,$password,$id]);
+            DB::query("UPDATE users SET user_name = ?, y_m_d = ?, gender = ?, image = ?, password = ? WHERE id = ?",[$name,$y_m_d,$gender,$filename,$password,$id]);
             $result = "user update";
         }else $result = "not change";
         return $result;

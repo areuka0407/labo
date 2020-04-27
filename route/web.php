@@ -35,6 +35,9 @@ include "permission.php";
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지
   Route::set("GET", "/colors/search", "ColorController@searchPage", "All");   //검색 페이지
+
+  /* 이용 가이드 */
+  Route::set("GET", "/guide", "GuideController@homePage", "All");
 /**
  * Guest
  */
@@ -51,6 +54,15 @@ include "permission.php";
 /**
  * User
  */
+  /* Option */
+  Route::set("GET", "/option", "OptionController@userPage", "User");
+  Route::set("GET", "/option/user", "OptionController@userPage", "User");
+  Route::set("GET", "/option/password", "OptionController@passwordPage", "User");
+  Route::set("GET", "/option/profile-image", "OptionController@imagePage", "User");
+
+  /* Option - Validator */
+  Route::set("POST", "/api/validator/password", "UserController@validPassword", "User");
+  Route::set("POST", "/api/validator/time", "UserController@validTime", "User");
 
   /* Logout */
   Route::set("POST","/users/logout","UserController@logoutPage","User");
@@ -68,7 +80,7 @@ include "permission.php";
   Route::set("PUT","/api/groups/{group_id}/down","ColorGroupController@Downchangeidx","User");
 
   /* userpage */
-  Route::set("PUT","/users/user","UserController@userUpdate","User");
+  Route::set("PUT","/users/{id}","UserController@userUpdate","User");
   Route::set("DELETE","/users/user","UserController@userDel","User");
 
 /**
