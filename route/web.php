@@ -22,6 +22,7 @@ include "permission.php";
   Route::set("GET","/api/colors","ColorController@ApiController","All");
   Route::set("GET","/api/colors/{id}","ColorController@ApiController","All");
   Route::set("GET","/api/tags/{id}","ColorController@getTags","All");
+  Route::set("GET", "/api/users/{owner_id}/groups", "ColorController@getColorGroupsByOwnerId", "All"); // 유저 아이디로 색상 그룹 가져오기
 
   /* Colors */
   Route::set("GET","/colors/picker","ColorController@ColorPickerPage","All"); //조합 페이지

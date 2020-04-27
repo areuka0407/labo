@@ -1,10 +1,11 @@
 <!--head-->
 <link rel="stylesheet" href="/css/colors/picker.css">
-<script src="/js/colors/Viewer.js" type="text/javascript"></script>
-<script src="/js/colors/Canvas.js" type="text/javascript"></script>
-<script src="/js/colors/Cursor.js" type="text/javascript"></script>
-<script src="/js/colors/ColorPicker.js" type="text/javascript"></script>
-<script src="/js/colors/Tags.js" type="text/javascript"></script>
+<script src="/js/colors/picker/Viewer.js" type="text/javascript"></script>
+<script src="/js/colors/picker/Canvas.js" type="text/javascript"></script>
+<script src="/js/colors/picker/Cursor.js" type="text/javascript"></script>
+<script src="/js/colors/picker/Tags.js" type="text/javascript"></script>
+<script src="/js/colors/Keysearch.js" type="text/javascript"></script>
+<script src="/js/colors/picker/ColorPicker.js" type="text/javascript"></script>
 <!--/head-->
 
 <!--contents-->
